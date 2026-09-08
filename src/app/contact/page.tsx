@@ -11,15 +11,19 @@ import {
   Headphones,
   ShieldCheck,
   Zap,
+  Building2,
+  Clock,
+  Sparkles,
 } from 'lucide-react';
 import { useCurrency } from '@/context/CurrencyContext';
+import { BRANCH_LOCATIONS } from '@/data/branches';
 
 export default function ContactPage() {
   const { formatPrice } = useCurrency();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [service, setService] = useState('Custom CRM / Telecalling System');
+  const [service, setService] = useState('Hire Dedicated Developers (Hourly/Monthly)');
   const [budget, setBudget] = useState('₹50,000 - ₹1,50,000');
   const [message, setMessage] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -34,44 +38,50 @@ export default function ContactPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Header */}
         <div className="max-w-3xl space-y-3">
-          <div className="inline-flex items-center gap-2 bg-[#e6f4f7] border border-[#246e7f]/20 text-[#246e7f] text-xs font-bold px-3 py-1 rounded-full">
-            <Headphones className="w-3.5 h-3.5" />
-            <span>Direct Engineering Consultation</span>
+          <div className="inline-flex items-center gap-2 bg-[#e6f4f7] border border-[#246e7f]/20 text-[#246e7f] text-xs font-bold px-3.5 py-1 rounded-full shadow-xs">
+            <Headphones className="w-3.5 h-3.5 text-[#e06527]" />
+            <span>Direct Engineering Consultation & Custom Solutions</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
-            Let&apos;s Build Something Remarkable
+            Let&apos;s Build & Scale Your Product
           </h1>
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-            Have questions about acquiring our proprietary source code, need custom engineering, or want to book an architecture review? Reach out directly.
+            Need to hire dedicated developers, acquire our proprietary source code, book a CodeCanyon server setup, or request custom software architecture? Reach out to our engineering offices.
           </p>
         </div>
 
+        {/* Main Form & Direct Channels Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left 7 cols: Interactive Form */}
           <div className="lg:col-span-7">
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs">
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm">
               {isSubmitted ? (
                 <div className="text-center py-12 space-y-4">
                   <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
                     <CheckCircle2 className="w-8 h-8" />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900">Inquiry Received!</h3>
+                  <h3 className="text-xl font-bold text-slate-900">Custom Solutions Inquiry Received!</h3>
                   <p className="text-xs text-slate-600 max-w-sm mx-auto">
-                    Thank you for reaching out, <strong>{name}</strong>. Our senior technical consultant will contact you within 4 hours.
+                    Thank you, <strong>{name}</strong>. Our Principal Technical Architect will review your requirements and respond within 2 hours.
                   </p>
                   <button
                     type="button"
                     onClick={() => setIsSubmitted(false)}
-                    className="bg-[#246e7f] text-white font-bold text-xs px-4 py-2 rounded-lg"
+                    className="bg-[#246e7f] text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-xs"
                   >
-                    Submit Another Inquiry
+                    Submit Another Request
                   </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  <h2 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">
-                    Project Consultation & Scope Estimator
-                  </h2>
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <h2 className="text-base font-bold text-slate-900">
+                      Request a Custom Solution or Book Developers
+                    </h2>
+                    <span className="text-[10px] bg-emerald-50 text-emerald-800 font-bold px-2 py-0.5 rounded-full">
+                      Fast 2h Response
+                    </span>
+                  </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
@@ -81,7 +91,7 @@ export default function ContactPage() {
                       <input
                         type="text"
                         required
-                        placeholder="John Doe"
+                        placeholder="e.g. Rahul Sharma"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#246e7f]"
@@ -95,7 +105,7 @@ export default function ContactPage() {
                       <input
                         type="email"
                         required
-                        placeholder="john@company.com"
+                        placeholder="rahul@company.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#246e7f]"
@@ -104,10 +114,11 @@ export default function ContactPage() {
 
                     <div>
                       <label className="block text-xs font-semibold text-slate-700 mb-1">
-                        Phone / WhatsApp Number
+                        Phone / WhatsApp *
                       </label>
                       <input
                         type="tel"
+                        required
                         placeholder="+91 98765 43210"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
@@ -117,20 +128,21 @@ export default function ContactPage() {
 
                     <div>
                       <label className="block text-xs font-semibold text-slate-700 mb-1">
-                        Service or Product of Interest
+                        Service of Interest *
                       </label>
                       <select
                         value={service}
                         onChange={(e) => setService(e.target.value)}
                         className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#246e7f]"
                       >
-                        <option value="OmniFlow CRM & Telecalling">OmniFlow CRM & Telecalling Source Code</option>
-                        <option value="DungaPay Gateway Engine">DungaPay Gateway Engine</option>
-                        <option value="AetherBot AI SaaS">AetherBot AI SaaS Script</option>
-                        <option value="Custom CRM / Telecalling System">Custom CRM / Telecalling System</option>
-                        <option value="Enterprise Web App Development">Enterprise Web App Development</option>
-                        <option value="Mobile App Development">Mobile App Development</option>
-                        <option value="Cloud DevOps / Server Setup">Cloud DevOps / Server Setup</option>
+                        <option value="Hire Dedicated Developers (Hourly/Monthly)">1. Hire Dedicated Developers (Hourly / Monthly)</option>
+                        <option value="Ready-Made Code Solutions">2. Ready-Made Source Code Solutions</option>
+                        <option value="Code & Script Installation / CodeCanyon Setup">3. Code & Script Installation (CodeCanyon Setup)</option>
+                        <option value="Tech Consultancy & Architecture">4. Tech Consultancy & Architecture Advisory</option>
+                        <option value="Technical Maintenance & AMC">5. Technical Maintenance & Annual Support (AMC)</option>
+                        <option value="Emergency Bug Fixing & Tuning">6. Emergency Bug Fixing & Performance Tuning</option>
+                        <option value="Custom Application Development">7. Custom Application Development (Full Scope)</option>
+                        <option value="Project Estimation & Scoping">8. Project Estimation & Scoping</option>
                       </select>
                     </div>
 
@@ -143,21 +155,22 @@ export default function ContactPage() {
                         onChange={(e) => setBudget(e.target.value)}
                         className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#246e7f]"
                       >
-                        <option value="₹5,000 - ₹25,000 (Source Code Only)">₹5,000 - ₹25,000 / $69 - $350 (Source Code Package)</option>
-                        <option value="₹25,000 - ₹75,000">₹25,000 - ₹75,000 / $350 - $1,000</option>
-                        <option value="₹75,000 - ₹2,00,000">₹75,000 - ₹2,00,000 / $1,000 - $2,500</option>
-                        <option value="₹2,00,000+ (Custom Enterprise)">₹2,00,000+ / $2,500+ (Custom Enterprise Solution)</option>
+                        <option value="Hourly Developer Booking (₹999 / $15 per hr)">Hourly Developer Booking (₹999 / $15 per hr)</option>
+                        <option value="Script Installation Fixed (₹999 / $15)">Script Installation Fixed (₹999 / $15)</option>
+                        <option value="Source Code Package (₹2,499 - ₹25,000)">Source Code Package (₹2,499 - ₹25,000 / $39 - $350)</option>
+                        <option value="Custom Development (₹50,000 - ₹2,00,000)">Custom Development (₹50,000 - ₹2,00,000 / $700 - $2,500)</option>
+                        <option value="Enterprise Solution (₹2,00,000+)">Enterprise Solution (₹2,00,000+ / $2,500+)</option>
                       </select>
                     </div>
 
                     <div className="sm:col-span-2">
                       <label className="block text-xs font-semibold text-slate-700 mb-1">
-                        Tell us about your project requirements or timeline
+                        Project Scope, Tech Stack & Target Timeline
                       </label>
                       <textarea
                         rows={4}
                         required
-                        placeholder="Briefly describe what you're building, existing tech stack, and target deployment date..."
+                        placeholder="Briefly describe what you're building, target launch dates, or specific developer skill requirements..."
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#246e7f]"
@@ -167,20 +180,20 @@ export default function ContactPage() {
 
                   <button
                     type="submit"
-                    className="w-full bg-[#246e7f] hover:bg-[#1a515e] text-white font-bold text-xs py-3.5 rounded-xl shadow-xs transition-colors flex items-center justify-center gap-2"
+                    className="w-full bg-[#e06527] hover:bg-[#c9561c] text-white font-bold text-xs py-3.5 rounded-xl shadow-md shadow-[#e06527]/20 transition-all flex items-center justify-center gap-2 active:scale-95"
                   >
                     <Send className="w-3.5 h-3.5" />
-                    <span>Send Project Scope & Request Quote</span>
+                    <span>Submit Custom Solutions Request</span>
                   </button>
                 </form>
               )}
             </div>
           </div>
 
-          {/* Right 5 cols: Direct Contacts & WhatsApp */}
+          {/* Right 5 cols: Direct Contact & WhatsApp */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-6">
-              <h3 className="text-sm font-bold text-slate-900">Direct Contact Points</h3>
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+              <h3 className="text-sm font-bold text-slate-900">Direct Contact Channels</h3>
 
               <div className="space-y-4 text-xs text-slate-600">
                 <div className="flex items-start gap-3">
@@ -188,7 +201,7 @@ export default function ContactPage() {
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="font-bold text-slate-900 block">General Inquiries & Sales</span>
+                    <span className="font-bold text-slate-900 block">General Sales & Custom Quotes</span>
                     <a href="mailto:contact@dungatechnologies.com" className="text-[#246e7f] hover:underline">
                       contact@dungatechnologies.com
                     </a>
@@ -200,20 +213,20 @@ export default function ContactPage() {
                     <Phone className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="font-bold text-slate-900 block">Phone Support</span>
-                    <a href="tel:+919999999999" className="text-slate-800 hover:underline">
-                      +91 (80) 4567 8900
+                    <span className="font-bold text-slate-900 block">Direct Engineering Desk</span>
+                    <a href="tel:+919876543210" className="text-slate-800 hover:underline">
+                      +91 98765 43210
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <div className="w-9 h-9 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-4 h-4" />
+                    <Clock className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="font-bold text-slate-900 block">Headquarters</span>
-                    <span>Dunga Technologies Pvt Ltd, Tech Park, Bengaluru, India</span>
+                    <span className="font-bold text-slate-900 block">Working Hours</span>
+                    <span>Monday – Saturday: 9:30 AM – 7:30 PM IST</span>
                   </div>
                 </div>
               </div>
@@ -221,13 +234,13 @@ export default function ContactPage() {
               {/* Instant WhatsApp Action */}
               <div className="pt-4 border-t border-slate-100">
                 <a
-                  href="https://wa.me/919999999999?text=Hello%20Dunga%20Technologies,%20I%20would%20like%20to%20discuss%20a%20project."
+                  href="https://wa.me/919876543210?text=Hello%20Dunga%20Technologies,%20I%20need%20custom%20solutions%20or%20developer%20hiring."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-3 rounded-xl shadow-xs transition-colors"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-3.5 rounded-xl shadow-md transition-all active:scale-95"
                 >
                   <MessageSquare className="w-4 h-4" />
-                  <span>Instant WhatsApp Connect</span>
+                  <span>Instant WhatsApp Connect (+91 98765 43210)</span>
                 </a>
               </div>
             </div>
@@ -241,6 +254,54 @@ export default function ContactPage() {
                 All inquiries and technical discussions are protected under standard non-disclosure terms. Your project details are strictly confidential.
               </p>
             </div>
+          </div>
+        </div>
+
+        {/* Multiple Branch Locations Grid */}
+        <div className="space-y-6 pt-8 border-t border-slate-200">
+          <div className="space-y-1">
+            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#246e7f]">
+              <Building2 className="w-4 h-4" />
+              <span>Multiple Branch Locations</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
+              Visit or Contact Our Regional Offices
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {BRANCH_LOCATIONS.map((branch) => (
+              <div
+                key={branch.id}
+                className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs hover:shadow-md hover:border-[#246e7f]/40 transition-all space-y-3"
+              >
+                <div className="flex items-center justify-between">
+                  <h3 className="text-base font-bold text-slate-900">
+                    {branch.city}, {branch.country}
+                  </h3>
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${branch.isMain ? 'bg-[#246e7f] text-white' : 'bg-slate-100 text-slate-700'}`}>
+                    {branch.type}
+                  </span>
+                </div>
+                <div className="flex items-start gap-2 text-xs text-slate-600">
+                  <MapPin className="w-4 h-4 text-[#246e7f] flex-shrink-0 mt-0.5" />
+                  <span>{branch.address}</span>
+                </div>
+                <div className="text-xs text-slate-500 space-y-1 pt-2 border-t border-slate-100">
+                  <div className="flex items-center gap-1.5 font-mono text-[#246e7f] font-semibold">
+                    <Phone className="w-3.5 h-3.5" />
+                    <span>{branch.phone}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-slate-500">
+                    <Mail className="w-3.5 h-3.5" />
+                    <span>{branch.email}</span>
+                  </div>
+                  <div className="text-[11px] text-slate-400">
+                    Hours: {branch.hours}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
