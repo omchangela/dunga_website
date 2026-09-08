@@ -7,12 +7,16 @@ import {
   Smartphone,
   Layers,
   Cloud,
-  ArrowRight,
-  CheckCircle2,
+  Users,
+  Server,
   ShieldCheck,
   Zap,
   Sparkles,
+  ArrowRight,
+  CheckCircle2,
   Headphones,
+  Calculator,
+  Wrench,
 } from 'lucide-react';
 import { SERVICES } from '@/data/services';
 import { useCurrency } from '@/context/CurrencyContext';
@@ -22,7 +26,15 @@ const iconMap: Record<string, React.ElementType> = {
   Smartphone,
   Layers,
   Cloud,
+  Users,
+  Server,
+  ShieldCheck,
+  Zap,
+  Sparkles,
+  Calculator,
+  Wrench,
 };
+
 
 export default function ServicesPage() {
   const { formatPrice } = useCurrency();
