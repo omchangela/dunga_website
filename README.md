@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dunga Technologies — Official Website & Software Marketplace
 
-## Getting Started
+Official enterprise software engineering website, client case studies, and proprietary source code marketplace built for **Dunga Technologies**.
 
-First, run the development server:
+![Dunga Technologies](/public/logo.png)
 
+---
+
+## 🚀 Key Features
+
+- **🌐 Enterprise Corporate Presence**: Full corporate capabilities showcase, custom services, client case studies, testimonials, and contact consultation scheduling.
+- **🛍️ Proprietary Code Marketplace**: Selling in-house source code suites (OmniFlow CRM, DungaPay Multi-Gateway, AetherBot AI, FleetPulse, TeamSync, ApexCloud).
+- **🔑 Dynamic Licensing**: Regular License, Extended License, and Cloud SaaS tiers.
+- **⚡ 24-48h Server Setup Add-on**: Optional VPS, Nginx, Docker, and SSL installation service (+₹999 / +$15).
+- **🕹️ Interactive Live Software Simulator**: Test CRM call logging, payment failover routing, and AI chatbots live before purchasing.
+- **🛒 Shopping Cart & Coupon Engine**: Multi-currency support (`₹ INR` / `$ USD`) with dynamic discount coupons (`DUNGA10`, `LAUNCH10`).
+- **🛡️ Customer Dashboard (`/account`)**: Manage purchases, view license keys with unique domain activation, and track server setup status.
+- **✨ GSAP 3D Animations**: 3D perspective magnetic card tilt, physics floating badges, infinite marquee ticker, and spotlight bento grids.
+- **📈 Comprehensive SEO**: Pre-rendered SSG routes, OpenGraph tags, JSON-LD schemas (`Organization`, `SoftwareApplication`, `FAQPage`), dynamic `sitemap.xml`, and `robots.txt`.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 16 (App Router) + TypeScript
+- **Styling**: Tailwind CSS v4 + Vanilla CSS Custom Design Tokens
+- **Animations**: GSAP (GreenSock) + Framer Motion
+- **Icons**: Lucide React
+- **Confetti**: Canvas-Confetti
+
+---
+
+## 📦 Getting Started
+
+### 1. Install Dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Run Development Server
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Build for Production
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 License
+© 2026 Dunga Technologies Private Limited. All rights reserved.

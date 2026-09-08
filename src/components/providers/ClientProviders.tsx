@@ -1,0 +1,29 @@
+'use client';
+
+import React, { useState } from 'react';
+import { CurrencyProvider } from '@/context/CurrencyContext';
+import { CartProvider } from '@/context/CartContext';
+import { Navbar } from '@/components/common/Navbar';
+import { Footer } from '@/components/common/Footer';
+import { LiveDemoModal } from '@/components/common/LiveDemoModal';
+import { CartDrawer } from '@/components/common/CartDrawer';
+import { SearchModal } from '@/components/common/SearchModal';
+
+export function ClientProviders({ children }: { children: React.ReactNode }) {
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  return (
+    <CurrencyProvider>
+      <CartProvider>
+        <div className="min-h-screen flex flex-col bg-white text-slate-900 selection:bg-[#e6f4f7] selection:text-[#246e7f]">
+          <Navbar onOpenSearch={() => setSearchOpen(true)} />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <LiveDemoModal />
+          <CartDrawer />
+          <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+        </div>
+      </CartProvider>
+    </CurrencyProvider>
+  );
+}
