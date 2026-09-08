@@ -54,15 +54,12 @@ export const metadata: Metadata = {
     description: '100% full source code, lifetime updates & 24-48h server installation.',
     images: ['/logo.png'],
   },
-  icons: {
-    icon: '/icon',
-    apple: '/icon',
-  },
   robots: {
     index: true,
     follow: true,
   },
 };
+
 
 
 export default function RootLayout({
