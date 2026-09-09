@@ -161,13 +161,8 @@ export function GsapHero() {
   return (
     <section
       ref={containerRef}
-      className="relative overflow-hidden bg-white pt-8 pb-16 lg:pt-14 lg:pb-24 bg-dot-pattern"
+      className="relative overflow-hidden bg-white pt-8 pb-16 lg:pt-14 lg:pb-24 border-b border-slate-100"
     >
-      {/* Ambient Gradient Glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[450px] bg-gradient-to-tr from-[#246e7f]/15 via-[#e6f4f7]/60 to-[#e06527]/15 blur-3xl pointer-events-none rounded-full" />
-      <div className="absolute top-10 right-10 w-72 h-72 bg-[#e06527]/10 blur-3xl pointer-events-none rounded-full" />
-      <div className="absolute bottom-10 left-10 w-80 h-80 bg-[#246e7f]/10 blur-3xl pointer-events-none rounded-full" />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-4xl mx-auto space-y-6">
           {/* Top Announcement Tag */}

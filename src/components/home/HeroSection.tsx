@@ -56,10 +56,7 @@ export function HeroSection() {
   const activeProduct = heroProducts[selectedHeroIndex];
 
   return (
-    <section className="relative overflow-hidden bg-white pt-6 pb-16 lg:pt-12 lg:pb-24 bg-dot-pattern">
-      {/* Ambient background glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[400px] bg-gradient-to-tr from-[#246e7f]/10 via-[#e6f4f7]/50 to-[#e06527]/10 blur-3xl pointer-events-none rounded-full" />
-
+    <section className="relative overflow-hidden bg-white pt-6 pb-16 lg:pt-12 lg:pb-24 border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-4xl mx-auto space-y-6">
           {/* Release Badge */}
