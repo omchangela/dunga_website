@@ -115,19 +115,19 @@ export function GsapHero() {
 
           </div>
 
-          {/* Right Column: Direct Hero Banner Graphic from banner_1.png (6 Cols) */}
+          {/* Right Column: Direct Full Hero Graphic from banner_1.png (6 Cols) */}
           <div className="lg:col-span-6 relative flex items-center justify-center lg:justify-end">
             <div
               ref={heroImageContainerRef}
-              className="w-full max-w-[650px] transition-transform duration-500 hover:scale-[1.01]"
+              className="w-full max-w-[620px] transition-transform duration-500 hover:scale-[1.01]"
             >
               <Image
-                src="/hero-banner-right.png"
+                src="/hero-developer.jpg"
                 alt="Dunga Technologies Developer & Dedicated Team"
-                width={800}
-                height={207}
+                width={1024}
+                height={716}
                 priority
-                className="w-full h-auto object-contain block drop-shadow-xs"
+                className="w-full h-auto object-contain block drop-shadow-md rounded-2xl select-none"
               />
             </div>
           </div>
