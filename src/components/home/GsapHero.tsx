@@ -45,13 +45,13 @@ export function GsapHero() {
   return (
     <section
       ref={containerRef}
-      className="relative overflow-hidden bg-white pt-8 pb-14 lg:pt-14 lg:pb-20 border-b border-slate-100"
+      className="relative overflow-hidden bg-white pt-6 pb-12 lg:pt-10 lg:pb-16"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
           
-          {/* Left Column: Headline, Description & CTAs (6-7 Cols) */}
-          <div ref={leftContentRef} className="lg:col-span-6 space-y-6 text-left">
+          {/* Left Column: Headline, Description & CTAs (5 Cols) */}
+          <div ref={leftContentRef} className="lg:col-span-5 space-y-6 text-left">
             
             {/* Top Pill Tag */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#e6f4f7] text-[#246E7F] border border-[#246E7F]/20">
@@ -60,7 +60,7 @@ export function GsapHero() {
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.12]">
+            <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-black text-slate-900 tracking-tight leading-[1.12]">
               Build. Hire. Scale.<br />
               All in One <span className="text-[#E06527]">Place.</span>
             </h1>
@@ -115,11 +115,11 @@ export function GsapHero() {
 
           </div>
 
-          {/* Right Column: Direct Full Hero Graphic from banner_1.png (6 Cols) */}
-          <div className="lg:col-span-6 relative flex items-center justify-center lg:justify-end">
+          {/* Right Column: Full Hero Graphic (7 Cols - Bigger & Borderless) */}
+          <div className="lg:col-span-7 relative flex items-center justify-center lg:justify-end">
             <div
               ref={heroImageContainerRef}
-              className="w-full max-w-[620px] transition-transform duration-500 hover:scale-[1.01]"
+              className="w-full max-w-[760px] xl:max-w-[820px] transition-transform duration-500 hover:scale-[1.01]"
             >
               <Image
                 src="/hero-developer.jpg"
@@ -127,7 +127,7 @@ export function GsapHero() {
                 width={1024}
                 height={716}
                 priority
-                className="w-full h-auto object-contain block drop-shadow-md rounded-2xl select-none"
+                className="w-full h-auto object-contain block border-0 outline-none shadow-none select-none"
               />
             </div>
           </div>
