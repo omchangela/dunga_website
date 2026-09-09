@@ -38,32 +38,47 @@ export const HireReadyDeveloperCard: React.FC<HireReadyDeveloperCardProps> = ({
     switch (developer.availability) {
       case 'Available Now':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-300 shadow-xs">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            Available Now
+            Available Now (24h)
           </span>
         );
       case 'Available Soon':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
-            <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-cyan-50 text-cyan-700 border border-cyan-300 shadow-xs">
+            <span className="w-2 h-2 rounded-full bg-cyan-500"></span>
             {developer.availabilityTimeline}
           </span>
         );
       case 'In Project':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">
-            <span className="w-2 h-2 rounded-full bg-slate-400"></span>
-            In Project
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-300 shadow-xs">
+            <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+            In Project (Active Client)
           </span>
         );
     }
   };
 
+  const isWorking = developer.availability === 'In Project';
+
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-[#246E7F]/40 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+    <div className={`bg-white rounded-2xl border shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group ${
+      isWorking ? 'border-amber-200/90 hover:border-amber-400' : 'border-slate-200/90 hover:border-[#246E7F]/40'
+    }`}>
       
-      {/* Card Top / Header (Answers 1, 3, 4) */}
+      {/* Top Workload Ribbon if In Project */}
+      {isWorking && (
+        <div className="bg-amber-500/10 border-b border-amber-200 px-4 py-1.5 text-[11px] font-bold text-amber-800 flex items-center justify-between">
+          <span className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+            Currently In Active Sprint with Client
+          </span>
+          <span className="text-[10px] text-amber-700 font-semibold">Reserve for Next Slot</span>
+        </div>
+      )}
+
+      {/* Card Top / Header */}
       <div className="p-5 border-b border-slate-100">
         <div className="flex items-start gap-4">
           
@@ -82,26 +97,24 @@ export const HireReadyDeveloperCard: React.FC<HireReadyDeveloperCardProps> = ({
             <div className="flex items-center justify-between gap-2 flex-wrap mb-1">
               <Link
                 href={`/hire-developers/${developer.slug}`}
-                className="text-lg font-bold text-slate-900 hover:text-[#246E7F] transition-colors truncate"
+                className="text-base sm:text-lg font-bold text-slate-900 hover:text-[#246E7F] transition-colors truncate"
               >
                 {developer.name}
               </Link>
+            </div>
+
+            <div className="mb-2">
               {getAvailabilityBadge()}
             </div>
 
-            <p className="text-sm font-semibold text-[#246E7F] flex items-center gap-1.5 mb-1.5">
-              <Briefcase className="w-3.5 h-3.5 shrink-0" />
-              {developer.role}
-            </p>
-
-            <div className="flex items-center gap-3 text-xs text-slate-500 flex-wrap">
-              <span className="font-medium text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md">
+            <div className="flex items-center gap-2 text-xs text-slate-500 flex-wrap">
+              <span className="font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md">
                 {developer.experienceLabel}
               </span>
               {developer.isVerified && (
                 <span className="inline-flex items-center gap-1 text-emerald-600 font-medium">
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  Verified
+                  Verified Pro
                 </span>
               )}
               {developer.isSkillsAssessed && (
@@ -115,10 +128,10 @@ export const HireReadyDeveloperCard: React.FC<HireReadyDeveloperCardProps> = ({
         </div>
       </div>
 
-      {/* Card Middle: Skills, Specialization & Engagement (Answers 2, 5, 6) */}
+      {/* Card Middle: Skills, Specialization & Engagement */}
       <div className="p-5 space-y-4 flex-1">
         
-        {/* Technologies (Answer 2) */}
+        {/* Technologies */}
         <div>
           <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">
             Core Technologies
@@ -166,7 +179,7 @@ export const HireReadyDeveloperCard: React.FC<HireReadyDeveloperCardProps> = ({
           </div>
         </div>
 
-        {/* Rates / Cost at a Glance (Answer 6) */}
+        {/* Rates / Cost at a Glance */}
         <div className="bg-gradient-to-r from-teal-50/70 to-emerald-50/70 border border-teal-100 rounded-xl p-3 flex items-center justify-between">
           <div>
             <span className="text-[10px] uppercase font-bold text-[#246E7F] block">Starting Rate</span>
@@ -186,10 +199,10 @@ export const HireReadyDeveloperCard: React.FC<HireReadyDeveloperCardProps> = ({
         </div>
       </div>
 
-      {/* Card Footer: Action Buttons (Answer 5 + Standout Feature) */}
+      {/* Card Footer: Action Buttons */}
       <div className="p-4 bg-slate-50/80 border-t border-slate-100 space-y-2">
         
-        {/* Main 2 CTA Buttons: View Profile & Hire Developer */}
+        {/* Main 2 CTA Buttons: View Profile & Hire / Reserve */}
         <div className="grid grid-cols-2 gap-2">
           <Link
             href={`/hire-developers/${developer.slug}`}
@@ -201,9 +214,13 @@ export const HireReadyDeveloperCard: React.FC<HireReadyDeveloperCardProps> = ({
 
           <button
             onClick={() => onHireClick(developer)}
-            className="w-full py-2.5 px-3 text-xs font-bold text-white bg-[#246E7F] hover:bg-[#1b5563] rounded-xl transition-all text-center shadow-sm hover:shadow flex items-center justify-center gap-1"
+            className={`w-full py-2.5 px-3 text-xs font-bold text-white rounded-xl transition-all text-center shadow-sm hover:shadow flex items-center justify-center gap-1 ${
+              isWorking
+                ? 'bg-amber-600 hover:bg-amber-700'
+                : 'bg-[#246E7F] hover:bg-[#1b5563]'
+            }`}
           >
-            Hire Developer
+            {isWorking ? 'Reserve Slot' : 'Hire Developer'}
           </button>
         </div>
 
@@ -214,7 +231,7 @@ export const HireReadyDeveloperCard: React.FC<HireReadyDeveloperCardProps> = ({
           title={`Find another engineer with ${developer.keyTechnologies.slice(0, 3).join(', ')} experience`}
         >
           <Sparkles className="w-3.5 h-3.5 text-[#E06527]" />
-          Request Similar Developer
+          Request Similar Available Dev
         </button>
       </div>
 

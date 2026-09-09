@@ -109,10 +109,22 @@ export const DeveloperDetailClient: React.FC<DeveloperDetailClientProps> = ({ de
                       Skills Assessed
                     </span>
                   )}
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500 text-white">
-                    <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
-                    {developer.availability}
-                  </span>
+                  {developer.availability === 'Available Now' ? (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500 text-white shadow-sm">
+                      <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                      Available Now (24-48h Start)
+                    </span>
+                  ) : developer.availability === 'In Project' ? (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-400 text-slate-950 shadow-sm">
+                      <span className="w-2 h-2 rounded-full bg-slate-900"></span>
+                      Currently In Active Project
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-cyan-400 text-slate-950 shadow-sm">
+                      <span className="w-2 h-2 rounded-full bg-slate-900"></span>
+                      {developer.availabilityTimeline}
+                    </span>
+                  )}
                 </div>
 
                 <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
@@ -148,7 +160,7 @@ export const DeveloperDetailClient: React.FC<DeveloperDetailClientProps> = ({ de
                   className="w-full py-3 px-4 bg-[#E06527] hover:bg-[#c95318] text-white font-bold text-sm rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
                 >
                   <Send className="w-4 h-4" />
-                  Hire {developer.shortName} Now
+                  {developer.availability === 'In Project' ? 'Reserve Next Sprint Slot' : `Hire ${developer.shortName} Now`}
                 </button>
                 <button
                   onClick={() => setIsSimilarModalOpen(true)}

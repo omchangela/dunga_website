@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import { DEVELOPERS_DATA, DeveloperProfile } from '@/data/developers';
 import { HireReadyDeveloperCard } from './HireReadyDeveloperCard';
 import { DeveloperFiltersBar, DeveloperFilterState } from './DeveloperFiltersBar';
+import { LiveDeveloperCapacityDashboard } from './LiveDeveloperCapacityDashboard';
 import { HireDeveloperModal } from './HireDeveloperModal';
 import { RequestSimilarDeveloperModal } from './RequestSimilarDeveloperModal';
 import { Users, Sparkles, ShieldCheck, CheckCircle2, SearchX } from 'lucide-react';
@@ -83,18 +84,30 @@ export const HireDevelopersDirectory: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
+        <div className="text-center max-w-3xl mx-auto mb-8 space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-[#246E7F]/10 text-[#246E7F]">
             <Sparkles className="w-3.5 h-3.5 text-[#E06527]" />
-            <span>Pre-Assessed & Hire-Ready Engineers</span>
+            <span>Pre-Assessed & Hire-Ready Engineering Roster</span>
           </div>
           <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Browse Verified Developer Profiles
+            Browse Verified Developer Roster
           </h2>
           <p className="text-sm sm:text-base text-slate-600">
-            Transparent pricing, verified GitHub histories, real experience, and direct hiring with a 1-week risk-free trial.
+            Check real-time developer availability, transparent rates, verified GitHub histories, and start immediately with a 1-week risk-free trial.
           </p>
         </div>
+
+        {/* Live Talent Capacity & Deployment Metrics Dashboard */}
+        <LiveDeveloperCapacityDashboard
+          currentFilter={filters.availability}
+          onSelectAvailabilityFilter={(status) =>
+            setFilters((prev) => ({ ...prev, availability: status }))
+          }
+          availableCount={14}
+          workingCount={38}
+          upcomingCount={6}
+          totalCount={58}
+        />
 
         {/* Filter and Search Bar */}
         <DeveloperFiltersBar

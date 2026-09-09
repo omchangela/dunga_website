@@ -68,9 +68,10 @@ const ENGAGEMENTS = [
 ];
 
 const AVAILABILITY_OPTIONS = [
-  { label: 'All Status', value: 'all' },
-  { label: 'Available Now', value: 'Available Now' },
-  { label: 'Available Soon', value: 'Available Soon' },
+  { label: 'All Statuses (58+)', value: 'all' },
+  { label: '🟢 Available Now (14)', value: 'Available Now' },
+  { label: '🟡 In Active Project (38)', value: 'In Project' },
+  { label: '⏰ Opening Soon (6)', value: 'Available Soon' },
 ];
 
 export const DeveloperFiltersBar: React.FC<DeveloperFiltersBarProps> = ({
@@ -102,7 +103,7 @@ export const DeveloperFiltersBar: React.FC<DeveloperFiltersBarProps> = ({
         <Search className="w-5 h-5 text-slate-400 absolute left-4 top-3.5" />
         <input
           type="text"
-          placeholder="Search by developer name, role, technology (e.g. React, Node.js, Python, AWS)..."
+          placeholder="Search by role, dev ID, technology (e.g. Next.js, Node.js, Python, AWS, Flutter)..."
           value={filters.searchQuery}
           onChange={(e) => handleInputChange('searchQuery', e.target.value)}
           className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#246E7F] focus:border-transparent transition-all shadow-inner"
