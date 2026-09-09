@@ -186,13 +186,13 @@ export function GsapHero() {
               {/* Developer Image */}
               <div className="relative w-[92%] h-[92%] rounded-2xl overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop"
-                  alt="Dunga Technologies Developer Team"
+                  src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=800&auto=format&fit=crop"
+                  alt="Dunga Technologies Senior Developer"
                   fill
                   priority
                   className="object-cover object-top hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/30 via-transparent to-transparent pointer-events-none" />
               </div>
 
               {/* Floating Code Snippet Card (Top Left) */}
