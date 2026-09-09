@@ -1,19 +1,18 @@
-'use client';
-
 import React from 'react';
 import { Sparkles } from 'lucide-react';
+import { TechBrandIcon } from '@/components/ui/TechBrandIcons';
 
 const TECH_ITEMS = [
-  { name: 'Next.js 15', category: 'Frontend & SSR', tag: 'Expert', bg: 'bg-black text-white' },
-  { name: 'React 19', category: 'Web UI', tag: 'Expert', bg: 'bg-sky-950 text-sky-400 border border-sky-800' },
-  { name: 'Node.js', category: 'Backend & APIs', tag: 'Expert', bg: 'bg-emerald-950 text-emerald-400 border border-emerald-800' },
-  { name: 'Laravel 11', category: 'PHP & Enterprise', tag: 'Advanced', bg: 'bg-red-950 text-red-400 border border-red-800' },
-  { name: 'Flutter', category: 'iOS & Android', tag: 'Expert', bg: 'bg-blue-950 text-blue-400 border border-blue-800' },
-  { name: 'Python & AI', category: 'RAG & Automation', tag: 'Expert', bg: 'bg-amber-950 text-amber-400 border border-amber-800' },
-  { name: 'PostgreSQL', category: 'Database & SQL', tag: 'Expert', bg: 'bg-indigo-950 text-indigo-400 border border-indigo-800' },
-  { name: 'AWS & Docker', category: 'Cloud Infrastructure', tag: 'Expert', bg: 'bg-orange-950 text-orange-400 border border-orange-800' },
-  { name: 'TypeScript', category: 'Type-Safe Web', tag: 'Expert', bg: 'bg-blue-900 text-blue-300 border border-blue-700' },
-  { name: 'Tailwind CSS', category: 'Design Systems', tag: 'Expert', bg: 'bg-teal-950 text-teal-400 border border-teal-800' },
+  { name: 'Next.js 15', iconKey: 'next', category: 'Frontend & SSR', tag: 'Expert', iconBg: 'bg-black text-white p-2' },
+  { name: 'React 19', iconKey: 'react', category: 'Web UI', tag: 'Expert', iconBg: 'bg-[#0f172a] p-2' },
+  { name: 'Node.js', iconKey: 'node', category: 'Backend & APIs', tag: 'Expert', iconBg: 'bg-[#052e16] p-2' },
+  { name: 'Laravel 11', iconKey: 'laravel', category: 'PHP & Enterprise', tag: 'Advanced', iconBg: 'bg-[#450a0a] p-2' },
+  { name: 'Flutter', iconKey: 'flutter', category: 'iOS & Android', tag: 'Expert', iconBg: 'bg-[#082f49] p-2' },
+  { name: 'Python & AI', iconKey: 'python', category: 'RAG & Automation', tag: 'Expert', iconBg: 'bg-[#1e293b] p-2' },
+  { name: 'PostgreSQL', iconKey: 'postgres', category: 'Database & SQL', tag: 'Expert', iconBg: 'bg-[#0c4a6e] p-2' },
+  { name: 'AWS & Docker', iconKey: 'aws', category: 'Cloud Infrastructure', tag: 'Expert', iconBg: 'bg-[#1c1917] p-2' },
+  { name: 'TypeScript', iconKey: 'typescript', category: 'Type-Safe Web', tag: 'Expert', iconBg: 'bg-[#1e3a8a] p-2' },
+  { name: 'Tailwind CSS', iconKey: 'tailwind', category: 'Design Systems', tag: 'Expert', iconBg: 'bg-[#083344] p-2' },
 ];
 
 export function TechStackShowcase() {
@@ -40,13 +39,13 @@ export function TechStackShowcase() {
           {TECH_ITEMS.map((item, idx) => (
             <div
               key={idx}
-              className="bg-slate-50 hover:bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs hover:shadow-xl hover:border-[#246E7F]/40 transition-all duration-300 flex flex-col justify-between space-y-3 group hover-lift cursor-pointer"
+              className="bg-slate-50 hover:bg-white p-4.5 rounded-2xl border border-slate-200/90 shadow-2xs hover:shadow-xl hover:border-[#246E7F]/40 transition-all duration-300 flex flex-col justify-between space-y-3.5 group hover-lift cursor-pointer"
             >
               <div className="flex items-center justify-between">
-                <span className={`w-8 h-8 rounded-xl flex items-center justify-center font-bold text-xs shadow-xs ${item.bg}`}>
-                  {item.name.charAt(0)}
-                </span>
-                <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-xs border border-slate-200/60 bg-white group-hover:scale-110 transition-transform duration-300`}>
+                  <TechBrandIcon name={item.iconKey} className="w-6 h-6 object-contain" />
+                </div>
+                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/80">
                   {item.tag}
                 </span>
               </div>
