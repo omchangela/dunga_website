@@ -78,6 +78,7 @@ export interface CartItem {
 export interface Service {
   id: string;
   slug: string;
+  aliases?: string[];
   title: string;
   tagline: string;
   icon: string;

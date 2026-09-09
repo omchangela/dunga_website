@@ -4,6 +4,7 @@ export const SERVICES: Service[] = [
   {
     id: 'service-hire-developers',
     slug: 'hire-developers',
+    aliases: ['hourly-developers', 'dedicated-developers', 'hire-developer'],
     title: 'Hire Dedicated Developers (Hourly & Monthly)',
     tagline: 'Book pre-vetted senior Next.js, Node.js, Flutter, Python, and Laravel engineers on flexible hourly or dedicated monthly contracts.',
     icon: 'Users',
@@ -35,6 +36,7 @@ export const SERVICES: Service[] = [
   {
     id: 'service-ready-made-code',
     slug: 'ready-made-code-solutions',
+    aliases: ['ready-made-code', 'source-code-solutions', 'code-solutions'],
     title: 'Ready-Made Code & Software Solutions',
     tagline: 'Acquire production-tested in-house source code suites, CRM platforms, and SaaS backbones with zero vendor lock-in.',
     icon: 'Code2',
@@ -65,6 +67,7 @@ export const SERVICES: Service[] = [
   {
     id: 'service-script-installation',
     slug: 'codecanyon-script-installation',
+    aliases: ['code-script-installation', 'script-installation', 'codecanyon-setup'],
     title: 'Code & Script Installation / CodeCanyon Setup',
     tagline: 'Rapid 24-48h professional installation and server setup for CodeCanyon, GitHub, and custom PHP/Node/Python scripts.',
     icon: 'Server',
@@ -97,6 +100,7 @@ export const SERVICES: Service[] = [
   {
     id: 'service-tech-consultancy',
     slug: 'tech-consultancy',
+    aliases: ['technology-consulting', 'tech-consulting', 'software-consulting'],
     title: 'Strategic Tech Consultancy & Architecture Advisory',
     tagline: 'Expert architectural reviews, tech stack selection, cloud cost reduction, and scalability consulting for founders and CTOs.',
     icon: 'ShieldCheck',
@@ -127,6 +131,7 @@ export const SERVICES: Service[] = [
   {
     id: 'service-technical-maintenance',
     slug: 'technical-maintenance-amc',
+    aliases: ['technical-maintenance', 'website-maintenance', 'software-maintenance'],
     title: 'Technical Maintenance & Annual Support (AMC)',
     tagline: 'Proactive 24/7 server monitoring, security patching, database backups, and dedicated monthly engineering support.',
     icon: 'Layers',
@@ -157,6 +162,7 @@ export const SERVICES: Service[] = [
   {
     id: 'service-bug-fixing',
     slug: 'bug-fixing-optimization',
+    aliases: ['bug-fixing', 'bug-fixes', 'speed-optimization'],
     title: 'Emergency Bug Fixing & Performance Optimization',
     tagline: 'Rapid on-demand troubleshooting, fatal error remediation, speed optimization, and malware cleanup within hours.',
     icon: 'Zap',
@@ -187,6 +193,7 @@ export const SERVICES: Service[] = [
   {
     id: 'service-custom-web-apps',
     slug: 'custom-application-development',
+    aliases: ['custom-software-development', 'custom-software', 'custom-web-development'],
     title: 'Custom Application & Enterprise Software Development',
     tagline: 'Tailored SaaS platforms, customer portals, and bespoke business automation built from scratch to your exact specifications.',
     icon: 'Smartphone',
@@ -217,6 +224,7 @@ export const SERVICES: Service[] = [
   {
     id: 'service-project-estimations',
     slug: 'project-estimations',
+    aliases: ['project-estimation', 'cost-estimation', 'project-calculator'],
     title: 'Accurate Project Estimations & Technical Scoping',
     tagline: 'Get transparent cost, timeline, and tech stack estimates for your custom software idea within 24 hours.',
     icon: 'Sparkles',

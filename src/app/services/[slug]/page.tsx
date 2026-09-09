@@ -23,15 +23,29 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+function findService(slug: string) {
+  const normalized = slug.toLowerCase().trim();
+  return SERVICES.find(
+    (s) => s.slug === normalized || s.aliases?.some((a) => a.toLowerCase() === normalized)
+  );
+}
+
 export async function generateStaticParams() {
-  return SERVICES.map((s) => ({
-    slug: s.slug,
-  }));
+  const allSlugs: { slug: string }[] = [];
+  SERVICES.forEach((s) => {
+    allSlugs.push({ slug: s.slug });
+    if (s.aliases) {
+      s.aliases.forEach((alias) => {
+        allSlugs.push({ slug: alias });
+      });
+    }
+  });
+  return allSlugs;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const service = SERVICES.find((s) => s.slug === slug);
+  const service = findService(slug);
 
   if (!service) {
     return { title: 'Service Not Found | Dunga Technologies' };
@@ -46,7 +60,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ServiceDetailPage({ params }: Props) {
   const { slug } = await params;
-  const service = SERVICES.find((s) => s.slug === slug);
+  const service = findService(slug);
 
   if (!service) {
     notFound();
