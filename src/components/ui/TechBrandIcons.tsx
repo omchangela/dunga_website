@@ -10,22 +10,22 @@ export function TechBrandIcon({ name, className = 'w-6 h-6', size }: TechIconPro
   const normalized = name.toLowerCase().trim();
   const style = size ? { width: size, height: size } : undefined;
 
-  // Next.js
+  // Next.js (Official stylized monochrome N)
   if (normalized.includes('next')) {
     return (
       <svg className={className} style={style} viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="90" cy="90" r="90" fill="black" />
+        <circle cx="90" cy="90" r="90" fill="#000000" />
         <path
           d="M149.508 157.438L69.147 54H54V125.979H66.8391V69.3831L139.565 162.771C143.053 161.147 146.381 159.356 149.508 157.438Z"
-          fill="url(#paint0_linear_next)"
+          fill="url(#next_grad_1)"
         />
-        <rect x="115" y="54" width="13" height="72" fill="url(#paint1_linear_next)" />
+        <rect x="115" y="54" width="13" height="72" fill="url(#next_grad_2)" />
         <defs>
-          <linearGradient id="paint0_linear_next" x1="109" y1="116.5" x2="144.5" y2="160.5" gradientUnits="userSpaceOnUse">
+          <linearGradient id="next_grad_1" x1="109" y1="116.5" x2="144.5" y2="160.5" gradientUnits="userSpaceOnUse">
             <stop stopColor="white" />
             <stop offset="1" stopColor="white" stopOpacity="0" />
           </linearGradient>
-          <linearGradient id="paint1_linear_next" x1="121.5" y1="54" x2="120.799" y2="106.875" gradientUnits="userSpaceOnUse">
+          <linearGradient id="next_grad_2" x1="121.5" y1="54" x2="120.799" y2="106.875" gradientUnits="userSpaceOnUse">
             <stop stopColor="white" />
             <stop offset="1" stopColor="white" stopOpacity="0" />
           </linearGradient>
@@ -34,12 +34,12 @@ export function TechBrandIcon({ name, className = 'w-6 h-6', size }: TechIconPro
     );
   }
 
-  // React
+  // React (Official Cyan Atom)
   if (normalized.includes('react')) {
     return (
       <svg className={className} style={style} viewBox="-11.5 -10.23174 23 20.46348" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="0" cy="0" r="2.05" fill="#61dafb" />
-        <g stroke="#61dafb" strokeWidth="1" fill="none">
+        <circle cx="0" cy="0" r="2.05" fill="#61DAFB" />
+        <g stroke="#61DAFB" strokeWidth="1" fill="none">
           <ellipse rx="11" ry="4.2" />
           <ellipse rx="11" ry="4.2" transform="rotate(60)" />
           <ellipse rx="11" ry="4.2" transform="rotate(120)" />
@@ -48,43 +48,31 @@ export function TechBrandIcon({ name, className = 'w-6 h-6', size }: TechIconPro
     );
   }
 
-  // Node.js
+  // Node.js (Official Hexagon JS Monogram Logo)
   if (normalized.includes('node')) {
     return (
-      <svg className={className} style={style} viewBox="0 0 256 289" xmlns="http://www.w3.org/2000/svg">
+      <svg className={className} style={style} viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg">
         <path
-          d="M128 0L9.4 68.4v136.9L128 273.7l118.6-68.4V68.4L128 0zm95.1 193.3L128 248.3 32.9 193.3V83.6L128 28.7l95.1 54.9v109.7z"
-          fill="#339933"
-        />
-        <path
-          d="M128 39.8l85.5 49.3v98.7L128 237.1 42.5 187.8V89.1L128 39.8m0-11.1L32.9 83.6v109.7L128 248.3l95.1-54.9V83.6L128 28.7z"
-          fill="#339933"
-        />
-        <path
-          d="M128 150.3c-12.7 0-21.7-6.2-25.2-16.7l17.8-10.3c1.7 5.2 6.5 8.3 12.3 8.3 5.4 0 9.4-2.7 9.4-7.1 0-4.6-3.8-6.4-14.7-9.5-16.5-4.7-24-11.5-24-25 0-14.6 11.2-24.9 27.5-24.9 11.7 0 20.3 5 24 14.8l-17.5 10.1c-1.7-4.5-5.6-6.8-10.7-6.8-5 0-8.5 2.5-8.5 6.2 0 4.1 3.5 5.6 13.5 8.5 17.5 5.1 25.4 11.6 25.4 25.9 0 16-11.8 26.5-28.9 26.5z"
-          fill="#66CC33"
+          d="M11.998 0c-.394 0-.783.104-1.127.303L2.09 5.37a2.26 2.26 0 0 0-1.134 1.957v9.346c0 .81.433 1.558 1.134 1.957l8.781 5.067c.344.199.733.303 1.127.303.394 0 .783-.104 1.127-.303l8.781-5.067a2.26 2.26 0 0 0 1.134-1.957V7.327c0-.81-.433-1.558-1.134-1.957l-8.781-5.067A2.27 2.27 0 0 0 11.998 0zm.006 2.12l7.74 4.464c.231.133.376.383.376.649v8.934c0 .266-.145.516-.376.649l-7.74 4.464a.75.75 0 0 1-.752 0l-7.74-4.464a.75.75 0 0 1-.376-.649V7.233c0-.266.145-.516.376-.649l7.74-4.464a.75.75 0 0 1 .752 0zm-.92 3.86a.75.75 0 0 0-.75.75v5.52l-2.03-1.173a.75.75 0 0 0-1.12.65v2.88a.75.75 0 0 0 .375.65l3.15 1.819a.75.75 0 0 0 1.125-.65V7.73a.75.75 0 0 0-.75-.75zm4.84 0a.75.75 0 0 0-.75.75v5.52l-2.03-1.173a.75.75 0 0 0-1.12.65v2.88a.75.75 0 0 0 .375.65l3.15 1.819a.75.75 0 0 0 1.125-.65V7.73a.75.75 0 0 0-.75-.75z"
+          fill="#5FA04E"
         />
       </svg>
     );
   }
 
-  // Laravel
+  // Laravel 11 (Official Red Isometric Layered Cube)
   if (normalized.includes('laravel')) {
     return (
-      <svg className={className} style={style} viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg className={className} style={style} viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg">
         <path
-          d="M495.2 120.4L372.5 49.6c-4.7-2.7-10.5-2.7-15.2 0L242.4 115l112.5 65 140.3-59.6zM227.2 141.2v129.9l112.5 65V206.2l-112.5-65zm142.9 82.5v129.9l112.5-65V158.7l-112.5 65z"
-          fill="#FF2D20"
-        />
-        <path
-          d="M269.6 391.6l-112.5-65V196.7L44.6 131.8c-4.7-2.7-10.5-2.7-15.2 0L16.8 139C7.4 144.4 1.6 154.5 1.6 165.4v181.2c0 10.9 5.8 21 15.2 26.4l237.6 137.2c4.7 2.7 10.5 2.7 15.2 0l112.5-65-112.5-53.6z"
+          d="M23.642 5.148l-9.16-5.07c-.446-.247-.988-.247-1.434 0L3.89 5.148c-.446.247-.722.724-.722 1.238v10.14c0 .514.276.991.722 1.238l9.16 5.07c.223.123.468.185.717.185.249 0 .494-.062.717-.185l9.16-5.07c.446-.247.722-.724.722-1.238V6.386c0-.514-.276-.991-.722-1.238zM12.75 2.152l7.77 4.303-3.13 1.733-7.77-4.303 3.13-1.733zm-1.5 0l3.13 1.733-7.77 4.303-3.13-1.733 7.77-4.303zm-8 5.63l7.25 4.014v8.606l-7.25-4.014V7.782zm8.75 12.62V11.796l7.25-4.014v8.606l-7.25 4.014z"
           fill="#FF2D20"
         />
       </svg>
     );
   }
 
-  // Flutter
+  // Flutter (Official Multi-tier Flutter Wing)
   if (normalized.includes('flutter')) {
     return (
       <svg className={className} style={style} viewBox="0 0 256 317" xmlns="http://www.w3.org/2000/svg">
@@ -96,7 +84,7 @@ export function TechBrandIcon({ name, className = 'w-6 h-6', size }: TechIconPro
     );
   }
 
-  // Python
+  // Python (Official Yellow & Blue Snakes)
   if (normalized.includes('python')) {
     return (
       <svg className={className} style={style} viewBox="0 0 256 255" xmlns="http://www.w3.org/2000/svg">
@@ -122,66 +110,43 @@ export function TechBrandIcon({ name, className = 'w-6 h-6', size }: TechIconPro
     );
   }
 
-  // PostgreSQL
-  if (normalized.includes('postgres') || normalized.includes('sql') || normalized.includes('database')) {
+  // PostgreSQL (Official Slonik Elephant Vector Logo)
+  if (normalized.includes('postgres') || normalized.includes('sql') || normalized.includes('psql')) {
     return (
-      <svg className={className} style={style} viewBox="0 0 256 251" xmlns="http://www.w3.org/2000/svg">
+      <svg className={className} style={style} viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg">
         <path
-          d="M125.8 0C57.6 0 2.2 55.4 2.2 123.6c0 37.1 16.3 70.4 42.2 93.1l6.1-15.4c-20.3-19.7-33-47.3-33-77.7 0-60 48.6-108.6 108.6-108.6s108.6 48.6 108.6 108.6c0 30.4-12.7 58-33 77.7l6.1 15.4c25.9-22.7 42.2-56 42.2-93.1C249.4 55.4 194 0 125.8 0z"
-          fill="#336791"
+          d="M12.016 0A12.003 12.003 0 0 0 0 12a12 12 0 0 0 7.822 11.272c-.173-.787-.27-1.666-.27-2.617 0-4.053 2.149-7.258 5.34-8.77-1.042-1.467-1.666-3.266-1.666-5.221C11.226 2.97 14.195 0 17.89 0c.376 0 .748.031 1.11.092A11.968 11.968 0 0 0 12.016 0zm5.874 1.493c-2.855 0-5.168 2.313-5.168 5.171 0 1.625.753 3.076 1.93 4.032.553-.312 1.144-.572 1.766-.767a5.138 5.138 0 0 1-.528-2.265c0-1.168.948-2.115 2.116-2.115 1.168 0 2.115.947 2.115 2.115 0 1.168-.947 2.115-2.115 2.115-.17 0-.336-.02-.497-.058-.696.223-1.348.547-1.938.966 1.345 1.168 2.32 2.766 2.748 4.593 1.942-.486 3.402-2.146 3.618-4.225.109-1.05-.183-2.1-.81-2.924a5.147 5.147 0 0 0-4.237-6.738zm-5.016 9.878c-3.13 1.258-5.32 4.192-5.32 7.812 0 .937.147 1.83.414 2.656A11.972 11.972 0 0 0 12 24c6.627 0 12-5.373 12-12 0-.256-.01-.51-.025-.762-.515 2.502-2.38 4.475-4.877 4.965-.487-1.92-1.615-3.565-3.18-4.664a7.89 7.89 0 0 0-3.044-1.661z"
+          fill="#4169E1"
         />
-        <path
-          d="M136.2 47.9c-29.2 0-51.2 15.2-61.9 33.6-14.7 25.2-12.6 62.5-4.4 90.1 5.3 17.8 14.7 32.2 26.6 43.1 3.5 3.2 7.7 5.7 12.3 7.3 2.9 1 6.1 1.6 9.4 1.7 14.5.4 28.5-6.7 37.4-18.7 8.3-11.2 11.7-25.7 10.9-40.8-.8-15.6-6.6-30.8-15.5-43.2-3.8-5.3-8.6-9.8-14.3-13.1z"
-          fill="#336791"
-        />
-        <circle cx="108.5" cy="115.5" r="7.5" fill="#FFFFFF" />
-        <circle cx="109.5" cy="116.5" r="4" fill="#1C2B36" />
       </svg>
     );
   }
 
-  // AWS / Docker
+  // AWS & Docker (Amazon Web Services Official Logo)
   if (normalized.includes('aws') || normalized.includes('amazon')) {
     return (
-      <svg className={className} style={style} viewBox="0 0 256 154" xmlns="http://www.w3.org/2000/svg">
+      <svg className={className} style={style} viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg">
         <path
-          d="M74.9 66.8c0 4.8.7 9 2.2 12.7 1.4 3.7 3.5 6.7 6.2 9.1 2.7 2.4 6 4.1 9.7 5.2 3.8 1.1 7.9 1.7 12.4 1.7 6 0 11.2-1.1 15.6-3.4 4.4-2.3 8-5.5 10.6-9.6v11.6h17.9V37.7h-17.9v10.5c-2.7-3.9-6.3-6.9-10.7-9.1-4.4-2.2-9.6-3.3-15.5-3.3-4.5 0-8.6.6-12.4 1.7-3.8 1.1-7 2.8-9.7 5.2-2.7 2.4-4.8 5.4-6.2 9.1-1.5 3.7-2.2 7.9-2.2 12.7zm18.3 0c0-2.8.3-5.2 1-7.2.7-2 1.7-3.6 3.1-4.9 1.3-1.2 2.9-2.1 4.7-2.7 1.8-.6 3.8-.9 5.9-.9 2.1 0 4.1.3 5.9.9 1.8.6 3.4 1.5 4.7 2.7 1.3 1.2 2.4 2.9 3.1 4.9.7 2 1 4.4 1 7.2s-.3 5.2-1 7.2c-.7 2-1.7 3.6-3.1 4.9-1.3 1.2-2.9 2.1-4.7 2.7-1.8.6-3.8.9-5.9.9-2.1 0-4.1-.3-5.9-.9-1.8-.6-3.4-1.5-4.7-2.7-1.3-1.2-2.4-2.9-3.1-4.9-.7-2-1-4.4-1-7.2z"
-          fill="#232F3E"
-        />
-        <path
-          d="M239.8 113.8c-30.8 22.7-75.6 34.8-124 34.8-40.4 0-78.1-8.9-109.8-24.6-2.5-1.2-2.7-4.2-.6-5.8 11.2-8.5 24.3-15.5 38.6-20.6 2.3-.8 4.7.5 5.8 2.7 20.9 41.6 70.8 45.4 100.8 30.1 2.3-1.2 4.9.1 5.3 2.7.9 6.2 2.4 13.9 4.1 20.7z"
-          fill="#FF9900"
-        />
-        <path
-          d="M250.7 97.4c-3.9-5-25.5-11.8-39.6-7.8-3.4 1-3.6 4.7-.4 6.7 13.2 8.3 28.4 10.3 35.8 7.3 2.4-1 5.4-3.8 4.2-6.2z"
+          d="M10.158 11.834c0-.798-.567-1.127-1.558-1.127-.852 0-1.748.243-2.525.688l-.44-.972C6.54 9.92 7.643 9.64 8.784 9.64c1.782 0 2.87.887 2.87 2.38v4.618h-1.496zm-1.527 3.99c.928 0 1.637-.417 2.072-1.144v1.077h1.496v-3.792c0-1.57-1.157-2.327-2.73-2.327-1.157 0-2.316.324-3.23.896l.51 1.018c.787-.463 1.734-.734 2.544-.734 1.11 0 1.57.494 1.57 1.34v.37c-.503-.047-1.134-.07-1.78-.07-1.92 0-3.13.787-3.13 2.148 0 1.34 1.042 2.148 2.678 2.148zm.417-1.144c-.958 0-1.53-.456-1.53-1.18 0-.74.625-1.196 1.77-1.196.47 0 .91.03 1.317.094-.17 1.326-1.01 2.282-1.557 2.282zm6.208-4.908h1.496l1.242 4.417 1.334-4.417h1.472l1.325 4.417 1.25-4.417h1.488l-1.96 5.862h-1.588l-1.29-4.225-1.282 4.225h-1.597zm-11.83 7.82c5.316 2.76 11.884 2.13 16.582-.725.263-.16.542.13.348.332-4.14 4.316-10.96 4.79-17.18 1.127-.37-.217-.14-.62.25-.734zm17.387-.194c.34-.448 1.22-1.42 1.48-2.028.055-.13.195-.148.27-.04.48.69 1.63 1.83 2.45 2.37.17.11.08.312-.11.312-.86 0-2.86-.33-4.09-.614z"
           fill="#FF9900"
         />
       </svg>
     );
   }
 
-  // Docker
+  // Docker (Official Whale Container Matrix)
   if (normalized.includes('docker')) {
     return (
-      <svg className={className} style={style} viewBox="0 0 256 218" xmlns="http://www.w3.org/2000/svg">
+      <svg className={className} style={style} viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg">
         <path
-          d="M255.4 108.6c-4.3-30.7-32.9-40.6-33.6-40.8l-8.6-2.9-5.4 7.4c-9.8 13.5-23.7 18.2-34.5 19.3-3.6-25-23.1-39.9-24.8-41.2l-6.8-5-6 5.9c-22.1 21.6-23.7 54.3-24 61.8H5.8l-5.8 6.4c6.3 34.1 24.6 63.6 52.8 83.2 24.7 17.2 55.4 25.1 88.9 23 48.7-3.1 94.6-30.8 113.6-86.8 5-14.8.6-27.1.1-30.3z"
+          d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185zm-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.186.185.186zm0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.186.185.186zm-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.186.185.186zm-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.186.186.186zm5.893 2.715h2.118a.186.186 0 00.186-.186V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185zm-2.929 0h2.12a.185.185 0 00.184-.186V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185zm-2.964 0h2.119a.185.185 0 00.185-.186V9.006a.185.185 0 00-.185-.186H5.136a.186.186 0 00-.186.185v1.888c0 .102.084.185.186.185zm-2.928 0h2.119a.185.185 0 00.185-.186V9.006a.185.185 0 00-.186-.186H2.208a.186.186 0 00-.186.185v1.888c0 .102.084.185.186.185zm21.758.337a.577.577 0 00-.518-.328h-3.248a.372.372 0 01-.364-.298 4.292 4.292 0 00-1.79-2.582 7.712 7.712 0 00-2.822-1.127.354.354 0 01-.29-.31 5.98 5.98 0 00-.776-2.427 6.13 6.13 0 00-2.022-2.043.37.37 0 00-.472.08l-.872.993a.36.36 0 00-.07.38c.45 1.137.604 2.374.453 3.593a.365.365 0 01-.31.316 12.56 12.56 0 00-5.839 2.072H.364A.364.364 0 000 11.416c0 1.25.178 2.474.526 3.642a10.875 10.875 0 003.02 5.034 11.75 11.75 0 005.158 2.87 14.62 14.62 0 005.908.318 15.688 15.688 0 005.81-2.12c2.146-1.39 3.597-3.64 3.99-6.17a.64.64 0 00-.446-.703z"
           fill="#2496ED"
         />
-        <g fill="#FFFFFF">
-          <rect x="73.8" y="70.9" width="22" height="20.3" rx="2" />
-          <rect x="100.7" y="70.9" width="22" height="20.3" rx="2" />
-          <rect x="73.8" y="45.9" width="22" height="20.3" rx="2" />
-          <rect x="100.7" y="45.9" width="22" height="20.3" rx="2" />
-          <rect x="127.6" y="70.9" width="22" height="20.3" rx="2" />
-          <rect x="127.6" y="45.9" width="22" height="20.3" rx="2" />
-          <rect x="46.9" y="70.9" width="22" height="20.3" rx="2" />
-        </g>
       </svg>
     );
   }
 
-  // TypeScript
+  // TypeScript (Official Blue Square with White TS)
   if (normalized.includes('typescript') || normalized.includes('ts')) {
     return (
       <svg className={className} style={style} viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
@@ -194,7 +159,7 @@ export function TechBrandIcon({ name, className = 'w-6 h-6', size }: TechIconPro
     );
   }
 
-  // Tailwind CSS
+  // Tailwind CSS (Official Twin Cyan Waves)
   if (normalized.includes('tailwind')) {
     return (
       <svg className={className} style={style} viewBox="0 0 256 154" xmlns="http://www.w3.org/2000/svg">
