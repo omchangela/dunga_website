@@ -103,10 +103,10 @@ export const HireDevelopersDirectory: React.FC = () => {
           onSelectAvailabilityFilter={(status) =>
             setFilters((prev) => ({ ...prev, availability: status }))
           }
-          availableCount={14}
-          workingCount={38}
-          upcomingCount={6}
-          totalCount={58}
+          initialAvailableCount={14}
+          initialWorkingCount={38}
+          initialUpcomingCount={6}
+          initialTotalCount={58}
         />
 
         {/* Filter and Search Bar */}
@@ -116,6 +116,31 @@ export const HireDevelopersDirectory: React.FC = () => {
           onReset={() => setFilters(INITIAL_FILTERS)}
           totalResults={filteredDevelopers.length}
         />
+
+        {/* Real-Time Telemetry Bar for Roster */}
+        <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-50 border border-slate-200/80 px-4 py-2.5 rounded-2xl mb-6 text-xs text-slate-600">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span className="font-semibold text-slate-900">
+              Live Roster Telemetry:
+            </span>
+            <span>Showing {filteredDevelopers.length} pre-assessed engineers across 8 technology categories</span>
+          </div>
+          <div className="flex items-center gap-3 text-[11px] font-medium text-slate-500">
+            <span className="flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              Avg Response: &lt;15m
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+              1-Week Risk-Free Trial
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#246E7F]"></span>
+              Direct GitHub Commits
+            </span>
+          </div>
+        </div>
 
         {/* Developer Cards Grid */}
         {filteredDevelopers.length > 0 ? (
