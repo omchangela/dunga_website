@@ -1,47 +1,57 @@
 'use client';
 
 import React from 'react';
-import { Cpu, CheckCircle } from 'lucide-react';
+
+const TECH_ITEMS = [
+  { name: 'Next.js', color: 'bg-black text-white', icon: 'N' },
+  { name: 'Laravel', color: 'bg-red-500 text-white', icon: 'L' },
+  { name: 'React', color: 'bg-cyan-500 text-white', icon: 'R' },
+  { name: 'Node.js', color: 'bg-emerald-600 text-white', icon: 'N' },
+  { name: 'Flutter', color: 'bg-sky-500 text-white', icon: 'F' },
+  { name: 'Vue.js', color: 'bg-emerald-500 text-white', icon: 'V' },
+  { name: 'Python', color: 'bg-yellow-500 text-white', icon: 'P' },
+  { name: 'PHP', color: 'bg-indigo-600 text-white', icon: 'PHP' },
+  { name: 'WordPress', color: 'bg-blue-600 text-white', icon: 'W' },
+  { name: 'More...', color: 'bg-slate-800 text-white', icon: '•••' },
+];
 
 export function TechStackShowcase() {
-  const technologies = [
-    { name: 'Next.js 15 App Router', category: 'Frontend & SSR' },
-    { name: 'TypeScript & React 19', category: 'Type Safety' },
-    { name: 'Tailwind CSS v4', category: 'Styling' },
-    { name: 'Python FastAPI', category: 'High-Performance APIs' },
-    { name: 'Flutter & Dart', category: 'Cross-Platform Mobile' },
-    { name: 'PostgreSQL & pgvector', category: 'Relational & AI Vector' },
-    { name: 'Docker & Kubernetes', category: 'Cloud Containerization' },
-    { name: 'Redis & WebSockets', category: 'Real-time Queues' },
-    { name: 'Razorpay & Stripe', category: 'Fintech Billing' },
-    { name: 'AWS & Cloudflare', category: 'Infrastructure & CDN' },
-  ];
-
   return (
-    <section className="py-14 bg-white border-t border-slate-200/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-10">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#246e7f]">
-            Production Architecture
-          </span>
-          <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-1">
-            Engineered With Cutting-Edge Technology Stacks
+    <section className="py-16 sm:py-20 bg-white border-b border-slate-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        
+        {/* Header */}
+        <div className="text-center max-w-2xl mx-auto space-y-3">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#e6f4f7] text-[#246E7F] border border-[#246E7F]/20">
+            <span>TECH STACK</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            We Work With the Best Technologies
           </h2>
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Our developers are skilled in modern and in-demand technologies to deliver high-performance solutions.
+          </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3.5">
-          {technologies.map((tech, idx) => (
+        {/* Tech Icon Badges Row */}
+        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+          {TECH_ITEMS.map((item, idx) => (
             <div
               key={idx}
-              className="bg-slate-50 border border-slate-200/90 rounded-xl p-3.5 text-center hover:bg-white hover:border-[#246e7f]/40 hover:shadow-md transition-all group"
+              className="flex flex-col items-center gap-2 group cursor-pointer"
             >
-              <div className="text-xs font-bold text-slate-900 group-hover:text-[#246e7f]">
-                {tech.name}
+              <div
+                className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm shadow-md border border-slate-200 group-hover:scale-110 transition-transform duration-300 ${item.color}`}
+              >
+                {item.icon}
               </div>
-              <div className="text-[10px] text-slate-500 mt-0.5">{tech.category}</div>
+              <span className="text-xs font-semibold text-slate-700 group-hover:text-[#246E7F] transition-colors">
+                {item.name}
+              </span>
             </div>
           ))}
         </div>
+
       </div>
     </section>
   );

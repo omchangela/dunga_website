@@ -62,17 +62,18 @@ export function Navbar({ onOpenSearch }: NavbarProps) {
 
   return (
     <>
-      {/* Announcement Bar */}
-      <div className="bg-gradient-to-r from-[#1e5b6a] via-[#246e7f] to-[#e06527] text-white text-xs font-medium py-2 px-4 text-center relative z-50">
-        <div className="max-w-7xl mx-auto flex items-center justify-center gap-2 flex-wrap">
-          <span className="inline-flex items-center gap-1.5 bg-white/20 px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-wide uppercase backdrop-blur-xs">
-            <Sparkles className="w-3 h-3 text-amber-300" /> New
+      {/* Top Announcement Bar from Banner 1 */}
+      <div className="bg-[#b45309] bg-gradient-to-r from-[#9a3412] via-[#c2410c] to-[#b45309] text-white text-xs font-medium py-2 px-4 text-center relative z-50">
+        <div className="max-w-7xl mx-auto flex items-center justify-center gap-2 flex-wrap text-xs">
+          <span className="inline-flex items-center gap-1 font-semibold text-amber-100">
+            🚀 Hire Pre-Vetted Developers from ₹999 / $15/hr
           </span>
-          <span>Book Senior Developers Hourly from ₹999 / $15/hr & Ready-Made Next.js Codebases</span>
-          <span className="hidden sm:inline opacity-80">|</span>
+          <span className="hidden sm:inline opacity-60">|</span>
+          <span className="text-white/90">Ready-Made Next.js Codebases</span>
+          <span className="hidden sm:inline opacity-60">|</span>
           <Link
             href="/hire-developers"
-            className="underline hover:text-amber-200 transition-colors font-semibold inline-flex items-center gap-0.5 ml-1"
+            className="hover:text-amber-200 transition-colors font-bold inline-flex items-center gap-1 ml-1 underline decoration-amber-300/60"
           >
             Hire Talent <ArrowRight className="w-3 h-3 inline" />
           </Link>
@@ -231,19 +232,6 @@ export function Navbar({ onOpenSearch }: NavbarProps) {
                 )}
               </div>
 
-              {/* Project Estimator */}
-              <Link
-                href="/project-estimation"
-                className={`px-3 py-2 text-sm font-semibold rounded-xl transition-colors whitespace-nowrap flex items-center gap-1 ${
-                  isActive('/project-estimation')
-                    ? 'text-[#246e7f] bg-[#e6f4f7]'
-                    : 'text-slate-700 hover:text-slate-900 hover:bg-slate-50'
-                }`}
-              >
-                <Calculator className="w-3.5 h-3.5 text-[#246e7f]" />
-                <span>Estimator</span>
-              </Link>
-
               <Link
                 href="/projects"
                 className={`px-3 py-2 text-sm font-semibold rounded-xl transition-colors whitespace-nowrap ${
@@ -256,14 +244,25 @@ export function Navbar({ onOpenSearch }: NavbarProps) {
               </Link>
 
               <Link
-                href="/account"
+                href="/about"
                 className={`px-3 py-2 text-sm font-semibold rounded-xl transition-colors whitespace-nowrap ${
-                  isActive('/account')
+                  isActive('/about')
                     ? 'text-[#246e7f] bg-[#e6f4f7]'
                     : 'text-slate-700 hover:text-slate-900 hover:bg-slate-50'
                 }`}
               >
-                Client Portal
+                About
+              </Link>
+
+              <Link
+                href="/contact"
+                className={`px-3 py-2 text-sm font-semibold rounded-xl transition-colors whitespace-nowrap ${
+                  isActive('/contact')
+                    ? 'text-[#246e7f] bg-[#e6f4f7]'
+                    : 'text-slate-700 hover:text-slate-900 hover:bg-slate-50'
+                }`}
+              >
+                Contact
               </Link>
             </nav>
 

@@ -1,130 +1,98 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import gsap from 'gsap';
 import {
-  Sparkles,
   ArrowRight,
   ShieldCheck,
-  Zap,
+  Users,
+  Clock,
+  Sparkles,
   Code2,
-  Terminal,
-  Play,
   CheckCircle2,
-  Server,
-  Star,
-  Layers,
-  PhoneCall,
-  CreditCard,
-  Bot,
-  Activity,
-  Cpu,
-  Lock,
+  Terminal,
+  Plus
 } from 'lucide-react';
-import { useCart } from '@/context/CartContext';
-import { PRODUCTS } from '@/data/products';
-import { useCurrency } from '@/context/CurrencyContext';
+
+const TECH_PILLS = [
+  { name: 'Next.js', iconBg: 'bg-black text-white' },
+  { name: 'Laravel', iconBg: 'bg-red-500 text-white' },
+  { name: 'React', iconBg: 'bg-cyan-500 text-white' },
+  { name: 'Node.js', iconBg: 'bg-emerald-600 text-white' },
+  { name: 'Flutter', iconBg: 'bg-sky-500 text-white' },
+  { name: 'More...', iconBg: 'bg-slate-700 text-white' },
+];
 
 export function GsapHero() {
-  const { openLiveDemo, addItem } = useCart();
-  const { formatPrice } = useCurrency();
-  const [selectedHeroIndex, setSelectedHeroIndex] = useState(0);
-
   const containerRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const floatingBadge1 = useRef<HTMLDivElement>(null);
-  const floatingBadge2 = useRef<HTMLDivElement>(null);
+  const leftContentRef = useRef<HTMLDivElement>(null);
+  const heroImageContainerRef = useRef<HTMLDivElement>(null);
+  const floatingCodeRef = useRef<HTMLDivElement>(null);
+  const floatingDevsRef = useRef<HTMLDivElement>(null);
+  const techStackColumnRef = useRef<HTMLDivElement>(null);
 
-  const heroProducts = [
-    {
-      ...PRODUCTS[0], // OmniFlow CRM
-      badge: 'Bestseller CRM',
-      badgeColor: 'bg-[#e6f4f7] text-[#246e7f] border-[#246e7f]/20',
-      icon: PhoneCall,
-      headline: 'Next.js 15 Telecalling & Automated WhatsApp CRM',
-    },
-    {
-      ...PRODUCTS[1], // DungaPay
-      badge: 'Fintech Engine',
-      badgeColor: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-      icon: CreditCard,
-      headline: 'Multi-Gateway Billing & Razorpay/Stripe Orchestrator',
-    },
-    {
-      ...PRODUCTS[2], // AetherBot AI
-      badge: 'AI SaaS Platform',
-      badgeColor: 'bg-[#fff3eb] text-[#e06527] border-[#fbd8c4]',
-      icon: Bot,
-      headline: 'Multi-Tenant RAG Knowledge Base & Autonomous Agent',
-    },
-  ];
-
-  const activeProduct = heroProducts[selectedHeroIndex];
-
-  // GSAP Animations
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Intro timeline
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-      tl.from(titleRef.current, {
-        y: 35,
+      tl.from(leftContentRef.current?.children || [], {
+        y: 30,
         opacity: 0,
-        duration: 0.9,
+        stagger: 0.12,
+        duration: 0.8,
       })
-        .from(
-          subtitleRef.current,
-          {
-            y: 20,
-            opacity: 0,
-            duration: 0.7,
-          },
-          '-=0.5'
-        )
-        .from(
-          ctaRef.current,
-          {
-            y: 20,
-            opacity: 0,
-            duration: 0.6,
-          },
-          '-=0.4'
-        )
-        .from(
-          cardRef.current,
-          {
-            scale: 0.95,
-            y: 40,
-            opacity: 0,
-            duration: 1,
-            ease: 'expo.out',
-          },
-          '-=0.5'
-        );
+      .from(
+        heroImageContainerRef.current,
+        {
+          scale: 0.94,
+          opacity: 0,
+          duration: 0.9,
+        },
+        '-=0.5'
+      )
+      .from(
+        [floatingCodeRef.current, floatingDevsRef.current, techStackColumnRef.current],
+        {
+          y: 20,
+          opacity: 0,
+          stagger: 0.15,
+          duration: 0.7,
+        },
+        '-=0.4'
+      );
 
-      // Continuous Floating Physics for Badges
-      if (floatingBadge1.current) {
-        gsap.to(floatingBadge1.current, {
-          y: -10,
-          duration: 2.8,
+      // Continuous gentle floating physics
+      if (floatingCodeRef.current) {
+        gsap.to(floatingCodeRef.current, {
+          y: -8,
+          duration: 3,
           repeat: -1,
           yoyo: true,
           ease: 'sine.inOut',
         });
       }
 
-      if (floatingBadge2.current) {
-        gsap.to(floatingBadge2.current, {
-          y: 12,
-          duration: 3.2,
+      if (floatingDevsRef.current) {
+        gsap.to(floatingDevsRef.current, {
+          y: 8,
+          duration: 3.4,
           repeat: -1,
           yoyo: true,
           ease: 'sine.inOut',
-          delay: 0.4,
+          delay: 0.3,
+        });
+      }
+
+      if (techStackColumnRef.current) {
+        gsap.to(techStackColumnRef.current, {
+          y: -6,
+          duration: 2.8,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+          delay: 0.6,
         });
       }
     }, containerRef);
@@ -132,259 +100,187 @@ export function GsapHero() {
     return () => ctx.revert();
   }, []);
 
-  // 3D Magnetic Card Tilt on Mouse Move
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-
-    gsap.to(cardRef.current, {
-      rotationY: x * 0.025,
-      rotationX: -y * 0.025,
-      transformPerspective: 1000,
-      ease: 'power1.out',
-      duration: 0.5,
-    });
-  };
-
-  const handleMouseLeave = () => {
-    if (!cardRef.current) return;
-    gsap.to(cardRef.current, {
-      rotationY: 0,
-      rotationX: 0,
-      ease: 'power2.out',
-      duration: 0.7,
-    });
-  };
-
   return (
     <section
       ref={containerRef}
-      className="relative overflow-hidden bg-white pt-8 pb-16 lg:pt-14 lg:pb-24 border-b border-slate-100"
+      className="relative overflow-hidden bg-white pt-8 pb-14 lg:pt-14 lg:pb-20 border-b border-slate-100"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center max-w-4xl mx-auto space-y-6">
-          {/* Top Announcement Tag */}
-          <div className="inline-flex items-center gap-2 bg-[#e6f4f7] border border-[#246e7f]/30 px-4 py-1.5 rounded-full text-xs font-bold text-[#1a515e] shadow-xs hover:shadow-md transition-all">
-            <span className="w-2 h-2 rounded-full bg-[#e06527] animate-ping" />
-            <Sparkles className="w-3.5 h-3.5 text-[#246e7f]" />
-            <span>Official In-House Code Marketplace & SaaS Platforms</span>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+          
+          {/* Left Column: Headline, Description & CTAs (7 Cols) */}
+          <div ref={leftContentRef} className="lg:col-span-7 space-y-6 text-left">
+            
+            {/* Top Pill Tag */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#e6f4f7] text-[#246E7F] border border-[#246E7F]/20">
+              <Sparkles className="w-3.5 h-3.5 text-[#E06527]" />
+              <span>Your Technology Partner for a Smarter Tomorrow</span>
+            </div>
+
+            {/* Main Headline */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.12]">
+              Build. Hire. Scale.<br />
+              All in One <span className="text-[#E06527]">Place.</span>
+            </h1>
+
+            {/* Supporting Paragraph */}
+            <p className="text-base sm:text-lg text-slate-600 max-w-xl leading-relaxed font-normal">
+              Dunga Technologies helps businesses build powerful digital products with zero vendor lock-in. Hire expert developers on <strong className="text-slate-800 font-semibold">rent</strong>, buy ready-to-use source codes, or get custom software developed for your unique needs.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="pt-2 flex flex-wrap items-center gap-4">
+              <Link
+                href="/hire-developers"
+                className="px-6 py-3.5 bg-[#246E7F] hover:bg-[#1b5563] text-white font-bold text-sm rounded-xl shadow-md hover:shadow-lg transition-all flex items-center gap-2 group"
+              >
+                <span>Hire Developers</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+
+              <Link
+                href="/products"
+                className="px-6 py-3.5 bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm rounded-xl border border-slate-200 shadow-xs hover:border-slate-300 transition-all flex items-center gap-2"
+              >
+                <Code2 className="w-4 h-4 text-[#246E7F]" />
+                <span>Explore Ready Codes</span>
+              </Link>
+            </div>
+
+            {/* 3 Trust Points Row */}
+            <div className="pt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 border-t border-slate-100 text-xs font-semibold text-slate-700">
+              <div className="flex items-center gap-2">
+                <div className="w-5 h-5 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-200">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                </div>
+                <span>100% Source Code Ownership</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <div className="w-5 h-5 rounded-full bg-[#e6f4f7] text-[#246E7F] flex items-center justify-center shrink-0 border border-[#246E7F]/20">
+                  <Users className="w-3.5 h-3.5" />
+                </div>
+                <span>Flexible Hiring Models</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <div className="w-5 h-5 rounded-full bg-[#fff3eb] text-[#E06527] flex items-center justify-center shrink-0 border border-[#fbd8c4]">
+                  <Clock className="w-3.5 h-3.5" />
+                </div>
+                <span>On-Time Delivery & Support</span>
+              </div>
+            </div>
+
           </div>
 
-          {/* Main Headline with High-Contrast Gradient */}
-          <h1
-            ref={titleRef}
-            className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.14]"
-          >
-            Own Production Software With{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#246e7f] via-[#1a515e] to-[#e06527]">
-              Zero Vendor Lock-In.
-            </span>
-          </h1>
-
-          {/* Subtitle */}
-          <p
-            ref={subtitleRef}
-            className="text-sm sm:text-base lg:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed"
-          >
-            Buy verified, <strong>100% full unencrypted Next.js source code</strong> and turnkey SaaS engines built in-house by Dunga Technologies. Includes lifetime updates and optional <strong>24-48h VPS server deployment</strong>.
-          </p>
-
-          {/* Interactive CTAs */}
-          <div
-            ref={ctaRef}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2"
-          >
-            <Link
-              href="/products"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#246e7f] hover:bg-[#1a515e] text-white font-bold text-sm px-8 py-3.5 rounded-2xl shadow-xl shadow-[#246e7f]/25 transition-all hover:-translate-y-0.5 active:scale-95"
+          {/* Right Column: Hero Visual with Developer, Code Snippet, Tech Column & Badges (5 Cols) */}
+          <div className="lg:col-span-5 relative flex justify-center lg:justify-end">
+            
+            <div
+              ref={heroImageContainerRef}
+              className="relative w-full max-w-[460px] aspect-[4/4.2] sm:aspect-[4/4] rounded-3xl overflow-visible flex items-center justify-center"
             >
-              <Code2 className="w-4 h-4" />
-              <span>Explore Marketplace Catalog</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+              {/* Soft background glow backdrop */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#e6f4f7] via-slate-50 to-[#fff3eb] rounded-3xl -z-10 border border-slate-200/80 shadow-sm" />
 
-            <button
-              type="button"
-              onClick={() => openLiveDemo(activeProduct)}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm px-7 py-3.5 rounded-2xl border border-slate-300 shadow-sm transition-all hover:border-slate-400 active:scale-95"
-            >
-              <Play className="w-4 h-4 text-[#e06527] fill-[#e06527]" />
-              <span>Launch Live Simulator</span>
-            </button>
-          </div>
+              {/* Developer Image */}
+              <div className="relative w-[92%] h-[92%] rounded-2xl overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop"
+                  alt="Dunga Technologies Developer Team"
+                  fill
+                  priority
+                  className="object-cover object-top hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent pointer-events-none" />
+              </div>
 
-          {/* Trust Guarantees */}
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-600 font-medium">
-            <div className="flex items-center gap-1.5 bg-white/80 px-3 py-1 rounded-full border border-slate-200">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span>100% Unencrypted Source Code</span>
-            </div>
-            <div className="flex items-center gap-1.5 bg-white/80 px-3 py-1 rounded-full border border-slate-200">
-              <CheckCircle2 className="w-4 h-4 text-[#246e7f]" />
-              <span>Optional 24-48h Server Setup</span>
-            </div>
-            <div className="flex items-center gap-1.5 bg-white/80 px-3 py-1 rounded-full border border-slate-200">
-              <CheckCircle2 className="w-4 h-4 text-[#e06527]" />
-              <span>Lifetime Free Updates & Fixes</span>
-            </div>
-          </div>
-        </div>
+              {/* Floating Code Snippet Card (Top Left) */}
+              <div
+                ref={floatingCodeRef}
+                className="absolute -top-4 -left-4 sm:-left-6 bg-[#0f172a]/95 text-white p-3 rounded-2xl shadow-xl border border-slate-700/80 backdrop-blur-md max-w-[210px] z-20"
+              >
+                <div className="flex items-center gap-1.5 mb-1.5 pb-1 border-b border-slate-800 text-[10px] text-slate-400 font-mono">
+                  <span className="w-2 h-2 rounded-full bg-red-400" />
+                  <span className="w-2 h-2 rounded-full bg-amber-400" />
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  <span className="ml-1 text-[9px] text-slate-400">solution.ts</span>
+                </div>
+                <p className="text-[11px] font-mono text-emerald-400 leading-tight">
+                  <span className="text-purple-400">const</span> success = <span className="text-cyan-300">useProduct</span>();
+                </p>
+                <p className="text-[10px] font-mono text-slate-400 mt-1">
+                  // Build your idea together 🚀
+                </p>
+              </div>
 
-        {/* 3D Showcase Card with GSAP Physics */}
-        <div className="mt-10 max-w-5xl mx-auto">
-          {/* Product Switcher Tabs */}
-          <div className="flex items-center justify-center gap-2 mb-4 overflow-x-auto pb-1">
-            {heroProducts.map((p, idx) => {
-              const Icon = p.icon;
-              return (
-                <button
-                  key={p.id}
-                  type="button"
-                  onClick={() => setSelectedHeroIndex(idx)}
-                  className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold transition-all border whitespace-nowrap ${
-                    selectedHeroIndex === idx
-                      ? 'bg-[#246e7f] text-white border-[#246e7f] shadow-lg shadow-[#246e7f]/20 scale-105'
-                      : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  <span>
-                    {p.title.split(' ')[0]} {p.title.split(' ')[1]}
-                  </span>
-                  <span
-                    className={`text-[10px] px-2 py-0.5 rounded-lg font-mono ${
-                      selectedHeroIndex === idx
-                        ? 'bg-white/20 text-white'
-                        : 'bg-slate-100 text-slate-600'
-                    }`}
+              {/* Floating Dedicated Developers Card (Bottom Left) */}
+              <div
+                ref={floatingDevsRef}
+                className="absolute -bottom-4 -left-3 sm:-left-6 bg-white p-3 rounded-2xl shadow-xl border border-slate-200 z-20 flex items-center gap-3"
+              >
+                <div className="flex -space-x-2 overflow-hidden">
+                  <div className="inline-block h-8 w-8 rounded-full ring-2 ring-white overflow-hidden bg-slate-200 relative">
+                    <Image
+                      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop"
+                      alt="Developer"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="inline-block h-8 w-8 rounded-full ring-2 ring-white overflow-hidden bg-slate-200 relative">
+                    <Image
+                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop"
+                      alt="Developer"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="inline-block h-8 w-8 rounded-full ring-2 ring-white overflow-hidden bg-slate-200 relative">
+                    <Image
+                      src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=100&auto=format&fit=crop"
+                      alt="Developer"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="inline-flex h-8 w-8 rounded-full ring-2 ring-white bg-[#E06527] text-white text-[11px] font-bold items-center justify-center">
+                    <Plus className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-slate-900">Dedicated</h4>
+                  <p className="text-[11px] text-slate-500 font-medium">Developers</p>
+                </div>
+              </div>
+
+              {/* Floating Tech Stack Column (Right Edge) */}
+              <div
+                ref={techStackColumnRef}
+                className="absolute -right-3 sm:-right-6 top-6 bg-white/95 backdrop-blur-md p-2 rounded-2xl shadow-xl border border-slate-200 z-20 space-y-2"
+              >
+                {TECH_PILLS.map((tech, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-[11px] font-semibold transition-all shadow-2xs"
                   >
-                    {formatPrice(p.regularPriceINR, p.regularPriceUSD)}
-                  </span>
-                </button>
-              );
-            })}
+                    <span className={`w-2 h-2 rounded-full ${tech.iconBg}`} />
+                    <span>{tech.name}</span>
+                  </div>
+                ))}
+              </div>
+
+            </div>
+
           </div>
 
-          {/* Interactive Tilt Container */}
-          <div
-            ref={cardRef}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            className="bg-white rounded-3xl p-3 sm:p-5 shadow-2xl border border-slate-200/90 relative transition-shadow hover:shadow-3xl"
-            style={{ transformStyle: 'preserve-3d' }}
-          >
-            {/* Top Browser Bar */}
-            <div className="bg-slate-950 rounded-2xl px-4 py-3 text-white flex items-center justify-between gap-4">
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-rose-500" />
-                <span className="w-3 h-3 rounded-full bg-amber-500" />
-                <span className="w-3 h-3 rounded-full bg-emerald-500" />
-                <span className="text-xs text-slate-400 ml-2 font-mono hidden sm:inline">
-                  https://demo.dungatechnologies.com/{activeProduct.slug}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] bg-emerald-500/20 text-emerald-300 font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                  <Activity className="w-3 h-3 text-emerald-400 animate-pulse" />
-                  LIVE WORKSPACE
-                </span>
-                <button
-                  type="button"
-                  onClick={() => openLiveDemo(activeProduct)}
-                  className="bg-[#e06527] hover:bg-[#c9561c] text-white text-xs font-bold px-3 py-1 rounded-xl flex items-center gap-1 transition-colors"
-                >
-                  <Play className="w-3 h-3 fill-white" />
-                  <span>Test Simulator</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Showcase Visual Display */}
-            <div className="relative aspect-[16/9] sm:aspect-[21/9] rounded-2xl overflow-hidden mt-3 bg-slate-950 group">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={activeProduct.bannerUrl}
-                alt={activeProduct.title}
-                className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />
-
-              {/* Floating GSAP Physics Badge: Top Left */}
-              <div
-                ref={floatingBadge1}
-                className="absolute top-4 left-4 sm:top-6 sm:left-6 bg-white/95 backdrop-blur-md border border-slate-200 text-slate-900 p-3.5 rounded-2xl shadow-xl hidden sm:flex items-center gap-3 z-20"
-              >
-                <div className="w-10 h-10 rounded-xl bg-[#e6f4f7] text-[#246e7f] flex items-center justify-center font-bold">
-                  <Terminal className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-slate-900">{activeProduct.title}</div>
-                  <div className="text-[11px] text-[#246e7f] font-semibold">
-                    100% Unencrypted Source + Docker + DB Schema
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating GSAP Physics Badge: Bottom Right */}
-              <div
-                ref={floatingBadge2}
-                className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 bg-white/95 backdrop-blur-md border border-slate-200 text-slate-900 p-3.5 rounded-2xl shadow-xl flex items-center gap-3 z-20"
-              >
-                <div className="w-10 h-10 rounded-xl bg-[#fff3eb] text-[#e06527] flex items-center justify-center font-bold">
-                  <Server className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-slate-900">Optional 24-48h Server Setup</div>
-                  <div className="text-[11px] text-emerald-600 font-bold">
-                    Senior Engineer VPS & SSL Deployment (+{formatPrice(activeProduct.defaultSetupPriceINR, activeProduct.defaultSetupPriceUSD)})
-                  </div>
-                </div>
-              </div>
-
-              {/* Bottom Left Overlay Info */}
-              <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 text-white max-w-md z-10">
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className="bg-[#246e7f] text-white text-[10px] font-bold px-2 py-0.5 rounded">
-                    {activeProduct.category}
-                  </span>
-                  <span className="bg-amber-400 text-slate-950 text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-0.5">
-                    <Star className="w-3 h-3 fill-slate-950" /> {activeProduct.rating}
-                  </span>
-                </div>
-                <h3 className="text-base sm:text-xl font-bold text-white">
-                  {activeProduct.title}
-                </h3>
-                <p className="text-xs text-slate-300 line-clamp-1 mt-0.5">{activeProduct.tagline}</p>
-              </div>
-            </div>
-
-            {/* Quick Action Footer */}
-            <div className="mt-3 bg-slate-50 rounded-2xl p-3 sm:p-4 border border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-              <div className="flex items-center gap-2 text-slate-700 font-medium">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                <span>Instant ZIP Download • Bound Domain License Key • Lifetime Code Updates</span>
-              </div>
-
-              <div className="flex items-center gap-2 w-full sm:w-auto">
-                <Link
-                  href={`/products/${activeProduct.slug}`}
-                  className="flex-1 sm:flex-initial text-center bg-white hover:bg-slate-100 text-slate-800 font-bold px-4 py-2.5 rounded-xl border border-slate-200 transition-colors"
-                >
-                  View Details & Tech Specs
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => addItem(activeProduct, 'REGULAR', [])}
-                  className="flex-1 sm:flex-initial text-center bg-[#246e7f] hover:bg-[#1a515e] text-white font-bold px-5 py-2.5 rounded-xl transition-all flex items-center justify-center gap-1 shadow-md shadow-[#246e7f]/20 active:scale-95"
-                >
-                  <span>Buy Code ({formatPrice(activeProduct.regularPriceINR, activeProduct.regularPriceUSD)})</span>
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
+
+        {/* Hand-Drawn Annotation "Let's build something amazing!" */}
+        <div className="mt-8 pt-4 flex items-center justify-end pr-8 sm:pr-24 text-slate-400 font-mono text-xs italic">
+          <span>Let&apos;s build something amazing! ➔</span>
+        </div>
+
       </div>
     </section>
   );
