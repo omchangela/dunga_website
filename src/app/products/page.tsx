@@ -73,19 +73,19 @@ export default function ProductsPage() {
   }, [searchQuery, selectedCategory, selectedTech, sortBy]);
 
   return (
-    <div className="bg-slate-50 min-h-screen py-10 sm:py-14">
+    <div className="bg-slate-50 min-h-screen py-12 sm:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Page Header */}
-        <div className="max-w-3xl mb-8 space-y-2">
-          <div className="inline-flex items-center gap-2 bg-[#e6f4f7] border border-[#246e7f]/30 text-[#246e7f] text-xs font-bold px-3 py-1 rounded-full">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Proprietary Marketplace</span>
+        <div className="max-w-3xl mb-10 space-y-3">
+          <div className="inline-flex items-center gap-2 bg-[#e6f4f7] border border-[#246e7f]/30 text-[#246e7f] text-xs font-bold px-3.5 py-1.5 rounded-full shadow-2xs">
+            <Sparkles className="w-3.5 h-3.5 text-[#E06527]" />
+            <span>100% IN-HOUSE PROPRIETARY SOURCE CODE</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-            Proprietary Software & Source Code
+          <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight font-heading leading-tight">
+            Production-Ready <span className="text-[#246E7F]">Source Code</span> & SaaS Marketplace
           </h1>
-          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-            Acquire fully-built, battle-tested source code and SaaS scripts developed in-house by Dunga Technologies. Includes complete database schemas, unencrypted codebases, and optional server installation.
+          <p className="text-xs sm:text-base text-slate-600 leading-relaxed font-normal">
+            Acquire fully-built, battle-tested source code and SaaS scripts developed exclusively in-house by Dunga Technologies. Includes complete database schemas, unencrypted codebases, lifetime updates, and optional 24-48h server setup.
           </p>
         </div>
 

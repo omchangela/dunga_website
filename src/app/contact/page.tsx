@@ -34,19 +34,23 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen py-10 sm:py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <div className="bg-gradient-to-b from-slate-50 via-white to-slate-50 min-h-screen py-12 sm:py-20 relative overflow-hidden">
+      
+      {/* Background Dot Pattern */}
+      <div className="absolute inset-0 bg-dot-pattern opacity-30 pointer-events-none"></div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14 relative z-10">
         {/* Header */}
-        <div className="max-w-3xl space-y-3">
-          <div className="inline-flex items-center gap-2 bg-[#e6f4f7] border border-[#246e7f]/20 text-[#246e7f] text-xs font-bold px-3.5 py-1 rounded-full shadow-xs">
-            <Headphones className="w-3.5 h-3.5 text-[#e06527]" />
-            <span>Direct Engineering Consultation & Custom Solutions</span>
+        <div className="max-w-3xl space-y-4">
+          <div className="inline-flex items-center gap-2 bg-[#e6f4f7] border border-[#246e7f]/20 text-[#246e7f] text-xs font-bold px-3.5 py-1.5 rounded-full shadow-xs">
+            <Sparkles className="w-3.5 h-3.5 text-[#E06527]" />
+            <span>DIRECT ENGINEERING CONSULTATION & CUSTOM QUOTES</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
-            Let&apos;s Build & Scale Your Product
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight font-heading leading-tight">
+            Let&apos;s Build & Scale Your <span className="text-[#246E7F]">Digital Products</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-            Need to hire dedicated developers, acquire our proprietary source code, book a CodeCanyon server setup, or request custom software architecture? Reach out to our engineering offices.
+          <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+            Need to hire dedicated developers on rent, acquire proprietary source code, book a server deployment, or get bespoke enterprise software built? Reach out directly to our engineering headquarters.
           </p>
         </div>
 
@@ -54,7 +58,7 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left 7 cols: Interactive Form */}
           <div className="lg:col-span-7">
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm">
+            <div className="bg-white rounded-3xl p-7 sm:p-10 border border-slate-200/90 shadow-sm">
               {isSubmitted ? (
                 <div className="text-center py-12 space-y-4">
                   <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">

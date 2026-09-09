@@ -16,8 +16,14 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, 'Plus Jakarta Sans', 'Inter', 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-jakarta), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   overflow-x: hidden;
+}
+
+/* Heading font helper */
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: var(--font-outfit), var(--font-jakarta), sans-serif;
+  letter-spacing: -0.025em;
 }
 
 /* Custom Scrollbars */
@@ -74,9 +80,48 @@ body {
 }
 
 .hover-lift {
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s ease;
 }
 .hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 30px -10px rgba(15, 23, 42, 0.08);
+  transform: translateY(-6px);
+  box-shadow: 0 24px 40px -12px rgba(15, 23, 42, 0.12);
 }
+
+/* 3D Float Animation */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1.5deg);
+  }
+}
+
+.animate-float-slow {
+  animation: floatSlow 4s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.08);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* 3D Specular Shadow Utility */
+.shadow-3d-teal {
+  box-shadow: 0 12px 24px -6px rgba(36, 110, 127, 0.25), 0 4px 8px -2px rgba(36, 110, 127, 0.15);
+}
+
+.shadow-3d-orange {
+  box-shadow: 0 12px 24px -6px rgba(224, 101, 39, 0.25), 0 4px 8px -2px rgba(224, 101, 39, 0.15);
+}
+

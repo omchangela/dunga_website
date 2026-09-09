@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Plus_Jakarta_Sans } from 'next/font/google';
+import { Plus_Jakarta_Sans, Outfit } from 'next/font/google';
 import './globals.css';
 import { ClientProviders } from '@/components/providers/ClientProviders';
 
@@ -7,6 +7,14 @@ const jakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
   variable: '--font-jakarta',
   display: 'swap',
+  weight: ['400', '500', '600', '700', '800'],
+});
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-outfit',
+  display: 'swap',
+  weight: ['400', '500', '600', '700', '800', '900'],
 });
 
 export const metadata: Metadata = {
@@ -90,7 +98,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={jakartaSans.variable}>
+    <html lang="en" className={`${jakartaSans.variable} ${outfit.variable} scroll-smooth`}>
       <head>
         <script
           type="application/ld+json"
