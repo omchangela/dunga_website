@@ -60,14 +60,14 @@ export function TechBrandIcon({ name, className = 'w-6 h-6', size }: TechIconPro
     );
   }
 
-  // Laravel 11 (Official Red Isometric Layered Cube)
+  // Laravel 11 (Official Laravel Faceted Origami Vector)
   if (normalized.includes('laravel')) {
     return (
-      <svg className={className} style={style} viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M23.642 5.148l-9.16-5.07c-.446-.247-.988-.247-1.434 0L3.89 5.148c-.446.247-.722.724-.722 1.238v10.14c0 .514.276.991.722 1.238l9.16 5.07c.223.123.468.185.717.185.249 0 .494-.062.717-.185l9.16-5.07c.446-.247.722-.724.722-1.238V6.386c0-.514-.276-.991-.722-1.238zM12.75 2.152l7.77 4.303-3.13 1.733-7.77-4.303 3.13-1.733zm-1.5 0l3.13 1.733-7.77 4.303-3.13-1.733 7.77-4.303zm-8 5.63l7.25 4.014v8.606l-7.25-4.014V7.782zm8.75 12.62V11.796l7.25-4.014v8.606l-7.25 4.014z"
-          fill="#FF2D20"
-        />
+      <svg className={className} style={style} viewBox="0 0 50 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M48.358 11.758L36.35 4.826a2.308 2.308 0 0 0-2.308 0L23.676 10.87l10.99 6.347 13.692-5.459z" fill="#FF2D20" />
+        <path d="M22.118 13.788v12.695l10.99 6.346V20.134l-10.99-6.346z" fill="#FF2D20" />
+        <path d="M36.078 21.846v12.693l10.99-6.345V15.498l-10.99 6.348z" fill="#FF2D20" />
+        <path d="M26.25 38.238l-10.99-6.346V19.198L4.27 12.852a2.308 2.308 0 0 0-2.308 0L.987 13.415A2.308 2.308 0 0 0 0 15.414v17.701c0 1.066.568 2.051 1.487 2.582l23.21 13.4a2.308 2.308 0 0 0 2.308 0l10.99-6.347-10.99-6.346-.755.434z" fill="#FF2D20" />
       </svg>
     );
   }
