@@ -1,0 +1,130 @@
+// Dunga Technologies — Prisma Database Schema
+// PostgreSQL Database Connection for Next.js Serverless on Vercel
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ----------------------------------------------------
+// 1. Client Inquiries & Live Inbound Leads
+// ----------------------------------------------------
+model Inquiry {
+  id               String   @id @default(cuid())
+  inquiryCode      String   @unique // e.g. "INQ-3530"
+  name             String
+  email            String
+  phone            String
+  company          String?
+  type             String   // "Developer Hire" | "Source Code License" | "Custom Software" | "Script Installation" | "Tech Consultancy" | "Project Estimation" | "General"
+  serviceOrProduct String
+  budget           String?
+  message          String
+  priority         String   @default("Medium") // "High" | "Medium" | "Urgent"
+  sourcePage       String   @default("Website Contact")
+  status           String   @default("New") // "New" | "In Review" | "Contacted" | "Converted" | "Archived"
+  notes            String[] @default([])
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([status])
+  @@index([email])
+  @@index([createdAt])
+}
+
+// ----------------------------------------------------
+// 2. Administrator Authentication & Profile
+// ----------------------------------------------------
+model AdminUser {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         String   @default("Super Administrator")
+  isActive     Boolean  @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// ----------------------------------------------------
+// 3. Developer Roster & Capacity Management
+// ----------------------------------------------------
+model Developer {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  name            String
+  role            String
+  experienceLabel String
+  rating          Float    @default(4.9)
+  completedSprints Int     @default(24)
+  availability    String   @default("Available Now") // "Available Now" | "In Project" | "Available Soon"
+  liveStatusText  String   @default("Available for Immediate Onboarding")
+  currentSprintName String?
+  hourlyRateINR   Int
+  hourlyRateUSD   Int
+  monthlyRateINR  Int
+  monthlyRateUSD  Int
+  keyTechnologies String[]
+  avatarUrl       String
+  bio             String
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([availability])
+}
+
+// ----------------------------------------------------
+// 4. Source Code Products & Software Suites
+// ----------------------------------------------------
+model Product {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  title            String
+  category         String
+  shortDescription String
+  fullDescription  String
+  regularPriceINR  Int
+  regularPriceUSD  Int
+  extendedPriceINR Int
+  extendedPriceUSD Int
+  salesCount       Int      @default(0)
+  rating           Float    @default(4.9)
+  thumbnailUrl     String
+  liveDemoUrl      String?
+  techStack        String[]
+  featured         Boolean  @default(false)
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+// ----------------------------------------------------
+// 5. Client Orders, Payments & License Keys
+// ----------------------------------------------------
+model Order {
+  id             String   @id @default(cuid())
+  orderNumber    String   @unique // e.g. "ORD-8821"
+  customerName   String
+  email          String
+  phone          String?
+  productTitle   String
+  licenseType    String   // "Regular Single Domain" | "Extended Commercial" | "Service Addon"
+  amountINR      Int
+  amountUSD      Int
+  currency       String   @default("INR")
+  paymentMethod  String   // "Razorpay" | "Stripe" | "Bank Transfer"
+  paymentId      String?
+  licenseKey     String   @unique // e.g. "DNGA-OF-9942-8812-XTND"
+  status         String   @default("Completed") // "Completed" | "Processing" | "Refunded"
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([email])
+  @@index([licenseKey])
+}
