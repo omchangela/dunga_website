@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { inquiryStore, Inquiry } from '@/lib/inquiryStore';
 import { DEVELOPERS_DATA } from '@/data/developers';
 import { PRODUCTS } from '@/data/products';
+import { useAdminAuth } from '@/context/AdminAuthContext';
 import { useCurrency } from '@/context/CurrencyContext';
 import { InquiryDetailModal } from '@/components/admin/InquiryDetailModal';
 import {
@@ -27,6 +28,7 @@ import {
 } from 'lucide-react';
 
 export default function AdminDashboardPage() {
+  const { adminUser } = useAdminAuth();
   const { formatPrice, currency } = useCurrency();
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [selectedInquiry, setSelectedInquiry] = useState<Inquiry | null>(null);
