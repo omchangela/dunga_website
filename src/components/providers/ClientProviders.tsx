@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { CurrencyProvider } from '@/context/CurrencyContext';
 import { CartProvider } from '@/context/CartContext';
 import { Navbar } from '@/components/common/Navbar';
@@ -11,7 +12,21 @@ import { SearchModal } from '@/components/common/SearchModal';
 
 export function ClientProviders({ children }: { children: React.ReactNode }) {
   const [searchOpen, setSearchOpen] = useState(false);
+  const pathname = usePathname();
+  const isAdmin = pathname?.startsWith('/admin');
 
+  // If in admin portal or admin login, provide contexts without consumer Navbar/Footer/CartDrawer
+  if (isAdmin) {
+    return (
+      <CurrencyProvider>
+        <CartProvider>
+          {children}
+        </CartProvider>
+      </CurrencyProvider>
+    );
+  }
+
+  // Public consumer website layout
   return (
     <CurrencyProvider>
       <CartProvider>
@@ -27,3 +42,4 @@ export function ClientProviders({ children }: { children: React.ReactNode }) {
     </CurrencyProvider>
   );
 }
+
