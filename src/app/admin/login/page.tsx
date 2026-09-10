@@ -11,12 +11,8 @@ import {
   Eye, 
   EyeOff, 
   ArrowRight, 
-  Sparkles, 
-  Zap, 
-  CheckCircle2, 
   AlertCircle,
   KeyRound,
-  Layers,
   ArrowLeft
 } from 'lucide-react';
 
@@ -55,12 +51,6 @@ export default function AdminLoginPage() {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleFillDemo = () => {
-    setEmail('admin@dungatechnologies.com');
-    setPassword('admin123');
-    setErrorMessage('');
   };
 
   return (
@@ -125,21 +115,6 @@ export default function AdminLoginPage() {
             </div>
           )}
 
-          {/* Quick Demo Fill Button */}
-          <button
-            type="button"
-            onClick={handleFillDemo}
-            className="w-full py-2.5 px-3 rounded-xl bg-slate-50 hover:bg-[#e6f4f7]/50 border border-slate-200 hover:border-teal-300 text-xs font-semibold text-slate-700 hover:text-slate-900 flex items-center justify-between transition-all group cursor-pointer"
-          >
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-3.5 h-3.5 text-[#E06527] group-hover:rotate-12 transition-transform" />
-              <span>Click to Autofill Demo Credentials</span>
-            </div>
-            <span className="text-[10px] bg-slate-200/80 text-slate-700 px-2 py-0.5 rounded font-mono font-bold">
-              admin123
-            </span>
-          </button>
-
           {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             
@@ -155,7 +130,7 @@ export default function AdminLoginPage() {
                 <input
                   type="email"
                   required
-                  placeholder="admin@dungatechnologies.com"
+                  placeholder="admin@dunga.in"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-3.5 py-3 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#246E7F] focus:border-transparent transition-all"
@@ -169,9 +144,6 @@ export default function AdminLoginPage() {
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
                   Password
                 </label>
-                <span className="text-[11px] text-slate-500 font-medium">
-                  Default: <code className="text-[#E06527] font-bold">admin123</code>
-                </span>
               </div>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">

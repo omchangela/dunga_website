@@ -12,13 +12,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Default Super Admin Credentials
-    const defaultEmail = 'admin@dungatechnologies.com';
+    // Default Super Admin Credentials Fallback
+    const validEmails = ['admin@dunga.in', 'admin@dungatechnologies.com', 'admin@dunga.com'];
     const defaultPassword = 'admin123';
 
     if (process.env.DATABASE_URL) {
       const adminUser = await prisma.adminUser.findUnique({
-        where: { email },
+        where: { email: email.toLowerCase().trim() },
       });
 
       if (adminUser) {
@@ -42,13 +42,13 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Default Demo Login Fallback
-    if (email.toLowerCase() === defaultEmail && password === defaultPassword) {
+    // Default Fallback
+    if (validEmails.includes(email.toLowerCase().trim()) && password === defaultPassword) {
       return NextResponse.json({
         success: true,
         user: {
           name: 'Om Changela',
-          email: 'admin@dungatechnologies.com',
+          email: email.toLowerCase().trim(),
           role: 'Super Administrator & Founder',
         },
         token: `dunga_admin_session_${Date.now()}`,
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { success: false, error: 'Invalid admin credentials.' },
+      { success: false, error: 'Invalid email or password.' },
       { status: 401 }
     );
   } catch (error: any) {

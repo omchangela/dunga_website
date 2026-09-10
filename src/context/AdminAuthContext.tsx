@@ -55,6 +55,7 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     
     // Accept primary admin credentials or demo credentials
     if (
+      (trimmedEmail === 'admin@dunga.in' && pass === 'admin123') ||
       (trimmedEmail === 'admin@dungatechnologies.com' && pass === 'admin123') ||
       (trimmedEmail === 'admin@dunga.com' && pass === 'admin123') ||
       (trimmedEmail.includes('@') && pass.length >= 6) // flexible for owner testing
@@ -62,7 +63,7 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       const user: AdminUser = {
         ...DEFAULT_ADMIN,
         email: trimmedEmail,
-        name: trimmedEmail === 'admin@dungatechnologies.com' ? 'Om Changela' : trimmedEmail.split('@')[0],
+        name: trimmedEmail === 'admin@dunga.in' || trimmedEmail === 'admin@dungatechnologies.com' ? 'Om Changela' : trimmedEmail.split('@')[0],
         lastLogin: new Date().toISOString()
       };
       
@@ -77,7 +78,7 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
     return { 
       success: false, 
-      error: 'Invalid admin credentials. Please use admin@dungatechnologies.com / admin123' 
+      error: 'Invalid email or password. Please verify your credentials and try again.' 
     };
   };
 
