@@ -18,6 +18,7 @@ import {
   DollarSign,
 } from 'lucide-react';
 import { useCurrency } from '@/context/CurrencyContext';
+import { inquiryStore } from '@/lib/inquiryStore';
 
 interface FeatureOption {
   id: string;
@@ -58,6 +59,9 @@ export function ProjectEstimator() {
     );
   };
 
+  const [estName, setEstName] = useState('');
+  const [estContact, setEstContact] = useState('');
+
   // Calculations
   const currentBase = basePrices[projectType];
   const featuresCostINR = selectedFeatures.reduce((acc, fId) => {
@@ -82,6 +86,18 @@ export function ProjectEstimator() {
 
   const handleSubmitEstimate = (e: React.FormEvent) => {
     e.preventDefault();
+    inquiryStore.addInquiry({
+      name: estName || 'Project Lead',
+      email: estContact.includes('@') ? estContact : `${estName.toLowerCase().replace(/\s+/g, '')}@estimate.lead`,
+      phone: !estContact.includes('@') ? estContact : '+91 98765 00000',
+      type: 'Project Estimation',
+      serviceOrProduct: `${currentBase.label} (${timelineSpeed.toUpperCase()})`,
+      budget: `${formatPrice(totalCostINR, totalCostUSD)} (~${totalDays} Days)`,
+      message: `Interactive Estimate Request: Scope: ${currentBase.label}. Speed: ${timelineSpeed}. Selected Addons: ${selectedFeatures.length > 0 ? selectedFeatures.join(', ') : 'None'}. Projected Cost: ${formatPrice(totalCostINR, totalCostUSD)} in ${totalDays} working days.`,
+      priority: 'High',
+      sourcePage: '/project-estimation',
+      status: 'New'
+    });
     setFormSubmitted(true);
     setTimeout(() => setFormSubmitted(false), 3500);
   };
@@ -262,6 +278,8 @@ export function ProjectEstimator() {
                     type="text"
                     required
                     placeholder="e.g. Amit Patel"
+                    value={estName}
+                    onChange={(e) => setEstName(e.target.value)}
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#246e7f]"
                   />
                 </div>
@@ -271,6 +289,8 @@ export function ProjectEstimator() {
                     type="text"
                     required
                     placeholder="amit@company.com or +91 98765..."
+                    value={estContact}
+                    onChange={(e) => setEstContact(e.target.value)}
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#246e7f]"
                   />
                 </div>

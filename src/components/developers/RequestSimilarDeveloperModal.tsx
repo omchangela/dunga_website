@@ -1,9 +1,8 @@
-'use client';
-
 import React, { useState } from 'react';
 import { X, CheckCircle2, ShieldCheck, Sparkles, Send, Users } from 'lucide-react';
 import { DeveloperProfile } from '@/data/developers';
 import { useCurrency } from '@/context/CurrencyContext';
+import { inquiryStore } from '@/lib/inquiryStore';
 
 interface Props {
   developer?: DeveloperProfile | null;
@@ -27,6 +26,18 @@ export function RequestSimilarDeveloperModal({ developer, baseDeveloper, isOpen 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    inquiryStore.addInquiry({
+      name: clientName,
+      email: clientEmail,
+      phone: clientPhone,
+      type: 'Developer Hire',
+      serviceOrProduct: `Similar Match for ${targetDev.name} (${teamSize})`,
+      budget: duration,
+      message: `Similar Developer Match Request: Team Size: ${teamSize}, Duration: ${duration}. Key Stack: ${targetDev.keyTechnologies.join(', ')}. Brief: ${projectBrief || 'Looking for similar skills profile.'}`,
+      priority: 'High',
+      sourcePage: '/hire-developers',
+      status: 'New'
+    });
     setIsSubmitted(true);
     setTimeout(() => {
       setIsSubmitted(false);

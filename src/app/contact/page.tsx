@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { useCurrency } from '@/context/CurrencyContext';
 import { BRANCH_LOCATIONS } from '@/data/branches';
+import { inquiryStore } from '@/lib/inquiryStore';
 
 export default function ContactPage() {
   const { formatPrice } = useCurrency();
@@ -30,6 +31,18 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    inquiryStore.addInquiry({
+      name,
+      email,
+      phone,
+      type: service.includes('Hire') ? 'Developer Hire' : service.includes('Code') ? 'Source Code License' : 'Custom Software',
+      serviceOrProduct: service,
+      budget,
+      message,
+      priority: 'High',
+      sourcePage: '/contact',
+      status: 'New'
+    });
     setIsSubmitted(true);
   };
 

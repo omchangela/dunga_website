@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { DeveloperProfile } from '@/data/developers';
 import { useCurrency } from '@/context/CurrencyContext';
+import { inquiryStore } from '@/lib/inquiryStore';
 import { 
   X, 
   CheckCircle2, 
@@ -49,8 +50,20 @@ export const HireDeveloperModal: React.FC<HireDeveloperModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    inquiryStore.addInquiry({
+      name: fullName,
+      email,
+      phone,
+      company: company || undefined,
+      type: 'Developer Hire',
+      serviceOrProduct: `${developer.name} (${selectedModel} Engagement)`,
+      budget: selectedModel === 'Hourly' ? `${formatPrice(developer.hourlyRateINR, developer.hourlyRateUSD)}/hr` : `${formatPrice(developer.monthlyRateINR, developer.monthlyRateUSD)}/mo`,
+      message: `Developer Hire Request: Start Date: ${startDate}. ${projectDescription || 'Client looking to onboard this developer.'}`,
+      priority: 'High',
+      sourcePage: `/hire-developers/${developer.slug}`,
+      status: 'New'
+    });
     setIsSubmitted(true);
-    // In real app, API POST or WhatsApp trigger
   };
 
   const handleReset = () => {
