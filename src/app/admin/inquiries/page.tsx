@@ -137,11 +137,11 @@ export default function AdminInquiriesPage() {
 
   const statusTabs = [
     { label: 'All', count: inquiries.length },
-    { label: 'New', count: inquiries.filter((i) => i.status === 'New').length, color: 'text-emerald-400 bg-emerald-500/10' },
-    { label: 'In Review', count: inquiries.filter((i) => i.status === 'In Review').length, color: 'text-amber-400 bg-amber-500/10' },
-    { label: 'Contacted', count: inquiries.filter((i) => i.status === 'Contacted').length, color: 'text-blue-400 bg-blue-500/10' },
-    { label: 'Converted', count: inquiries.filter((i) => i.status === 'Converted').length, color: 'text-purple-400 bg-purple-500/10' },
-    { label: 'Archived', count: inquiries.filter((i) => i.status === 'Archived').length, color: 'text-slate-400 bg-slate-800' }
+    { label: 'New', count: inquiries.filter((i) => i.status === 'New').length, color: 'text-emerald-700 bg-emerald-50 border border-emerald-200' },
+    { label: 'In Review', count: inquiries.filter((i) => i.status === 'In Review').length, color: 'text-amber-700 bg-amber-50 border border-amber-200' },
+    { label: 'Contacted', count: inquiries.filter((i) => i.status === 'Contacted').length, color: 'text-blue-700 bg-blue-50 border border-blue-200' },
+    { label: 'Converted', count: inquiries.filter((i) => i.status === 'Converted').length, color: 'text-purple-700 bg-purple-50 border border-purple-200' },
+    { label: 'Archived', count: inquiries.filter((i) => i.status === 'Archived').length, color: 'text-slate-600 bg-slate-100 border border-slate-200' }
   ];
 
   return (
@@ -150,10 +150,10 @@ export default function AdminInquiriesPage() {
       {/* Top Header & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
             Client Inquiries & Live Leads
           </h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-500">
             Real-time feed of all contact submissions, hire developer bookings, and estimation requests.
           </p>
         </div>
@@ -161,7 +161,7 @@ export default function AdminInquiriesPage() {
         <div className="flex items-center gap-2 flex-wrap">
           <button
             onClick={() => setIsAddingManual(true)}
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-gradient-to-r from-[#246E7F] to-[#1b5563] text-white text-xs font-bold rounded-xl shadow-md shadow-[#246E7F]/20 hover:brightness-110 transition-all cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-[#246E7F] hover:bg-[#1a5563] text-white text-xs font-bold rounded-xl shadow-md shadow-[#246E7F]/20 transition-all cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>Add Manual Lead</span>
@@ -169,7 +169,7 @@ export default function AdminInquiriesPage() {
 
           <button
             onClick={handleExportCSV}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-bold rounded-xl border border-slate-800 transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 text-xs font-bold rounded-xl border border-slate-200 transition-colors shadow-xs cursor-pointer"
           >
             <Download className="w-4 h-4" />
             <span>Export CSV</span>
@@ -179,16 +179,16 @@ export default function AdminInquiriesPage() {
 
       {/* Manual Lead Modal */}
       {isAddingManual && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm overflow-y-auto">
-          <div className="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl text-white my-8">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <Plus className="w-4 h-4 text-teal-400" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs overflow-y-auto">
+          <div className="relative w-full max-w-lg bg-white border border-slate-200 rounded-3xl p-6 shadow-2xl text-slate-900 my-8">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+              <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                <Plus className="w-4 h-4 text-[#246E7F]" />
                 <span>Log New Inbound Lead Manually</span>
               </h3>
               <button
                 onClick={() => setIsAddingManual(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-white bg-slate-800"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 bg-slate-100"
               >
                 ✕
               </button>
@@ -196,49 +196,49 @@ export default function AdminInquiriesPage() {
 
             <form onSubmit={handleCreateManualLead} className="space-y-3 text-xs">
               <div>
-                <label className="block text-[11px] font-bold text-slate-300 uppercase mb-1">Client Full Name *</label>
+                <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">Client Full Name *</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Vikramaditya Joshi"
                   value={manualName}
                   onChange={(e) => setManualName(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-[#246E7F]"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#246E7F]"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-300 uppercase mb-1">Email Address *</label>
+                  <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">Email Address *</label>
                   <input
                     type="email"
                     required
                     placeholder="client@company.com"
                     value={manualEmail}
                     onChange={(e) => setManualEmail(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-[#246E7F]"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#246E7F]"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-300 uppercase mb-1">Phone / WhatsApp *</label>
+                  <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">Phone / WhatsApp *</label>
                   <input
                     type="tel"
                     required
                     placeholder="+91 98765 43210"
                     value={manualPhone}
                     onChange={(e) => setManualPhone(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-[#246E7F]"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#246E7F]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-300 uppercase mb-1">Inquiry Type</label>
+                  <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">Inquiry Type</label>
                   <select
                     value={manualType}
                     onChange={(e) => setManualType(e.target.value as InquiryType)}
-                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-[#246E7F]"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#246E7F]"
                   >
                     <option value="Developer Hire">Developer Hire</option>
                     <option value="Custom Software">Custom Software</option>
@@ -250,36 +250,36 @@ export default function AdminInquiriesPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-300 uppercase mb-1">Company / Entity</label>
+                  <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">Company / Entity</label>
                   <input
                     type="text"
                     placeholder="Acme Tech Labs"
                     value={manualCompany}
                     onChange={(e) => setManualCompany(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-[#246E7F]"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#246E7F]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-slate-300 uppercase mb-1">Service or Product Title</label>
+                <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">Service or Product Title</label>
                 <input
                   type="text"
                   placeholder="e.g. Next.js 15 Senior Developer (Hourly)"
                   value={manualService}
                   onChange={(e) => setManualService(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-[#246E7F]"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#246E7F]"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-slate-300 uppercase mb-1">Client Requirements & Notes</label>
+                <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">Client Requirements & Notes</label>
                 <textarea
                   rows={3}
                   placeholder="Details discussed with client..."
                   value={manualMessage}
                   onChange={(e) => setManualMessage(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:ring-2 focus:ring-[#246E7F]"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-900 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#246E7F]"
                 />
               </div>
 
@@ -287,13 +287,13 @@ export default function AdminInquiriesPage() {
                 <button
                   type="button"
                   onClick={() => setIsAddingManual(false)}
-                  className="px-4 py-2 bg-slate-800 text-slate-300 hover:text-white rounded-xl"
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-medium"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-[#246E7F] hover:bg-[#1b5563] text-white font-bold rounded-xl"
+                  className="px-5 py-2 bg-[#246E7F] hover:bg-[#1a5563] text-white font-bold rounded-xl shadow-xs"
                 >
                   Save Inbound Lead
                 </button>
@@ -304,7 +304,7 @@ export default function AdminInquiriesPage() {
       )}
 
       {/* Filter & Search Controls */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 sm:p-5 shadow-xl space-y-4">
+      <div className="bg-white border border-slate-200 rounded-3xl p-4 sm:p-5 shadow-xs space-y-4">
         
         {/* Status Tab Pills */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
@@ -314,13 +314,13 @@ export default function AdminInquiriesPage() {
               onClick={() => setStatusFilter(tab.label)}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${
                 statusFilter === tab.label
-                  ? 'bg-gradient-to-r from-[#246E7F] to-[#1b5563] text-white shadow-md shadow-[#246E7F]/20'
-                  : 'bg-slate-950/60 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800'
+                  ? 'bg-[#246E7F] text-white shadow-xs'
+                  : 'bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 border border-slate-200'
               }`}
             >
               <span>{tab.label}</span>
               <span className={`text-[10px] px-2 py-0.2 rounded-full font-bold ${
-                statusFilter === tab.label ? 'bg-white/20 text-white' : tab.color || 'bg-slate-800 text-slate-400'
+                statusFilter === tab.label ? 'bg-white/20 text-white' : tab.color || 'bg-slate-200 text-slate-700'
               }`}>
                 {tab.count}
               </span>
@@ -329,16 +329,16 @@ export default function AdminInquiriesPage() {
         </div>
 
         {/* Search & Secondary Type Filter */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 pt-2 border-t border-slate-800/80">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 pt-2 border-t border-slate-100">
           
           <div className="md:col-span-8 relative">
-            <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
             <input
               type="text"
               placeholder="Search by client name, email, phone, company, or requirement keywords..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#246E7F]"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#246E7F]"
             />
           </div>
 
@@ -346,7 +346,7 @@ export default function AdminInquiriesPage() {
             <select
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-300 font-semibold focus:outline-none focus:ring-2 focus:ring-[#246E7F] cursor-pointer"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 font-semibold focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#246E7F] cursor-pointer"
             >
               <option value="All">All Categories ({inquiries.length})</option>
               <option value="Developer Hire">Developer Hire</option>
@@ -363,11 +363,11 @@ export default function AdminInquiriesPage() {
       </div>
 
       {/* Inquiries Table / List */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+      <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-xs">
         {filteredInquiries.length > 0 ? (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-slate-300">
-              <thead className="bg-slate-950/80 text-[11px] uppercase font-bold text-slate-400 border-b border-slate-800">
+            <table className="w-full text-left text-xs text-slate-700">
+              <thead className="bg-slate-50 text-[11px] uppercase font-bold text-slate-500 border-b border-slate-200">
                 <tr>
                   <th className="px-5 py-3.5">Lead / Client</th>
                   <th className="px-5 py-3.5">Category & Requirement</th>
@@ -377,7 +377,7 @@ export default function AdminInquiriesPage() {
                   <th className="px-5 py-3.5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80">
+              <tbody className="divide-y divide-slate-100">
                 {filteredInquiries.map((inq) => {
                   const cleanPhone = inq.phone.replace(/[^0-9]/g, '');
                   const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(
@@ -387,26 +387,26 @@ export default function AdminInquiriesPage() {
                   return (
                     <tr
                       key={inq.id}
-                      className="hover:bg-slate-800/40 transition-colors cursor-pointer group"
+                      className="hover:bg-slate-50/80 transition-colors cursor-pointer group"
                     >
                       {/* Client Info */}
                       <td className="px-5 py-4" onClick={() => setSelectedInquiry(inq)}>
                         <div className="space-y-0.5">
                           <div className="flex items-center gap-2">
-                            <span className="text-xs font-mono font-bold text-teal-400">
+                            <span className="text-xs font-mono font-bold text-[#246E7F]">
                               {inq.id}
                             </span>
-                            <span className="font-bold text-white group-hover:text-teal-300 transition-colors">
+                            <span className="font-bold text-slate-900 group-hover:text-[#246E7F] transition-colors">
                               {inq.name}
                             </span>
                           </div>
-                          <div className="text-[11px] text-slate-400 flex items-center gap-2">
+                          <div className="text-[11px] text-slate-500 flex items-center gap-2">
                             <span>{inq.email}</span>
                             <span>•</span>
                             <span>{inq.phone}</span>
                           </div>
                           {inq.company && (
-                            <span className="text-[10px] text-slate-500 block">
+                            <span className="text-[10px] text-slate-500 font-medium block">
                               🏢 {inq.company}
                             </span>
                           )}
@@ -416,13 +416,13 @@ export default function AdminInquiriesPage() {
                       {/* Requirement & Service */}
                       <td className="px-5 py-4 max-w-xs" onClick={() => setSelectedInquiry(inq)}>
                         <div className="space-y-1">
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-800 text-slate-300">
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700">
                             {inq.type}
                           </span>
-                          <p className="font-semibold text-white truncate">
+                          <p className="font-bold text-slate-900 truncate">
                             {inq.serviceOrProduct}
                           </p>
-                          <p className="text-[11px] text-slate-400 truncate">
+                          <p className="text-[11px] text-slate-500 truncate">
                             {inq.message}
                           </p>
                         </div>
@@ -430,7 +430,7 @@ export default function AdminInquiriesPage() {
 
                       {/* Budget */}
                       <td className="px-5 py-4" onClick={() => setSelectedInquiry(inq)}>
-                        <span className="font-bold text-amber-300">
+                        <span className="font-bold text-[#E06527]">
                           {inq.budget || 'Custom Scope'}
                         </span>
                       </td>
@@ -446,14 +446,14 @@ export default function AdminInquiriesPage() {
                           }}
                           className={`text-[11px] font-bold px-2.5 py-1 rounded-xl border focus:outline-none cursor-pointer ${
                             inq.status === 'New'
-                              ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                              ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
                               : inq.status === 'In Review'
-                              ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                              ? 'bg-amber-50 text-amber-700 border-amber-300'
                               : inq.status === 'Contacted'
-                              ? 'bg-blue-500/20 text-blue-300 border-blue-500/40'
+                              ? 'bg-blue-50 text-blue-700 border-blue-300'
                               : inq.status === 'Converted'
-                              ? 'bg-purple-500/20 text-purple-300 border-purple-500/40'
-                              : 'bg-slate-800 text-slate-400 border-slate-700'
+                              ? 'bg-purple-50 text-purple-700 border-purple-300'
+                              : 'bg-slate-100 text-slate-600 border-slate-300'
                           }`}
                         >
                           <option value="New">🟢 New</option>
@@ -465,9 +465,9 @@ export default function AdminInquiriesPage() {
                       </td>
 
                       {/* Received Date */}
-                      <td className="px-5 py-4 text-slate-400 text-[11px]" onClick={() => setSelectedInquiry(inq)}>
-                        <div>{new Date(inq.createdAt).toLocaleDateString()}</div>
-                        <div className="text-[10px] text-slate-500">
+                      <td className="px-5 py-4 text-slate-500 text-[11px]" onClick={() => setSelectedInquiry(inq)}>
+                        <div className="font-medium text-slate-700">{new Date(inq.createdAt).toLocaleDateString()}</div>
+                        <div className="text-[10px] text-slate-400">
                           {new Date(inq.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </div>
                       </td>
@@ -479,7 +479,7 @@ export default function AdminInquiriesPage() {
                             href={whatsappUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-2 rounded-lg bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white transition-colors"
+                            className="p-2 rounded-lg bg-emerald-50 hover:bg-emerald-600 text-emerald-600 hover:text-white border border-emerald-200 transition-colors"
                             title="Instant WhatsApp Chat"
                           >
                             <MessageSquare className="w-3.5 h-3.5" />
@@ -487,7 +487,7 @@ export default function AdminInquiriesPage() {
 
                           <a
                             href={`mailto:${inq.email}`}
-                            className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-teal-400 hover:text-white transition-colors"
+                            className="p-2 rounded-lg bg-slate-100 hover:bg-[#246E7F] text-slate-700 hover:text-white border border-slate-200 transition-colors"
                             title="Compose Email"
                           >
                             <Mail className="w-3.5 h-3.5" />
@@ -495,7 +495,7 @@ export default function AdminInquiriesPage() {
 
                           <button
                             onClick={() => setSelectedInquiry(inq)}
-                            className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-lg transition-colors cursor-pointer"
+                            className="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-lg border border-slate-200 transition-colors cursor-pointer"
                           >
                             View
                           </button>
@@ -509,9 +509,9 @@ export default function AdminInquiriesPage() {
           </div>
         ) : (
           <div className="py-16 text-center space-y-3">
-            <Inbox className="w-12 h-12 text-slate-600 mx-auto" />
-            <h4 className="text-base font-bold text-white">No inquiries match your filters</h4>
-            <p className="text-xs text-slate-400 max-w-sm mx-auto">
+            <Inbox className="w-12 h-12 text-slate-300 mx-auto" />
+            <h4 className="text-base font-bold text-slate-800">No inquiries match your filters</h4>
+            <p className="text-xs text-slate-500 max-w-sm mx-auto">
               Try changing search queries or resetting status filters.
             </p>
             <button
@@ -520,7 +520,7 @@ export default function AdminInquiriesPage() {
                 setStatusFilter('All');
                 setTypeFilter('All');
               }}
-              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-xl transition-colors"
+              className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-xl transition-colors border border-slate-200"
             >
               Reset Filters
             </button>
@@ -539,3 +539,4 @@ export default function AdminInquiriesPage() {
     </div>
   );
 }
+

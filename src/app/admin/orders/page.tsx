@@ -107,34 +107,34 @@ export default function AdminOrdersPage() {
       {/* Header Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
             Client Orders & License Keys
           </h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-500">
             Monitor software purchases, automated license activations, and checkout transactions.
           </p>
         </div>
       </div>
 
       {/* Search Input */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-xl">
+      <div className="bg-white border border-slate-200 rounded-3xl p-4 shadow-xs">
         <div className="relative">
-          <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
           <input
             type="text"
             placeholder="Search by order ID, customer name, email, product, or license key..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#246E7F]"
+            className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#246E7F]"
           />
         </div>
       </div>
 
       {/* Orders Table */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+      <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-xs">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-slate-300">
-            <thead className="bg-slate-950/80 text-[11px] uppercase font-bold text-slate-400 border-b border-slate-800">
+          <table className="w-full text-left text-xs text-slate-700">
+            <thead className="bg-slate-50 text-[11px] uppercase font-bold text-slate-500 border-b border-slate-200">
               <tr>
                 <th className="px-5 py-3.5">Order ID</th>
                 <th className="px-5 py-3.5">Customer</th>
@@ -145,35 +145,35 @@ export default function AdminOrdersPage() {
                 <th className="px-5 py-3.5">Date</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/80">
+            <tbody className="divide-y divide-slate-100">
               {filteredOrders.map((order) => (
-                <tr key={order.id} className="hover:bg-slate-800/40 transition-colors">
-                  <td className="px-5 py-4 font-mono font-bold text-teal-400">
+                <tr key={order.id} className="hover:bg-slate-50/80 transition-colors">
+                  <td className="px-5 py-4 font-mono font-bold text-[#246E7F]">
                     {order.id}
                   </td>
                   <td className="px-5 py-4">
-                    <div className="font-bold text-white">{order.customerName}</div>
-                    <div className="text-[11px] text-slate-400">{order.email}</div>
+                    <div className="font-bold text-slate-900">{order.customerName}</div>
+                    <div className="text-[11px] text-slate-500">{order.email}</div>
                   </td>
                   <td className="px-5 py-4 max-w-xs">
-                    <div className="font-semibold text-white truncate">{order.productName}</div>
-                    <div className="text-[10px] text-slate-400">{order.licenseType}</div>
+                    <div className="font-bold text-slate-900 truncate">{order.productName}</div>
+                    <div className="text-[10px] text-slate-500">{order.licenseType}</div>
                   </td>
                   <td className="px-5 py-4">
-                    <span className="font-mono text-[11px] px-2 py-1 rounded bg-slate-950 border border-slate-800 text-amber-300 select-all">
+                    <span className="font-mono text-[11px] px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 text-[#E06527] font-bold select-all">
                       {order.licenseKey}
                     </span>
                   </td>
-                  <td className="px-5 py-4 font-bold text-emerald-400">
+                  <td className="px-5 py-4 font-bold text-emerald-700">
                     {formatPrice(order.amountINR, order.amountUSD)}
                   </td>
                   <td className="px-5 py-4">
-                    <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
                       <CheckCircle2 className="w-3 h-3" />
                       {order.status}
                     </span>
                   </td>
-                  <td className="px-5 py-4 text-slate-400 text-[11px]">
+                  <td className="px-5 py-4 text-slate-500 text-[11px]">
                     {order.date}
                   </td>
                 </tr>
@@ -186,3 +186,4 @@ export default function AdminOrdersPage() {
     </div>
   );
 }
+

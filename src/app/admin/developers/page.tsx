@@ -72,10 +72,10 @@ export default function AdminDevelopersPage() {
       {/* Header Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
             Developer Roster & Live Capacity
           </h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-500">
             Manage engineer availability states, active client sprint assignments, and rates.
           </p>
         </div>
@@ -83,7 +83,7 @@ export default function AdminDevelopersPage() {
         <Link
           href="/hire-developers"
           target="_blank"
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-300 hover:text-white bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl transition-colors"
+          className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 bg-white border border-slate-200 hover:border-slate-300 rounded-xl transition-colors shadow-xs"
         >
           <ExternalLink className="w-3.5 h-3.5 text-[#E06527]" />
           <span>View Public Roster</span>
@@ -92,53 +92,53 @@ export default function AdminDevelopersPage() {
 
       {/* Roster Capacity Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex items-center justify-between">
+        <div className="bg-white border border-slate-200 p-4 rounded-2xl flex items-center justify-between shadow-xs">
           <div>
-            <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider block">
+            <span className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider block">
               Available Now (24h)
             </span>
-            <span className="text-2xl font-black text-white">{availableCount} Engineers</span>
+            <span className="text-2xl font-black text-slate-900">{availableCount} Engineers</span>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+          <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
             <Zap className="w-5 h-5" />
           </div>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex items-center justify-between">
+        <div className="bg-white border border-slate-200 p-4 rounded-2xl flex items-center justify-between shadow-xs">
           <div>
-            <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider block">
+            <span className="text-[11px] font-bold text-amber-700 uppercase tracking-wider block">
               In Active Client Sprints
             </span>
-            <span className="text-2xl font-black text-white">{inProjectCount} Engineers</span>
+            <span className="text-2xl font-black text-slate-900">{inProjectCount} Engineers</span>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+          <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600">
             <Briefcase className="w-5 h-5" />
           </div>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex items-center justify-between">
+        <div className="bg-white border border-slate-200 p-4 rounded-2xl flex items-center justify-between shadow-xs">
           <div>
-            <span className="text-[11px] font-bold text-cyan-400 uppercase tracking-wider block">
+            <span className="text-[11px] font-bold text-teal-700 uppercase tracking-wider block">
               Freeing Up Soon
             </span>
-            <span className="text-2xl font-black text-white">{upcomingCount} Engineers</span>
+            <span className="text-2xl font-black text-slate-900">{upcomingCount} Engineers</span>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+          <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-200 flex items-center justify-center text-[#246E7F]">
             <Clock className="w-5 h-5" />
           </div>
         </div>
       </div>
 
       {/* Search & Filter Bar */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div className="bg-white border border-slate-200 rounded-3xl p-4 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="relative w-full sm:w-96">
-          <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
           <input
             type="text"
             placeholder="Search by engineer name, role, tech stack..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#246E7F]"
+            className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#246E7F]"
           />
         </div>
 
@@ -146,7 +146,7 @@ export default function AdminDevelopersPage() {
           <select
             value={filterAvailability}
             onChange={(e) => setFilterAvailability(e.target.value)}
-            className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-300 font-bold focus:outline-none focus:ring-2 focus:ring-[#246E7F] cursor-pointer"
+            className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-700 font-bold focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#246E7F] cursor-pointer"
           >
             <option value="all">All Statuses ({developers.length})</option>
             <option value="Available Now">🟢 Available Now</option>
@@ -165,12 +165,12 @@ export default function AdminDevelopersPage() {
           return (
             <div
               key={dev.id}
-              className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-4 hover:border-slate-700 transition-all flex flex-col justify-between"
+              className="bg-white border border-slate-200 rounded-3xl p-5 shadow-xs hover:shadow-md hover:border-slate-300 transition-all flex flex-col justify-between"
             >
               <div className="space-y-3">
                 {/* Header */}
                 <div className="flex items-start gap-3.5">
-                  <div className="relative w-14 h-14 rounded-2xl overflow-hidden bg-slate-800 border-2 border-slate-700 shrink-0">
+                  <div className="relative w-14 h-14 rounded-2xl overflow-hidden bg-slate-100 border-2 border-slate-200 shrink-0">
                     <Image src={dev.avatarUrl} alt={dev.name} fill className="object-cover" />
                   </div>
 
@@ -179,23 +179,23 @@ export default function AdminDevelopersPage() {
                       <Link
                         href={`/hire-developers/${dev.slug}`}
                         target="_blank"
-                        className="text-sm font-bold text-white hover:text-teal-400 transition-colors truncate"
+                        className="text-sm font-bold text-slate-900 hover:text-[#246E7F] transition-colors truncate"
                       >
                         {dev.name}
                       </Link>
                     </div>
-                    <p className="text-xs text-slate-400 truncate">{dev.role}</p>
+                    <p className="text-xs text-slate-500 truncate">{dev.role}</p>
                     <div className="flex items-center gap-2 text-[11px] text-slate-500 mt-0.5">
                       <span>{dev.experienceLabel}</span>
                       <span>•</span>
-                      <span className="text-emerald-400">⭐ {dev.rating}</span>
+                      <span className="text-emerald-600 font-semibold">⭐ {dev.rating}</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Status Switcher Dropdown */}
-                <div className="bg-slate-950/70 p-2.5 rounded-xl border border-slate-800 space-y-1">
-                  <label className="block text-[10px] uppercase font-bold text-slate-400">
+                <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200 space-y-1">
+                  <label className="block text-[10px] uppercase font-bold text-slate-500">
                     Live Status & Availability
                   </label>
                   <select
@@ -208,10 +208,10 @@ export default function AdminDevelopersPage() {
                     }
                     className={`w-full text-xs font-bold px-2.5 py-1.5 rounded-lg border focus:outline-none cursor-pointer ${
                       isAvailable
-                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                        ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
                         : isWorking
-                        ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                        : 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
+                        ? 'bg-amber-50 text-amber-700 border-amber-300'
+                        : 'bg-teal-50 text-teal-700 border-teal-300'
                     }`}
                   >
                     <option value="Available Now">🟢 Available Now (24h Start)</option>
@@ -221,9 +221,9 @@ export default function AdminDevelopersPage() {
                 </div>
 
                 {/* Current Sprint Focus */}
-                <div className="bg-slate-950/40 p-2.5 rounded-xl border border-slate-800/80 text-[11px] text-slate-300 space-y-0.5">
-                  <span className="text-[10px] font-bold text-slate-500 uppercase block">Current Active Sprint</span>
-                  <p className="font-medium truncate">{dev.currentSprintName || 'Full-Stack Architecture'}</p>
+                <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200 text-[11px] text-slate-700 space-y-0.5">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase block">Current Active Sprint</span>
+                  <p className="font-semibold truncate">{dev.currentSprintName || 'Full-Stack Architecture'}</p>
                 </div>
 
                 {/* Tech Badges */}
@@ -231,13 +231,13 @@ export default function AdminDevelopersPage() {
                   {dev.keyTechnologies.slice(0, 4).map((tech, idx) => (
                     <span
                       key={idx}
-                      className="px-2 py-0.5 text-[10px] font-mono font-medium rounded-md bg-slate-800 text-slate-300 border border-slate-700"
+                      className="px-2 py-0.5 text-[10px] font-mono font-medium rounded-md bg-slate-100 text-slate-700 border border-slate-200"
                     >
                       {tech}
                     </span>
                   ))}
                   {dev.keyTechnologies.length > 4 && (
-                    <span className="px-1.5 py-0.5 text-[10px] font-medium rounded-md bg-slate-800 text-slate-400">
+                    <span className="px-1.5 py-0.5 text-[10px] font-medium rounded-md bg-slate-100 text-slate-500">
                       +{dev.keyTechnologies.length - 4}
                     </span>
                   )}
@@ -245,10 +245,10 @@ export default function AdminDevelopersPage() {
               </div>
 
               {/* Rates & Actions Footer */}
-              <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
                 <div>
-                  <span className="text-[10px] text-slate-500 block uppercase font-bold">Rates</span>
-                  <span className="font-bold text-teal-300">
+                  <span className="text-[10px] text-slate-400 block uppercase font-bold">Rates</span>
+                  <span className="font-bold text-[#246E7F]">
                     {formatPrice(dev.hourlyRateINR, dev.hourlyRateUSD)}/hr
                   </span>
                 </div>
@@ -256,7 +256,7 @@ export default function AdminDevelopersPage() {
                 <Link
                   href={`/hire-developers/${dev.slug}`}
                   target="_blank"
-                  className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl flex items-center gap-1 transition-colors"
+                  className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-xl flex items-center gap-1 transition-colors border border-slate-200"
                 >
                   <span>Public View</span>
                   <ExternalLink className="w-3 h-3 text-[#E06527]" />
@@ -270,3 +270,4 @@ export default function AdminDevelopersPage() {
     </div>
   );
 }
+

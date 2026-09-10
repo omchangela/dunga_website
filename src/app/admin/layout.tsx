@@ -22,16 +22,16 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
 
   // If on login page, render clean login view without sidebar
   if (isLoginPage) {
-    return <div className="min-h-screen bg-slate-950 text-white">{children}</div>;
+    return <div className="min-h-screen bg-slate-50 text-slate-900">{children}</div>;
   }
 
   // Loading state during auth hydration
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 text-slate-900 flex items-center justify-center">
         <div className="text-center space-y-3">
           <div className="w-10 h-10 border-4 border-[#246E7F]/30 border-t-[#246E7F] rounded-full animate-spin mx-auto" />
-          <p className="text-xs font-semibold text-slate-400">Authenticating Dunga Admin...</p>
+          <p className="text-xs font-semibold text-slate-500">Authenticating Dunga Admin...</p>
         </div>
       </div>
     );
@@ -42,7 +42,7 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white font-sans flex">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex selection:bg-[#e6f4f7] selection:text-[#246e7f]">
       {/* Sidebar Navigation */}
       <AdminSidebar
         isMobileOpen={isMobileSidebarOpen}
@@ -50,7 +50,7 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 lg:pl-72 flex flex-col min-h-screen">
+      <div className="flex-1 lg:pl-72 flex flex-col min-h-screen bg-slate-50">
         {/* Top Header */}
         <AdminHeader onOpenMobile={() => setIsMobileSidebarOpen(true)} />
 
@@ -70,3 +70,4 @@ export default function AdminRootLayout({ children }: { children: React.ReactNod
     </AdminAuthProvider>
   );
 }
+
