@@ -41,6 +41,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ isMobileOpen, onClos
       setNewInquiriesCount(newCount);
     };
 
+    inquiryStore.fetchFromApi().then(() => updateCount());
     updateCount();
     window.addEventListener('dunga_inquiries_updated', updateCount);
     return () => window.removeEventListener('dunga_inquiries_updated', updateCount);
@@ -203,10 +204,10 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ isMobileOpen, onClos
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-bold text-slate-900 truncate">
-                  {adminUser?.name || 'Administrator'}
+                  {adminUser?.name || 'Super Admin'}
                 </p>
                 <p className="text-[11px] text-slate-500 truncate">
-                  {adminUser?.email || 'admin@dungatechnologies.com'}
+                  {adminUser?.email || 'admin@dunga.in'}
                 </p>
               </div>
             </div>

@@ -50,14 +50,25 @@ export default function AdminInquiriesPage() {
   const [manualBudget, setManualBudget] = useState('₹1,40,000 / mo');
   const [manualMessage, setManualMessage] = useState('');
 
-  const refreshInquiries = () => {
-    setInquiries(inquiryStore.getInquiries());
+  const [isLoadingApi, setIsLoadingApi] = useState(false);
+
+  const refreshInquiries = async () => {
+    const local = inquiryStore.getInquiries();
+    setInquiries(local);
+    try {
+      const live = await inquiryStore.fetchFromApi();
+      if (live) setInquiries(live);
+    } catch {}
   };
 
   useEffect(() => {
     refreshInquiries();
+    const interval = setInterval(refreshInquiries, 10000); // 10s auto-refresh
     window.addEventListener('dunga_inquiries_updated', refreshInquiries);
-    return () => window.removeEventListener('dunga_inquiries_updated', refreshInquiries);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('dunga_inquiries_updated', refreshInquiries);
+    };
   }, []);
 
   const handleCopy = (text: string, id: string, e: React.MouseEvent) => {

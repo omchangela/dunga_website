@@ -19,47 +19,6 @@ async function main() {
     },
   });
 
-  // 2. Initial Sample Inquiries
-  const inq1 = await prisma.inquiry.upsert({
-    where: { inquiryCode: 'INQ-3530' },
-    update: {},
-    create: {
-      inquiryCode: 'INQ-3530',
-      name: 'Aditya Birla Group',
-      email: 'tech.leads@adityabirla.com',
-      phone: '+91 98200 12345',
-      company: 'Aditya Birla Financial',
-      type: 'Developer Hire',
-      serviceOrProduct: 'Senior Next.js & AI Architect',
-      budget: '$5,000 - $10,000/mo',
-      message: 'Looking for 2 dedicated full-stack engineers for AI CRM integration.',
-      priority: 'Urgent',
-      sourcePage: '/services/hire-developers',
-      status: 'New',
-      notes: ['Client requested initial discovery call for Friday.'],
-    },
-  });
-
-  const inq2 = await prisma.inquiry.upsert({
-    where: { inquiryCode: 'INQ-3529' },
-    update: {},
-    create: {
-      inquiryCode: 'INQ-3529',
-      name: 'Siddharth Rao',
-      email: 'siddharth@fintechpulse.io',
-      phone: '+91 99887 76655',
-      company: 'Fintech Pulse Inc.',
-      type: 'Source Code License',
-      serviceOrProduct: 'DungaPay Enterprise Suite',
-      budget: '$2,500 One-time',
-      message: 'Interested in purchasing extended license for DungaPay with customization.',
-      priority: 'High',
-      sourcePage: '/products/dungapay-payment-gateway-subscription-engine',
-      status: 'In Review',
-      notes: ['Requested custom settlement webhook module.'],
-    },
-  });
-
   // 3. Featured Products
   const prod1 = await prisma.product.upsert({
     where: { slug: 'omniflow-ai-crm-telecaller-suite' },

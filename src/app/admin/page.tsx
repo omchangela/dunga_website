@@ -33,14 +33,23 @@ export default function AdminDashboardPage() {
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [selectedInquiry, setSelectedInquiry] = useState<Inquiry | null>(null);
 
-  const refreshInquiries = () => {
-    setInquiries(inquiryStore.getInquiries());
+  const refreshInquiries = async () => {
+    const local = inquiryStore.getInquiries();
+    setInquiries(local);
+    try {
+      const live = await inquiryStore.fetchFromApi();
+      if (live) setInquiries(live);
+    } catch {}
   };
 
   useEffect(() => {
     refreshInquiries();
+    const interval = setInterval(refreshInquiries, 10000);
     window.addEventListener('dunga_inquiries_updated', refreshInquiries);
-    return () => window.removeEventListener('dunga_inquiries_updated', refreshInquiries);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('dunga_inquiries_updated', refreshInquiries);
+    };
   }, []);
 
   const newInquiries = inquiries.filter((i) => i.status === 'New');
