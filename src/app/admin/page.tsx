@@ -69,7 +69,7 @@ export default function AdminDashboardPage() {
               <span>DUNGA TECHNOLOGIES COMMAND CENTER</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-              Welcome back, Om Changela
+              Welcome back, {adminUser?.name || 'Super Admin'}
             </h2>
             <p className="text-xs sm:text-sm text-slate-500">
               Real-time telemetry: <span className="font-semibold text-slate-800">{newInquiries.length} new client inquiries</span> awaiting review • <span className="font-semibold text-slate-800">{availableDevs} developers</span> ready for 24h sprint kickoff.

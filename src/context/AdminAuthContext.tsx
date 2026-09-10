@@ -24,9 +24,9 @@ const AdminAuthContext = createContext<AdminAuthContextType | undefined>(undefin
 const ADMIN_STORAGE_KEY = 'dunga_admin_auth_session';
 
 const DEFAULT_ADMIN: AdminUser = {
-  name: 'Om Changela',
+  name: 'Super Admin',
   email: 'admin@dungatechnologies.com',
-  role: 'Super Administrator & Founder',
+  role: 'Super Administrator',
   avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop',
   lastLogin: new Date().toISOString()
 };
@@ -63,7 +63,7 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       const user: AdminUser = {
         ...DEFAULT_ADMIN,
         email: trimmedEmail,
-        name: trimmedEmail === 'admin@dunga.in' || trimmedEmail === 'admin@dungatechnologies.com' ? 'Om Changela' : trimmedEmail.split('@')[0],
+        name: 'Super Admin',
         lastLogin: new Date().toISOString()
       };
       

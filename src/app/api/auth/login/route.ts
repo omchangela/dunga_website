@@ -47,9 +47,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         success: true,
         user: {
-          name: 'Om Changela',
+          name: 'Super Admin',
           email: email.toLowerCase().trim(),
-          role: 'Super Administrator & Founder',
+          role: 'Super Administrator',
         },
         token: `dunga_admin_session_${Date.now()}`,
       });
