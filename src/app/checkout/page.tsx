@@ -18,6 +18,7 @@ import {
   Phone,
   Server,
   Zap,
+  AlertCircle,
 } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { useCurrency } from '@/context/CurrencyContext';
@@ -85,70 +86,195 @@ export default function CheckoutPage() {
     }
   };
 
-  const handleCompleteOrder = (e: React.FormEvent) => {
+  const [checkoutError, setCheckoutError] = useState('');
+
+  const loadRazorpayScript = (): Promise<boolean> => {
+    return new Promise((resolve) => {
+      if (typeof window === 'undefined') return resolve(false);
+      if ((window as any).Razorpay) return resolve(true);
+
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.async = true;
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const handleCompleteOrder = async (e: React.FormEvent) => {
     e.preventDefault();
+    setCheckoutError('');
     setIsProcessing(true);
 
-    // Generate Mock Receipt & persist to localStorage
-    const orderNumber = `DNG-${Date.now().toString().slice(-6)}`;
-    const mockLicenses = items.map((item) => ({
-      productId: item.product.id,
-      productTitle: item.product.title,
-      productSlug: item.product.slug,
-      thumbnailUrl: item.product.thumbnailUrl,
-      version: item.product.version,
-      licenseKey: `DUNGA-${Math.random().toString(36).substring(2, 6).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`,
-      licenseType: item.licenseType,
-      downloadUrl: `https://downloads.dungatechnologies.com/packages/${item.product.slug}-v${item.product.version}.zip`,
-      setupStatus: item.selectedAddons.some((a) => a.id.includes('setup')) ? 'PENDING' : 'NOT_REQUESTED',
-    }));
+    const chargeAmountINR = currency === 'INR' ? totalINR : Math.round(totalUSD * 83);
 
-    const orderReceipt = {
-      orderNumber,
-      customerName: name,
-      customerEmail: email,
-      customerPhone: phone,
-      customerCompany: company,
-      customerGstin: gstin,
-      currency,
-      items,
-      subtotal: currency === 'INR' ? subtotalINR : subtotalUSD,
-      addonsTotal: currency === 'INR' ? addonsTotalINR : addonsTotalUSD,
-      discount: currency === 'INR' ? discountINR : discountUSD,
-      totalAmount: currency === 'INR' ? totalINR : totalUSD,
-      paymentMethod,
-      paymentStatus: 'PAID',
-      transactionId: `tx_${Math.random().toString(36).substring(2, 10)}`,
-      paidAt: new Date().toISOString(),
-      generatedLicenses: mockLicenses,
-    };
+    try {
+      // 1. If Razorpay or UPI is selected:
+      if (paymentMethod === 'RAZORPAY' || paymentMethod === 'UPI') {
+        const scriptLoaded = await loadRazorpayScript();
+        if (!scriptLoaded) {
+          setCheckoutError('Unable to load Razorpay payment SDK. Please check your internet connection.');
+          setIsProcessing(false);
+          return;
+        }
 
-    localStorage.setItem('dunga_latest_order', JSON.stringify(orderReceipt));
+        // Create Order via Serverless API
+        const createRes = await fetch('/api/razorpay/create-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: chargeAmountINR,
+            currency: 'INR',
+            customerName: name,
+            customerEmail: email,
+            customerPhone: phone,
+            items,
+          }),
+        });
 
-    // Also store user licenses for customer portal
-    const existingLicenses = JSON.parse(localStorage.getItem('dunga_user_licenses') || '[]');
-    const newLicenses = mockLicenses.map((l) => ({
-      id: `lic_${Date.now()}_${Math.random().toString(36).substring(2, 5)}`,
-      licenseKey: l.licenseKey,
-      productId: l.productId,
-      productTitle: l.productTitle,
-      productSlug: l.productSlug,
-      thumbnailUrl: l.thumbnailUrl,
-      version: l.version,
-      licenseType: l.licenseType,
-      isActive: true,
-      purchasedAt: new Date().toISOString(),
-      downloadPackageUrl: l.downloadUrl,
-      setupStatus: l.setupStatus,
-    }));
+        const orderData = await createRes.json();
 
-    localStorage.setItem('dunga_user_licenses', JSON.stringify([...newLicenses, ...existingLicenses]));
+        if (!createRes.ok || !orderData.success) {
+          setCheckoutError(orderData.error || 'Failed to initialize payment gateway.');
+          setIsProcessing(false);
+          return;
+        }
 
-    setTimeout(() => {
+        // Open Official Razorpay Checkout Modal
+        const options = {
+          key: orderData.keyId,
+          amount: orderData.amount,
+          currency: orderData.currency,
+          name: 'Dunga Technologies',
+          description: `${items[0]?.product?.title || 'Source Code License'} (x${items.length} items)`,
+          image: '/logo.png',
+          order_id: orderData.orderId,
+          prefill: {
+            name: name,
+            email: email,
+            contact: phone.replace(/[^0-9+]/g, ''),
+          },
+          theme: {
+            color: '#246E7F',
+          },
+          handler: async function (response: any) {
+            try {
+              // Verify Payment Signature on Backend Server
+              const verifyRes = await fetch('/api/razorpay/verify-payment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                  orderDetails: {
+                    customerName: name,
+                    customerEmail: email,
+                    customerPhone: phone,
+                    customerCompany: company,
+                    customerGstin: gstin,
+                    currency,
+                    items,
+                    subtotal: currency === 'INR' ? subtotalINR : subtotalUSD,
+                    addonsTotal: currency === 'INR' ? addonsTotalINR : addonsTotalUSD,
+                    discount: currency === 'INR' ? discountINR : discountUSD,
+                    totalAmount: currency === 'INR' ? totalINR : totalUSD,
+                    amountINR: totalINR,
+                    amountUSD: totalUSD,
+                  },
+                }),
+              });
+
+              const verifyData = await verifyRes.json();
+
+              if (verifyData.success && verifyData.receipt) {
+                // Save confirmed receipt in client storage
+                localStorage.setItem('dunga_latest_order', JSON.stringify(verifyData.receipt));
+
+                const existingLicenses = JSON.parse(localStorage.getItem('dunga_user_licenses') || '[]');
+                localStorage.setItem(
+                  'dunga_user_licenses',
+                  JSON.stringify([...verifyData.receipt.generatedLicenses, ...existingLicenses])
+                );
+
+                clearCart();
+                router.push('/checkout/success');
+              } else {
+                setCheckoutError(verifyData.error || 'Payment signature verification failed.');
+                setIsProcessing(false);
+              }
+            } catch (err: any) {
+              setCheckoutError(err?.message || 'Error verifying completed payment.');
+              setIsProcessing(false);
+            }
+          },
+          modal: {
+            ondismiss: function () {
+              setIsProcessing(false);
+            },
+          },
+        };
+
+        const razorpayInstance = new (window as any).Razorpay(options);
+
+        razorpayInstance.on('payment.failed', function (resp: any) {
+          setCheckoutError(resp.error?.description || 'Payment was declined by your bank or UPI app.');
+          setIsProcessing(false);
+        });
+
+        razorpayInstance.open();
+        return;
+      }
+
+      // Fallback for non-Razorpay simulated options (e.g. Stripe / PayPal Sandbox)
+      const orderNumber = `DNG-${Date.now().toString().slice(-6)}`;
+      const mockLicenses = items.map((item) => ({
+        productId: item.product.id,
+        productTitle: item.product.title,
+        productSlug: item.product.slug,
+        thumbnailUrl: item.product.thumbnailUrl,
+        version: item.product.version,
+        licenseKey: `DUNGA-${Math.random().toString(36).substring(2, 6).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`,
+        licenseType: item.licenseType,
+        downloadUrl: `https://downloads.dungatechnologies.com/packages/${item.product.slug}-v${item.product.version}.zip`,
+        setupStatus: item.selectedAddons.some((a) => a.id.includes('setup')) ? 'PENDING' : 'NOT_REQUESTED',
+      }));
+
+      const orderReceipt = {
+        orderNumber,
+        customerName: name,
+        customerEmail: email,
+        customerPhone: phone,
+        customerCompany: company,
+        customerGstin: gstin,
+        currency,
+        items,
+        subtotal: currency === 'INR' ? subtotalINR : subtotalUSD,
+        addonsTotal: currency === 'INR' ? addonsTotalINR : addonsTotalUSD,
+        discount: currency === 'INR' ? discountINR : discountUSD,
+        totalAmount: currency === 'INR' ? totalINR : totalUSD,
+        paymentMethod,
+        paymentStatus: 'PAID',
+        transactionId: `tx_${Math.random().toString(36).substring(2, 10)}`,
+        paidAt: new Date().toISOString(),
+        generatedLicenses: mockLicenses,
+      };
+
+      localStorage.setItem('dunga_latest_order', JSON.stringify(orderReceipt));
+
+      const existingLicenses = JSON.parse(localStorage.getItem('dunga_user_licenses') || '[]');
+      localStorage.setItem('dunga_user_licenses', JSON.stringify([...mockLicenses, ...existingLicenses]));
+
+      setTimeout(() => {
+        setIsProcessing(false);
+        clearCart();
+        router.push('/checkout/success');
+      }, 1000);
+    } catch (err: any) {
+      setCheckoutError(err?.message || 'An error occurred during checkout.');
       setIsProcessing(false);
-      clearCart();
-      router.push('/checkout/success');
-    }, 1200);
+    }
   };
 
   return (
@@ -461,6 +587,17 @@ export default function CheckoutPage() {
                   </span>
                 </div>
               </div>
+
+              {/* Checkout Error Banner */}
+              {checkoutError && (
+                <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-700 flex items-start gap-2 animate-shake">
+                  <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-bold block">Payment / Order Issue</span>
+                    <span>{checkoutError}</span>
+                  </div>
+                </div>
+              )}
 
               {/* Submit Button */}
               <button
