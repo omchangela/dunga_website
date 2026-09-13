@@ -168,7 +168,7 @@ export function GsapInteractivePlayground() {
                       </div>
                       <div>
                         <div className="text-xs font-bold text-slate-900">Rahul Sharma</div>
-                        <div className="text-[11px] text-slate-500">+91 98765 43210 • Bengaluru</div>
+                        <div className="text-[11px] text-slate-500">+91 81219 23831 • Bengaluru</div>
                       </div>
                     </div>
                     <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2.5 py-0.5 rounded-full">

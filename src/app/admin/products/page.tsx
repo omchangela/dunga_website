@@ -85,6 +85,7 @@ export default function AdminProductsPage() {
                   src={prod.thumbnailUrl}
                   alt={prod.title}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover"
                 />
                 <span className="absolute top-3 right-3 text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/95 text-[#246E7F] border border-teal-200 shadow-xs">

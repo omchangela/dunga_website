@@ -170,8 +170,8 @@ export default function AdminDevelopersPage() {
               <div className="space-y-3">
                 {/* Header */}
                 <div className="flex items-start gap-3.5">
-                  <div className="relative w-14 h-14 rounded-2xl overflow-hidden bg-slate-100 border-2 border-slate-200 shrink-0">
-                    <Image src={dev.avatarUrl} alt={dev.name} fill className="object-cover" />
+                  <div className="relative w-14 h-14 rounded-2xl overflow-hidden bg-white border-2 border-slate-200 shrink-0 p-1 flex items-center justify-center">
+                    <Image src={dev.avatarUrl || '/logo.png'} alt={dev.name} fill sizes="56px" className="object-contain p-0.5" />
                   </div>
 
                   <div className="min-w-0 flex-1">

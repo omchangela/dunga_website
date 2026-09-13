@@ -17,7 +17,7 @@ export const BRANCH_LOCATIONS: BranchLocation[] = [
     country: 'India',
     type: 'Headquarters',
     address: 'Dunga Tech Park, Ring Road, Vesu, Surat, Gujarat 395007',
-    phone: '+91 98765 43210',
+    phone: '+91 81219 23831',
     email: 'surat@dungatechnologies.com',
     hours: 'Mon - Sat: 9:30 AM - 7:30 PM IST',
     isMain: true,

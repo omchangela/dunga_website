@@ -7,6 +7,7 @@ import {
   MapPin,
   Mail,
   Phone,
+  MessageSquare,
   Navigation,
   Globe
 } from 'lucide-react';
@@ -91,7 +92,18 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-[#246E7F] shrink-0" />
-                <a href="tel:+919876543210" className="hover:underline">+91 98765 43210</a>
+                <a href="tel:+918121923831" className="hover:underline">+91 81219 23831</a>
+              </li>
+              <li className="flex items-center gap-2">
+                <MessageSquare className="w-4 h-4 text-emerald-600 shrink-0" />
+                <a
+                  href="https://wa.me/15553286591?text=Hello%20Dunga%20Technologies"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline text-emerald-600 font-medium"
+                >
+                  WhatsApp: +1 (555) 328-6591
+                </a>
               </li>
               <li className="pt-1">
                 <Link

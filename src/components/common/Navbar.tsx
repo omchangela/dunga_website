@@ -407,12 +407,18 @@ export function Navbar({ onOpenSearch }: NavbarProps) {
                 Request Custom Solutions
               </Link>
               <a
-                href="https://wa.me/919876543210?text=Hello%20Dunga%20Technologies,%20I%20need%20custom%20software%20or%20developer%20hiring."
+                href="https://wa.me/15553286591?text=Hello%20Dunga%20Technologies,%20I%20need%20custom%20software%20or%20developer%20hiring."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs py-2.5 rounded-xl flex items-center justify-center gap-1.5"
               >
-                Chat on WhatsApp (+91 98765 43210)
+                WhatsApp: +1 (555) 328-6591
+              </a>
+              <a
+                href="tel:+918121923831"
+                className="w-full text-center bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs py-2 rounded-xl flex items-center justify-center gap-1.5"
+              >
+                Call: +91 81219 23831
               </a>
             </div>
           </div>

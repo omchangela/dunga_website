@@ -136,7 +136,7 @@ export default function ContactPage() {
                       <input
                         type="tel"
                         required
-                        placeholder="+91 98765 43210"
+                        placeholder="+91 81219 23831"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#246e7f]"
@@ -231,8 +231,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <span className="font-bold text-slate-900 block">Direct Engineering Desk</span>
-                    <a href="tel:+919876543210" className="text-slate-800 hover:underline">
-                      +91 98765 43210
+                    <a href="tel:+918121923831" className="text-slate-800 hover:underline">
+                      +91 81219 23831
                     </a>
                   </div>
                 </div>
@@ -249,15 +249,24 @@ export default function ContactPage() {
               </div>
 
               {/* Instant WhatsApp Action */}
-              <div className="pt-4 border-t border-slate-100">
+              <div className="pt-4 border-t border-slate-100 space-y-2">
                 <a
-                  href="https://wa.me/919876543210?text=Hello%20Dunga%20Technologies,%20I%20need%20custom%20solutions%20or%20developer%20hiring."
+                  href="https://wa.me/15553286591?text=Hello%20Dunga%20Technologies,%20I%20need%20custom%20solutions%20or%20developer%20hiring."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-3.5 rounded-xl shadow-md transition-all active:scale-95"
                 >
                   <MessageSquare className="w-4 h-4" />
-                  <span>Instant WhatsApp Connect (+91 98765 43210)</span>
+                  <span>Company WhatsApp (+1 (555) 328-6591)</span>
+                </a>
+                <a
+                  href="https://wa.me/918121923831?text=Hello%20Dunga%20Technologies,%20I%20need%20custom%20solutions%20or%20developer%20hiring."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-900 text-white font-semibold text-xs py-2.5 rounded-xl transition-all active:scale-95"
+                >
+                  <Phone className="w-3.5 h-3.5" />
+                  <span>India WhatsApp Desk (+91 81219 23831)</span>
                 </a>
               </div>
             </div>

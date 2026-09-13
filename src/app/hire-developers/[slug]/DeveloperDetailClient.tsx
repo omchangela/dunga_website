@@ -83,12 +83,13 @@ export const DeveloperDetailClient: React.FC<DeveloperDetailClientProps> = ({ de
             
             {/* Left: Avatar + Details */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-              <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-3xl overflow-hidden border-4 border-white/20 shadow-2xl shrink-0 bg-slate-800">
+              <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-3xl overflow-hidden border-4 border-white/20 shadow-2xl shrink-0 bg-white p-2.5 flex items-center justify-center">
                 <Image
-                  src={developer.avatarUrl}
+                  src={developer.avatarUrl || '/logo.png'}
                   alt={developer.name}
                   fill
-                  className="object-cover"
+                  sizes="(max-width: 640px) 112px, 128px"
+                  className="object-contain p-1.5"
                 />
               </div>
 

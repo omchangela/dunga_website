@@ -49,7 +49,7 @@ export default function CheckoutPage() {
   // Form states
   const [name, setName] = useState('Rahul Sharma');
   const [email, setEmail] = useState('rahul.sharma@example.com');
-  const [phone, setPhone] = useState('+91 98765 43210');
+  const [phone, setPhone] = useState('+91 81219 23831');
   const [company, setCompany] = useState('Sharma Tech Solutions Pvt Ltd');
   const [gstin, setGstin] = useState('29AABCU9603R1Z2');
   const [paymentMethod, setPaymentMethod] = useState<'RAZORPAY' | 'STRIPE' | 'PAYPAL' | 'UPI'>('RAZORPAY');

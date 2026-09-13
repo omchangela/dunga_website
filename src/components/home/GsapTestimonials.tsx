@@ -82,6 +82,7 @@ export function GsapTestimonials() {
                       src={review.avatar}
                       alt={review.name}
                       fill
+                      sizes="48px"
                       className="object-cover"
                     />
                   </div>

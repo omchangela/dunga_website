@@ -329,7 +329,7 @@ export default function AdminInquiriesPage() {
                   <input
                     type="tel"
                     required
-                    placeholder="+91 98765 43210"
+                    placeholder="+91 81219 23831"
                     value={manualPhone}
                     onChange={(e) => setManualPhone(e.target.value)}
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-slate-900 focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#246E7F]"
