@@ -123,6 +123,7 @@ export const InquiryDetailModal: React.FC<InquiryDetailModalProps> = ({
                 <option value="New">🟢 New (Unprocessed)</option>
                 <option value="In Review">🟡 In Review (Under Scoping)</option>
                 <option value="Contacted">🔵 Contacted (In Discussion)</option>
+                <option value="Discussion Completed">💬 Discussion Completed (Proposal Stage)</option>
                 <option value="Converted">✨ Converted (Won Deal)</option>
                 <option value="Archived">⚪ Archived</option>
               </select>

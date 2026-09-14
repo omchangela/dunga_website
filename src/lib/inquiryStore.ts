@@ -1,4 +1,4 @@
-export type InquiryStatus = 'New' | 'In Review' | 'Contacted' | 'Converted' | 'Archived';
+export type InquiryStatus = 'New' | 'In Review' | 'Contacted' | 'Discussion Completed' | 'Converted' | 'Archived';
 export type InquiryType = 'Developer Hire' | 'Custom Software' | 'Source Code License' | 'Script Installation' | 'Tech Consultancy' | 'Project Estimation' | 'General';
 export type InquiryPriority = 'High' | 'Medium' | 'Low';
 

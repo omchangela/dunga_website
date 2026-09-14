@@ -111,6 +111,7 @@ export default function AdminInquiriesPage() {
   const newCount = inquiries.filter((i) => i.status === 'New').length;
   const inReviewCount = inquiries.filter((i) => i.status === 'In Review').length;
   const contactedCount = inquiries.filter((i) => i.status === 'Contacted').length;
+  const discussionCompletedCount = inquiries.filter((i) => i.status === 'Discussion Completed').length;
   const convertedCount = inquiries.filter((i) => i.status === 'Converted').length;
   const archivedCount = inquiries.filter((i) => i.status === 'Archived').length;
 
@@ -172,6 +173,7 @@ export default function AdminInquiriesPage() {
     { label: 'New', count: newCount, bg: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
     { label: 'In Review', count: inReviewCount, bg: 'bg-amber-50 text-amber-700 border-amber-200' },
     { label: 'Contacted', count: contactedCount, bg: 'bg-blue-50 text-blue-700 border-blue-200' },
+    { label: 'Discussion Completed', count: discussionCompletedCount, bg: 'bg-teal-50 text-teal-800 border-teal-200' },
     { label: 'Converted', count: convertedCount, bg: 'bg-purple-50 text-purple-700 border-purple-200' },
     { label: 'Archived', count: archivedCount, bg: 'bg-slate-100 text-slate-600 border-slate-200' }
   ];
@@ -591,6 +593,8 @@ export default function AdminInquiriesPage() {
                               ? 'bg-amber-50 text-amber-800 border-amber-300 ring-2 ring-amber-400/20'
                               : inq.status === 'Contacted'
                               ? 'bg-blue-50 text-blue-800 border-blue-300 ring-2 ring-blue-400/20'
+                              : inq.status === 'Discussion Completed'
+                              ? 'bg-teal-50 text-teal-800 border-teal-300 ring-2 ring-teal-400/20'
                               : inq.status === 'Converted'
                               ? 'bg-purple-50 text-purple-800 border-purple-300 ring-2 ring-purple-400/20'
                               : 'bg-slate-100 text-slate-700 border-slate-300'
@@ -599,6 +603,7 @@ export default function AdminInquiriesPage() {
                           <option value="New">🟢 New</option>
                           <option value="In Review">🟡 In Review</option>
                           <option value="Contacted">🔵 Contacted</option>
+                          <option value="Discussion Completed">💬 Discussion Completed</option>
                           <option value="Converted">✨ Converted</option>
                           <option value="Archived">⚪ Archived</option>
                         </select>

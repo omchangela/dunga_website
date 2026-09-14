@@ -35,56 +35,30 @@ export async function sendWhatsAppOtp({ phone, otp }: SendWhatsAppOtpOptions): P
   }
 
   try {
-    // Official WhatsApp Business Template Payload structure
+    // Exact WoxAPI WhatsApp Business Template Payload structure
     const payload = {
-      messaging_product: 'whatsapp',
-      recipient_type: 'individual',
       to: formattedPhone,
+      phoneNoId: phoneNumberId,
       type: 'template',
-      template: {
-        name: templateName,
-        language: {
-          code: 'en',
+      name: templateName,
+      language: 'en',
+      bodyParams: [otp],
+      buttons: [
+        {
+          type: 'button',
+          sub_type: 'url',
+          text: otp,
         },
-        components: [
-          {
-            type: 'body',
-            parameters: [
-              {
-                type: 'text',
-                text: otp,
-              },
-            ],
-          },
-          {
-            type: 'button',
-            sub_type: 'url',
-            index: '0',
-            parameters: [
-              {
-                type: 'text',
-                text: otp,
-              },
-            ],
-          },
-        ],
-      },
-      // Include provider-specific identifiers
-      phone_number_id: phoneNumberId,
-      waba_id: wabaId,
-      template_name: templateName,
-      template_params: [otp],
+      ],
     };
 
-    console.log(`[WhatsApp OTP] Dispatching OTP ${otp} to ${formattedPhone} via WoxAPI...`);
+    console.log(`[WhatsApp OTP] Dispatching OTP ${otp} to ${formattedPhone} via WoxAPI (phoneNoId: ${phoneNumberId})...`);
 
     const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${apiKey}`,
-        'phone-number-id': phoneNumberId,
-        'waba-id': wabaId,
       },
       body: JSON.stringify(payload),
     });
@@ -92,7 +66,7 @@ export async function sendWhatsAppOtp({ phone, otp }: SendWhatsAppOtpOptions): P
     const responseData = await response.json().catch(() => null);
 
     if (!response.ok) {
-      console.warn('[WhatsApp OTP Provider Warning]:', responseData);
+      console.warn('[WhatsApp OTP Provider Response]:', responseData);
       return {
         success: false,
         error: responseData?.message || responseData?.error?.message || 'Provider gateway response warning',
@@ -100,7 +74,7 @@ export async function sendWhatsAppOtp({ phone, otp }: SendWhatsAppOtpOptions): P
       };
     }
 
-    console.log(`[WhatsApp OTP] Successfully dispatched OTP to ${formattedPhone}`);
+    console.log(`[WhatsApp OTP] Successfully dispatched OTP to ${formattedPhone}`, responseData);
     return { success: true, data: responseData };
   } catch (err: any) {
     console.error('[WhatsApp OTP System Error]:', err);
