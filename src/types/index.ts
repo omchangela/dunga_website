@@ -12,6 +12,24 @@ export interface SetupAddon {
   recommended?: boolean;
 }
 
+export interface ProductFaq {
+  question: string;
+  answer: string;
+}
+
+export interface ProductSeo {
+  seoTitle: string;
+  metaDescription: string;
+  primaryKeyword: string;
+  secondaryKeywords: string[];
+  seoSlug: string;
+  canonicalUrl: string;
+  index: boolean;
+  follow: boolean;
+  imageAlt: string;
+  focusKeywordDensity?: number;
+}
+
 export interface Product {
   id: string;
   slug: string;
@@ -19,7 +37,7 @@ export interface Product {
   tagline: string;
   shortDescription: string;
   fullDescription: string;
-  category: 'CRM & ERP' | 'AI & Automation' | 'E-Commerce' | 'Fintech & Payments' | 'Mobile Apps' | 'DevOps & Cloud';
+  category: 'CRM & ERP' | 'AI & Automation' | 'E-Commerce' | 'Fintech & Payments' | 'Mobile Apps' | 'DevOps & Cloud' | string;
   techStack: string[];
   version: string;
   lastUpdated: string;
@@ -28,6 +46,7 @@ export interface Product {
   galleryImages: string[];
   previewUrl: string; // Live Demo Link
   adminDemoUrl?: string; // Admin Demo Link
+  packageZipUrl?: string; // Source code zip download URL
   regularPriceINR: number;
   regularPriceUSD: number;
   extendedPriceINR: number;
@@ -55,6 +74,9 @@ export interface Product {
     date: string;
     changes: string[];
   }[];
+  faqs?: ProductFaq[];
+  seo?: ProductSeo;
+  relatedProductIds?: string[];
   isFeatured: boolean;
   salesCount: number;
   rating: number;

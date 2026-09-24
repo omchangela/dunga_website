@@ -40,7 +40,7 @@ export function ProductDetailClient({ product }: Props) {
   const [selectedLicense, setSelectedLicense] = useState<LicenseType>('REGULAR');
   const [selectedAddons, setSelectedAddons] = useState<SetupAddon[]>([]);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [activeTab, setActiveTab] = useState<'overview' | 'features' | 'requirements' | 'changelog' | 'reviews'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'features' | 'requirements' | 'changelog' | 'faqs' | 'reviews'>('overview');
 
   // Toggle Add-on in local selector
   const handleToggleAddon = (addon: SetupAddon) => {
@@ -248,6 +248,17 @@ export function ProductDetailClient({ product }: Props) {
               >
                 Changelog (v{product.version})
               </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('faqs')}
+                className={`px-4 py-2 rounded-xl transition-all whitespace-nowrap ${
+                  activeTab === 'faqs'
+                    ? 'bg-[#246e7f] text-white shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                }`}
+              >
+                Structured FAQs ({product.faqs?.length || 2})
+              </button>
             </div>
 
             {/* Tab Contents */}
@@ -361,6 +372,49 @@ export function ProductDetailClient({ product }: Props) {
                             </li>
                           ))}
                         </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'faqs' && (
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-lg font-bold text-slate-900">Frequently Asked Questions</h3>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Everything you need to know about licensing, setup, and repository updates.
+                      </p>
+                    </div>
+                    <span className="bg-[#e6f4f7] text-[#246e7f] text-xs font-bold px-3 py-1 rounded-full border border-[#246e7f]/20">
+                      FAQPage Schema Verified
+                    </span>
+                  </div>
+
+                  <div className="space-y-3">
+                    {(product.faqs && product.faqs.length > 0 ? product.faqs : [
+                      {
+                        question: `What is included in the ${product.title} source code?`,
+                        answer: 'You get 100% full unencrypted Next.js frontend, backend API routes, database migrations, Docker setup, and complete setup documentation.',
+                      },
+                      {
+                        question: 'How does the server setup add-on work?',
+                        answer: 'Our senior engineers will configure your VPS server, database, domain SSL, and test all webhooks within 24 to 48 hours.',
+                      },
+                      {
+                        question: 'Can I resell or white-label this application?',
+                        answer: 'With the Extended Commercial License, you can white-label, rebrand, and deploy multi-tenant instances for your paying SaaS clients.',
+                      },
+                    ]).map((faq, idx) => (
+                      <div key={idx} className="p-4 bg-slate-50 border border-slate-200/80 rounded-2xl space-y-1.5">
+                        <h4 className="text-xs sm:text-sm font-bold text-slate-900 flex items-start gap-2">
+                          <HelpCircle className="w-4 h-4 text-[#246e7f] shrink-0 mt-0.5" />
+                          <span>{faq.question}</span>
+                        </h4>
+                        <p className="text-xs text-slate-600 leading-relaxed pl-6">
+                          {faq.answer}
+                        </p>
                       </div>
                     ))}
                   </div>

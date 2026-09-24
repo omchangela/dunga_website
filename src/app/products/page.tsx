@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import {
   Search,
@@ -17,6 +17,8 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { PRODUCTS } from '@/data/products';
+import { Product } from '@/types';
+import { productStore } from '@/lib/productStore';
 import { useCart } from '@/context/CartContext';
 import { useCurrency } from '@/context/CurrencyContext';
 
@@ -44,13 +46,28 @@ export default function ProductsPage() {
   const { openLiveDemo, addItem } = useCart();
   const { formatPrice } = useCurrency();
 
+  const [productsList, setProductsList] = useState<Product[]>(PRODUCTS);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [selectedTech, setSelectedTech] = useState('All Stacks');
   const [sortBy, setSortBy] = useState<'popular' | 'rating' | 'price-low' | 'price-high'>('popular');
 
+  useEffect(() => {
+    setProductsList(productStore.getProducts());
+    productStore.fetchFromApi().then((data) => {
+      if (data && data.length > 0) setProductsList(data);
+    });
+
+    const handleUpdate = () => {
+      setProductsList(productStore.getProducts());
+    };
+
+    window.addEventListener('dunga_products_updated', handleUpdate);
+    return () => window.removeEventListener('dunga_products_updated', handleUpdate);
+  }, []);
+
   const filteredProducts = useMemo(() => {
-    return PRODUCTS.filter((product) => {
+    return productsList.filter((product) => {
       const matchesSearch =
         product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.shortDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -70,7 +87,7 @@ export default function ProductsPage() {
       if (sortBy === 'price-high') return b.regularPriceINR - a.regularPriceINR;
       return 0;
     });
-  }, [searchQuery, selectedCategory, selectedTech, sortBy]);
+  }, [productsList, searchQuery, selectedCategory, selectedTech, sortBy]);
 
   return (
     <div className="bg-slate-50 min-h-screen py-12 sm:py-16">
