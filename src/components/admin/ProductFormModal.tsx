@@ -26,7 +26,13 @@ import {
   Monitor,
   Zap,
   Check,
-  ArrowRight
+  ArrowRight,
+  Upload,
+  FolderArchive,
+  FileArchive,
+  Loader2,
+  Paperclip,
+  Image as ImageIcon,
 } from 'lucide-react';
 
 interface ProductFormModalProps {
@@ -108,6 +114,70 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   const [previewDevice, setPreviewDevice] = useState<'desktop' | 'mobile'>('desktop');
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState('');
+
+  // Upload States
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [imageUploadError, setImageUploadError] = useState('');
+  const [isUploadingZip, setIsUploadingZip] = useState(false);
+  const [zipUploadError, setZipUploadError] = useState('');
+  const [uploadedZipDetails, setUploadedZipDetails] = useState<{ name: string; size: string } | null>(null);
+
+  // File Upload Handlers
+  const handleImageFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setIsUploadingImage(true);
+    setImageUploadError('');
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('folder', 'products');
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      if (!res.ok || !data.url) {
+        throw new Error(data.error || 'Failed to upload image file');
+      }
+      setThumbnailUrl(data.url);
+      if (!bannerUrl) setBannerUrl(data.url);
+      if (!imageAlt) setImageAlt(`${title || file.name.replace(/\.[^/.]+$/, '')} — Dunga Technologies`);
+    } catch (err: any) {
+      setImageUploadError(err?.message || 'Failed to upload image');
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
+
+  const handleZipFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setIsUploadingZip(true);
+    setZipUploadError('');
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('folder', 'packages');
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      if (!res.ok || !data.url) {
+        throw new Error(data.error || 'Failed to upload source code ZIP');
+      }
+      setPackageZipUrl(data.url);
+      const sizeStr = file.size > 1024 * 1024 
+        ? `${(file.size / (1024 * 1024)).toFixed(2)} MB`
+        : `${(file.size / 1024).toFixed(1)} KB`;
+      setUploadedZipDetails({ name: file.name, size: sizeStr });
+    } catch (err: any) {
+      setZipUploadError(err?.message || 'Failed to upload package');
+    } finally {
+      setIsUploadingZip(false);
+    }
+  };
 
   // Auto generate SEO when title or short description changes and user hasn't overridden
   const handleAutoGenerateSeo = () => {
@@ -566,34 +636,161 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                   />
                 </div>
 
-                <div className="sm:col-span-2">
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Source Code Package Download URL (ZIP / Cloud Storage Link)
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="https://downloads.dungatechnologies.com/packages/omniflow-v2.4.0.zip"
-                    value={packageZipUrl}
-                    onChange={(e) => setPackageZipUrl(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-slate-900 font-mono focus:outline-none focus:ring-2 focus:ring-[#246E7F] focus:bg-white"
-                  />
-                  <span className="text-[10px] text-slate-500 mt-0.5 block">
-                    Issued to clients on the checkout success receipt and invoice after payment confirmation.
-                  </span>
+                {/* Source Code Package Upload & URL */}
+                <div className="sm:col-span-2 bg-slate-50/80 border border-slate-200 rounded-2xl p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                        <FolderArchive className="w-4 h-4 text-[#246e7f]" />
+                        <span>Source Code Package (ZIP / TAR / RAR)</span>
+                      </label>
+                      <p className="text-[11px] text-slate-500 mt-0.5">
+                        Upload your code ZIP directly or paste an external secure cloud storage link.
+                      </p>
+                    </div>
+                    {packageZipUrl && (
+                      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full">
+                        <Check className="w-3 h-3" /> Package Linked
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Upload Box */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <label className="border-2 border-dashed border-slate-300 hover:border-[#246e7f] bg-white rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer transition-all group">
+                      <input
+                        type="file"
+                        accept=".zip,.tar,.gz,.tar.gz,.rar,.7z"
+                        onChange={handleZipFileUpload}
+                        className="hidden"
+                        disabled={isUploadingZip}
+                      />
+                      {isUploadingZip ? (
+                        <div className="flex flex-col items-center gap-2 py-2">
+                          <Loader2 className="w-6 h-6 text-[#246e7f] animate-spin" />
+                          <span className="text-xs font-semibold text-slate-600">Uploading code ZIP...</span>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col items-center gap-1.5 py-1">
+                          <div className="w-9 h-9 rounded-full bg-[#e6f4f7] text-[#246e7f] flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <Upload className="w-4 h-4" />
+                          </div>
+                          <span className="text-xs font-bold text-slate-800">
+                            Click to Upload ZIP Archive
+                          </span>
+                          <span className="text-[10px] text-slate-400">
+                            Supports .zip, .tar.gz, .rar (Any size)
+                          </span>
+                        </div>
+                      )}
+                    </label>
+
+                    {/* Or Paste Direct URL */}
+                    <div className="flex flex-col justify-center space-y-1.5">
+                      <span className="text-[11px] font-semibold text-slate-600">Or enter Package Cloud URL:</span>
+                      <input
+                        type="text"
+                        placeholder="https://downloads.dungatechnologies.com/omniflow-v2.4.zip"
+                        value={packageZipUrl}
+                        onChange={(e) => setPackageZipUrl(e.target.value)}
+                        className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#246E7F]"
+                      />
+                      {uploadedZipDetails && (
+                        <span className="text-[11px] text-slate-600 flex items-center gap-1.5 font-medium">
+                          <Paperclip className="w-3 h-3 text-[#246e7f]" />
+                          {uploadedZipDetails.name} ({uploadedZipDetails.size})
+                        </span>
+                      )}
+                      {zipUploadError && (
+                        <span className="text-[11px] text-rose-600 font-medium">{zipUploadError}</span>
+                      )}
+                    </div>
+                  </div>
                 </div>
 
-                <div className="sm:col-span-2">
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Featured Thumbnail Image URL *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="https://images.unsplash.com/..."
-                    value={thumbnailUrl}
-                    onChange={(e) => setThumbnailUrl(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-slate-900 font-mono focus:outline-none focus:ring-2 focus:ring-[#246E7F] focus:bg-white"
-                  />
+                {/* Featured Thumbnail Image Upload & URL */}
+                <div className="sm:col-span-2 bg-slate-50/80 border border-slate-200 rounded-2xl p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                        <ImageIcon className="w-4 h-4 text-[#246e7f]" />
+                        <span>Featured Product Thumbnail & OG Image *</span>
+                      </label>
+                      <p className="text-[11px] text-slate-500 mt-0.5">
+                        Upload product screenshots or high-res thumbnail (auto-configured for OpenGraph & Twitter cards).
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
+                    {/* Upload Drop Area */}
+                    <label className="md:col-span-1 border-2 border-dashed border-slate-300 hover:border-[#246e7f] bg-white rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer transition-all group min-h-[120px]">
+                      <input
+                        type="file"
+                        accept="image/png,image/jpeg,image/jpg,image/webp,image/svg+xml"
+                        onChange={handleImageFileUpload}
+                        className="hidden"
+                        disabled={isUploadingImage}
+                      />
+                      {isUploadingImage ? (
+                        <div className="flex flex-col items-center gap-2 py-2">
+                          <Loader2 className="w-6 h-6 text-[#246e7f] animate-spin" />
+                          <span className="text-xs font-semibold text-slate-600">Uploading image...</span>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col items-center gap-1.5 py-1">
+                          <div className="w-9 h-9 rounded-full bg-[#e6f4f7] text-[#246e7f] flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <Upload className="w-4 h-4" />
+                          </div>
+                          <span className="text-xs font-bold text-slate-800">
+                            Upload Image File
+                          </span>
+                          <span className="text-[10px] text-slate-400">
+                            PNG, JPG, WEBP or SVG
+                          </span>
+                        </div>
+                      )}
+                    </label>
+
+                    {/* URL Input & Image Preview */}
+                    <div className="md:col-span-2 space-y-2">
+                      <div>
+                        <span className="text-[11px] font-semibold text-slate-600 block mb-1">Image URL (Direct / CDN):</span>
+                        <input
+                          type="text"
+                          required
+                          placeholder="https://images.unsplash.com/... or /uploads/products/image.webp"
+                          value={thumbnailUrl}
+                          onChange={(e) => setThumbnailUrl(e.target.value)}
+                          className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#246E7F]"
+                        />
+                      </div>
+
+                      {imageUploadError && (
+                        <span className="text-[11px] text-rose-600 font-medium block">{imageUploadError}</span>
+                      )}
+
+                      {/* Live Image Thumbnail Preview */}
+                      {thumbnailUrl && (
+                        <div className="flex items-center gap-3 bg-white p-2 border border-slate-200 rounded-xl">
+                          <div className="w-16 h-12 rounded-lg overflow-hidden relative bg-slate-100 shrink-0 border border-slate-200">
+                            <img
+                              src={thumbnailUrl}
+                              alt="Thumbnail Preview"
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                (e.target as HTMLElement).style.display = 'none';
+                              }}
+                            />
+                          </div>
+                          <div className="overflow-hidden text-xs">
+                            <span className="font-bold text-slate-800 block truncate">Image Active & Ready</span>
+                            <span className="text-[10px] text-slate-400 block truncate">{thumbnailUrl}</span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
