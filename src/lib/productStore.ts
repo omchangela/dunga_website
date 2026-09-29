@@ -396,22 +396,115 @@ export function performSeoAudit(product: Partial<Product>): SeoAuditResult {
   };
 }
 
+export function normalizeProduct(raw: any): Product {
+  if (!raw || typeof raw !== 'object') {
+    raw = {};
+  }
+  // Try finding original static data for extra enriched specs
+  const matchedStatic = PRODUCTS.find((p) => p.slug === raw.slug || p.id === raw.id);
+
+  const title = raw.title || matchedStatic?.title || 'New Software Suite';
+  const slug = (raw.slug || matchedStatic?.slug || title)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+  const id = raw.id || matchedStatic?.id || `prod_${slug}`;
+  const category = raw.category || matchedStatic?.category || 'CRM & ERP';
+  const shortDescription = raw.shortDescription || matchedStatic?.shortDescription || 'Full stack source code with complete database migrations and Docker setup.';
+  const fullDescription = raw.fullDescription || matchedStatic?.fullDescription || shortDescription;
+  const techStack = Array.isArray(raw.techStack) && raw.techStack.length > 0 
+    ? raw.techStack 
+    : matchedStatic?.techStack || ['Next.js 15', 'PostgreSQL', 'Tailwind CSS'];
+
+  const regularPriceINR = Number(raw.regularPriceINR ?? matchedStatic?.regularPriceINR ?? 4999) || 4999;
+  const regularPriceUSD = Number(raw.regularPriceUSD ?? matchedStatic?.regularPriceUSD ?? 69) || 69;
+  const extendedPriceINR = Number(raw.extendedPriceINR ?? matchedStatic?.extendedPriceINR ?? 14999) || 14999;
+  const extendedPriceUSD = Number(raw.extendedPriceUSD ?? matchedStatic?.extendedPriceUSD ?? 199) || 199;
+  const defaultSetupPriceINR = Number(raw.defaultSetupPriceINR ?? matchedStatic?.defaultSetupPriceINR ?? 999) || 999;
+  const defaultSetupPriceUSD = Number(raw.defaultSetupPriceUSD ?? matchedStatic?.defaultSetupPriceUSD ?? 15) || 15;
+
+  const thumbnailUrl = raw.thumbnailUrl || matchedStatic?.thumbnailUrl || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop';
+  const bannerUrl = raw.bannerUrl || matchedStatic?.bannerUrl || thumbnailUrl;
+  const previewUrl = raw.previewUrl || raw.liveDemoUrl || matchedStatic?.previewUrl || 'https://demo.dungatechnologies.com';
+
+  const autoSeo = generateAutoSeo({ title, slug, category, shortDescription, fullDescription, techStack });
+  const seo: ProductSeo = {
+    ...autoSeo,
+    ...(matchedStatic?.seo || {}),
+    ...(raw.seo || {}),
+    seoSlug: slug,
+    canonicalUrl: raw.seo?.canonicalUrl || matchedStatic?.seo?.canonicalUrl || `https://dungatechnologies.com/products/${slug}`,
+  };
+
+  return {
+    id,
+    slug,
+    title,
+    tagline: raw.tagline || matchedStatic?.tagline || 'Production-grade enterprise software script',
+    shortDescription,
+    fullDescription,
+    category,
+    techStack,
+    version: raw.version || matchedStatic?.version || '1.0.0',
+    lastUpdated: raw.lastUpdated || matchedStatic?.lastUpdated || new Date().toISOString().slice(0, 10),
+    thumbnailUrl,
+    bannerUrl,
+    galleryImages: Array.isArray(raw.galleryImages) && raw.galleryImages.length > 0 ? raw.galleryImages : matchedStatic?.galleryImages || [thumbnailUrl],
+    previewUrl,
+    adminDemoUrl: raw.adminDemoUrl || matchedStatic?.adminDemoUrl,
+    packageZipUrl: raw.packageZipUrl || matchedStatic?.packageZipUrl || `https://downloads.dungatechnologies.com/packages/${slug}.zip`,
+    regularPriceINR,
+    regularPriceUSD,
+    extendedPriceINR,
+    extendedPriceUSD,
+    monthlySaasPriceINR: Number(raw.monthlySaasPriceINR ?? matchedStatic?.monthlySaasPriceINR ?? 999) || 999,
+    monthlySaasPriceUSD: Number(raw.monthlySaasPriceUSD ?? matchedStatic?.monthlySaasPriceUSD ?? 15) || 15,
+    yearlySaasPriceINR: Number(raw.yearlySaasPriceINR ?? matchedStatic?.yearlySaasPriceINR ?? 9999) || 9999,
+    yearlySaasPriceUSD: Number(raw.yearlySaasPriceUSD ?? matchedStatic?.yearlySaasPriceUSD ?? 149) || 149,
+    defaultSetupPriceINR,
+    defaultSetupPriceUSD,
+    availableAddons: Array.isArray(raw.availableAddons) ? raw.availableAddons : matchedStatic?.availableAddons || [],
+    highlights: Array.isArray(raw.highlights) && raw.highlights.length > 0 ? raw.highlights : matchedStatic?.highlights || ['100% Full Unencrypted Source Code', 'Production Ready Architecture'],
+    features: Array.isArray(raw.features) && raw.features.length > 0 ? raw.features : matchedStatic?.features || [],
+    systemRequirements: Array.isArray(raw.systemRequirements) && raw.systemRequirements.length > 0 ? raw.systemRequirements : matchedStatic?.systemRequirements || [
+      { requirement: 'Operating System', specification: 'Ubuntu 20.04+ / Debian 11+ / macOS / Windows' },
+      { requirement: 'Runtime', specification: 'Node.js 18+ or 20+ LTS' },
+      { requirement: 'Database', specification: 'PostgreSQL 14+ or MySQL 8.0+' },
+    ],
+    documentationUrl: raw.documentationUrl || matchedStatic?.documentationUrl,
+    changelog: Array.isArray(raw.changelog) && raw.changelog.length > 0 ? raw.changelog : matchedStatic?.changelog || [{ version: '1.0.0', date: new Date().toISOString().slice(0, 10), changes: ['Initial Release'] }],
+    faqs: Array.isArray(raw.faqs) && raw.faqs.length > 0 ? raw.faqs : matchedStatic?.faqs || [
+      { question: `What is included in the ${title} source code?`, answer: 'You get 100% unencrypted frontend, backend API, database migrations, Docker setup, and complete setup documentation.' },
+      { question: 'How does the server setup add-on work?', answer: 'Our senior engineers will configure your VPS server, database, domain SSL, and test all webhooks within 24 to 48 hours.' }
+    ],
+    seo,
+    relatedProductIds: Array.isArray(raw.relatedProductIds) ? raw.relatedProductIds : matchedStatic?.relatedProductIds || [],
+    isFeatured: Boolean(raw.isFeatured ?? raw.featured ?? matchedStatic?.isFeatured),
+    salesCount: Number(raw.salesCount ?? matchedStatic?.salesCount ?? 28),
+    rating: Number(raw.rating ?? matchedStatic?.rating ?? 4.9),
+    reviewCount: Number(raw.reviewCount ?? matchedStatic?.reviewCount ?? 18),
+    includedFiles: Array.isArray(raw.includedFiles) && raw.includedFiles.length > 0 ? raw.includedFiles : matchedStatic?.includedFiles || ['Full Next.js Codebase', 'FastAPI / Node API', 'Prisma Schema & Migrations', 'Docker Compose', 'Setup PDF Guide'],
+  };
+}
+
 export const productStore = {
   getProducts(): Product[] {
-    if (typeof window === 'undefined') return PRODUCTS;
+    if (typeof window === 'undefined') return PRODUCTS.map(normalizeProduct);
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
-        const parsed: Product[] = JSON.parse(stored);
+        const parsed: any[] = JSON.parse(stored);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed;
+          return parsed.map(normalizeProduct);
         }
       }
       // Initialize with default PRODUCTS
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(PRODUCTS));
-      return PRODUCTS;
+      const defaults = PRODUCTS.map(normalizeProduct);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(defaults));
+      return defaults;
     } catch {
-      return PRODUCTS;
+      return PRODUCTS.map(normalizeProduct);
     }
   },
 
@@ -420,11 +513,12 @@ export const productStore = {
       const res = await fetch('/api/products');
       const json = await res.json();
       if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+        const normalized = json.data.map(normalizeProduct);
         if (typeof window !== 'undefined') {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(json.data));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(normalized));
           window.dispatchEvent(new Event('dunga_products_updated'));
         }
-        return json.data;
+        return normalized;
       }
     } catch (err) {
       console.warn('Could not fetch products from DB API, using local cache:', err);

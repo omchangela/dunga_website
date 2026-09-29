@@ -54,22 +54,22 @@ export function ProductDetailClient({ product }: Props) {
   };
 
   // Pricing calculations
-  let basePriceINR = product.regularPriceINR;
-  let basePriceUSD = product.regularPriceUSD;
+  let basePriceINR = Number(product.regularPriceINR) || 4999;
+  let basePriceUSD = Number(product.regularPriceUSD) || 69;
 
   if (selectedLicense === 'EXTENDED') {
-    basePriceINR = product.extendedPriceINR;
-    basePriceUSD = product.extendedPriceUSD;
+    basePriceINR = Number(product.extendedPriceINR) || 14999;
+    basePriceUSD = Number(product.extendedPriceUSD) || 199;
   } else if (selectedLicense === 'SAAS_MONTHLY' && product.monthlySaasPriceINR) {
-    basePriceINR = product.monthlySaasPriceINR;
-    basePriceUSD = product.monthlySaasPriceUSD || 15;
+    basePriceINR = Number(product.monthlySaasPriceINR) || 999;
+    basePriceUSD = Number(product.monthlySaasPriceUSD) || 15;
   } else if (selectedLicense === 'SAAS_YEARLY' && product.yearlySaasPriceINR) {
-    basePriceINR = product.yearlySaasPriceINR;
-    basePriceUSD = product.yearlySaasPriceUSD || 149;
+    basePriceINR = Number(product.yearlySaasPriceINR) || 9999;
+    basePriceUSD = Number(product.yearlySaasPriceUSD) || 149;
   }
 
-  const addonsTotalINR = selectedAddons.reduce((sum, a) => sum + a.priceINR, 0);
-  const addonsTotalUSD = selectedAddons.reduce((sum, a) => sum + a.priceUSD, 0);
+  const addonsTotalINR = selectedAddons.reduce((sum, a) => sum + (Number(a.priceINR) || 0), 0);
+  const addonsTotalUSD = selectedAddons.reduce((sum, a) => sum + (Number(a.priceUSD) || 0), 0);
 
   const totalCalculatedINR = basePriceINR + addonsTotalINR;
   const totalCalculatedUSD = basePriceUSD + addonsTotalUSD;

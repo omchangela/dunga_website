@@ -67,26 +67,42 @@ export default function ProductsPage() {
   }, []);
 
   const filteredProducts = useMemo(() => {
-    return productsList.filter((product) => {
-      const matchesSearch =
-        product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.shortDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.techStack.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
+    return (productsList || [])
+      .filter((product) => {
+        if (!product) return false;
+        const title = (product.title || '').toLowerCase();
+        const shortDesc = (product.shortDescription || '').toLowerCase();
+        const techStack = Array.isArray(product.techStack) ? product.techStack : [];
+        const q = searchQuery.toLowerCase().trim();
 
-      const matchesCategory =
-        selectedCategory === 'All Categories' || product.category === selectedCategory;
+        const matchesSearch =
+          !q ||
+          title.includes(q) ||
+          shortDesc.includes(q) ||
+          techStack.some((t) => t.toLowerCase().includes(q));
 
-      const matchesTech =
-        selectedTech === 'All Stacks' || product.techStack.includes(selectedTech);
+        const matchesCategory =
+          selectedCategory === 'All Categories' || product.category === selectedCategory;
 
-      return matchesSearch && matchesCategory && matchesTech;
-    }).sort((a, b) => {
-      if (sortBy === 'popular') return b.salesCount - a.salesCount;
-      if (sortBy === 'rating') return b.rating - a.rating;
-      if (sortBy === 'price-low') return a.regularPriceINR - b.regularPriceINR;
-      if (sortBy === 'price-high') return b.regularPriceINR - a.regularPriceINR;
-      return 0;
-    });
+        const matchesTech =
+          selectedTech === 'All Stacks' || techStack.includes(selectedTech);
+
+        return matchesSearch && matchesCategory && matchesTech;
+      })
+      .sort((a, b) => {
+        const aSales = Number(a.salesCount) || 0;
+        const bSales = Number(b.salesCount) || 0;
+        const aRating = Number(a.rating) || 0;
+        const bRating = Number(b.rating) || 0;
+        const aPrice = Number(a.regularPriceINR) || 0;
+        const bPrice = Number(b.regularPriceINR) || 0;
+
+        if (sortBy === 'popular') return bSales - aSales;
+        if (sortBy === 'rating') return bRating - aRating;
+        if (sortBy === 'price-low') return aPrice - bPrice;
+        if (sortBy === 'price-high') return bPrice - aPrice;
+        return 0;
+      });
   }, [productsList, searchQuery, selectedCategory, selectedTech, sortBy]);
 
   return (
