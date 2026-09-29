@@ -7,6 +7,8 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
 
+    let combinedProducts = [...PRODUCTS];
+
     if (process.env.DATABASE_URL) {
       try {
         const whereClause: any = { isActive: true };
@@ -16,24 +18,55 @@ export async function GET(request: NextRequest) {
 
         const dbProducts = await prisma.product.findMany({
           where: whereClause,
-          orderBy: { salesCount: 'desc' },
+          orderBy: { createdAt: 'desc' },
         });
 
         if (dbProducts && dbProducts.length > 0) {
-          // Merge full json schemas if available
-          return NextResponse.json({ success: true, data: dbProducts });
+          // Merge dbProducts with static products by slug, db products take precedence
+          const prodMap = new Map<string, any>();
+          
+          // Add default static products first
+          PRODUCTS.forEach((p) => {
+            prodMap.set(p.slug, p);
+            prodMap.set(p.id, p);
+          });
+
+          // Add / override with database products
+          dbProducts.forEach((dbP) => {
+            const existing = prodMap.get(dbP.slug) || prodMap.get(dbP.id) || {};
+            const merged = {
+              ...existing,
+              ...dbP,
+              id: dbP.id,
+              slug: dbP.slug,
+              title: dbP.title,
+              category: dbP.category,
+              shortDescription: dbP.shortDescription,
+              fullDescription: dbP.fullDescription,
+              regularPriceINR: dbP.regularPriceINR,
+              regularPriceUSD: dbP.regularPriceUSD,
+              extendedPriceINR: dbP.extendedPriceINR,
+              extendedPriceUSD: dbP.extendedPriceUSD,
+              thumbnailUrl: dbP.thumbnailUrl,
+              previewUrl: dbP.liveDemoUrl || existing.previewUrl || 'https://demo.dungatechnologies.com',
+              techStack: Array.isArray(dbP.techStack) && dbP.techStack.length > 0 ? dbP.techStack : existing.techStack || ['Next.js 15', 'PostgreSQL'],
+              isFeatured: dbP.featured ?? existing.isFeatured ?? true,
+            };
+            prodMap.set(dbP.slug, merged);
+          });
+
+          combinedProducts = Array.from(new Set(Array.from(prodMap.values())));
         }
       } catch (dbErr) {
-        console.warn('Prisma DB query fallback to memory:', dbErr);
+        console.warn('Prisma DB query fallback to static products:', dbErr);
       }
     }
 
-    let prods = PRODUCTS;
     if (category && category !== 'All' && category !== 'All Categories') {
-      prods = prods.filter((p) => p.category === category);
+      combinedProducts = combinedProducts.filter((p) => p.category === category);
     }
 
-    return NextResponse.json({ success: true, data: prods });
+    return NextResponse.json({ success: true, data: combinedProducts });
   } catch (error: any) {
     console.error('Error fetching products:', error);
     return NextResponse.json({ success: true, data: PRODUCTS });
@@ -43,6 +76,59 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+
+    // Check if seeding action requested
+    if (body.action === 'seed') {
+      if (process.env.DATABASE_URL) {
+        try {
+          for (const prod of PRODUCTS) {
+            await prisma.product.upsert({
+              where: { slug: prod.slug },
+              update: {
+                title: prod.title,
+                category: prod.category,
+                shortDescription: prod.shortDescription,
+                fullDescription: prod.fullDescription,
+                regularPriceINR: prod.regularPriceINR,
+                regularPriceUSD: prod.regularPriceUSD,
+                extendedPriceINR: prod.extendedPriceINR,
+                extendedPriceUSD: prod.extendedPriceUSD,
+                thumbnailUrl: prod.thumbnailUrl,
+                liveDemoUrl: prod.previewUrl,
+                techStack: prod.techStack,
+                featured: prod.isFeatured ?? true,
+                isActive: true,
+              },
+              create: {
+                slug: prod.slug,
+                title: prod.title,
+                category: prod.category,
+                shortDescription: prod.shortDescription,
+                fullDescription: prod.fullDescription,
+                regularPriceINR: prod.regularPriceINR,
+                regularPriceUSD: prod.regularPriceUSD,
+                extendedPriceINR: prod.extendedPriceINR,
+                extendedPriceUSD: prod.extendedPriceUSD,
+                thumbnailUrl: prod.thumbnailUrl,
+                liveDemoUrl: prod.previewUrl,
+                techStack: prod.techStack,
+                featured: prod.isFeatured ?? true,
+                isActive: true,
+              },
+            });
+          }
+        } catch (seedErr) {
+          console.warn('Prisma seed error:', seedErr);
+        }
+      }
+
+      return NextResponse.json({
+        success: true,
+        message: 'All demo software products successfully seeded.',
+        data: PRODUCTS,
+      });
+    }
+
     const {
       title,
       slug,
@@ -56,7 +142,6 @@ export async function POST(request: NextRequest) {
       thumbnailUrl,
       previewUrl,
       techStack = [],
-      packageZipUrl,
     } = body;
 
     const safeSlug = (slug || title || 'software')
@@ -98,52 +183,6 @@ export async function POST(request: NextRequest) {
     });
   } catch (error: any) {
     console.error('Error creating product:', error);
-    return NextResponse.json(
-      { success: false, error: error?.message || 'Failed to save product.' },
-      { status: 500 }
-    );
-  }
-}
-
-export async function PUT(request: NextRequest) {
-  try {
-    const body = await request.json();
-    const { id, slug, title, category, shortDescription, fullDescription, regularPriceINR, regularPriceUSD, extendedPriceINR, extendedPriceUSD, thumbnailUrl, previewUrl, techStack } = body;
-
-    if (process.env.DATABASE_URL && id) {
-      try {
-        await prisma.product.updateMany({
-          where: { OR: [{ id }, { slug }] },
-          data: {
-            title: title,
-            category: category,
-            shortDescription: shortDescription,
-            fullDescription: fullDescription,
-            regularPriceINR: Math.round(Number(regularPriceINR) || 4999),
-            regularPriceUSD: Math.round(Number(regularPriceUSD) || 69),
-            extendedPriceINR: Math.round(Number(extendedPriceINR) || 14999),
-            extendedPriceUSD: Math.round(Number(extendedPriceUSD) || 199),
-            thumbnailUrl: thumbnailUrl,
-            liveDemoUrl: previewUrl,
-            techStack: Array.isArray(techStack) ? techStack : undefined,
-            featured: Boolean(body.isFeatured),
-          },
-        });
-      } catch (dbErr) {
-        console.warn('Prisma DB update warning:', dbErr);
-      }
-    }
-
-    return NextResponse.json({
-      success: true,
-      message: 'Product updated successfully.',
-      data: body,
-    });
-  } catch (error: any) {
-    console.error('Error updating product:', error);
-    return NextResponse.json(
-      { success: false, error: error?.message || 'Failed to update product.' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message || 'Failed to save product' }, { status: 500 });
   }
 }

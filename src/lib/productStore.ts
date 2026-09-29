@@ -639,4 +639,23 @@ export const productStore = {
       }).catch(() => {});
     }
   },
+
+  seedAllDemoProducts(): Product[] {
+    const defaults = PRODUCTS.map(normalizeProduct);
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaults));
+        window.dispatchEvent(new Event('dunga_products_updated'));
+      } catch (err) {
+        console.error('Failed to seed products locally:', err);
+      }
+
+      fetch('/api/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'seed' }),
+      }).catch((e) => console.warn('Could not seed DB API:', e));
+    }
+    return defaults;
+  },
 };

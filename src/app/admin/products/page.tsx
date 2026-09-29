@@ -25,7 +25,9 @@ import {
   Globe,
   ShieldCheck,
   Tag,
-  AlertCircle
+  AlertCircle,
+  RotateCcw,
+  DownloadCloud,
 } from 'lucide-react';
 
 export default function AdminProductsPage() {
@@ -63,6 +65,9 @@ export default function AdminProductsPage() {
     setIsModalOpen(true);
   };
 
+  const [isSeeding, setIsSeeding] = useState(false);
+  const [seedSuccessMsg, setSeedSuccessMsg] = useState('');
+
   const handleOpenEdit = (p: Product) => {
     setEditingProduct(p);
     setIsModalOpen(true);
@@ -72,6 +77,20 @@ export default function AdminProductsPage() {
     if (confirm(`Are you sure you want to delete "${title}"? This will remove it from the public store and sitemap.`)) {
       productStore.deleteProduct(id);
       loadProducts();
+    }
+  };
+
+  const handleSeedDemoProducts = async () => {
+    setIsSeeding(true);
+    try {
+      const seeded = productStore.seedAllDemoProducts();
+      setProducts(seeded);
+      setSeedSuccessMsg('All 6 software code packages & SEO profiles loaded successfully!');
+      setTimeout(() => setSeedSuccessMsg(''), 5000);
+    } catch (err: any) {
+      alert('Error loading demo products: ' + err.message);
+    } finally {
+      setIsSeeding(false);
     }
   };
 
@@ -121,7 +140,18 @@ export default function AdminProductsPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2.5">
+          <button
+            type="button"
+            onClick={handleSeedDemoProducts}
+            disabled={isSeeding}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 text-xs font-bold text-[#246e7f] hover:text-[#1a515e] bg-[#e6f4f7] hover:bg-[#d8eef3] border border-[#246e7f]/30 rounded-xl transition-all shadow-xs active:scale-95 disabled:opacity-50"
+            title="Import all 6 pre-built software suites with complete codebases, demos, and SEO metadata"
+          >
+            <DownloadCloud className="w-4 h-4 text-[#e06527]" />
+            <span>{isSeeding ? 'Importing Codes...' : 'Load All Demo Products (6)'}</span>
+          </button>
+
           <Link
             href="/products"
             target="_blank"
@@ -140,6 +170,13 @@ export default function AdminProductsPage() {
           </button>
         </div>
       </div>
+
+      {seedSuccessMsg && (
+        <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs px-4 py-3 rounded-2xl flex items-center gap-2.5 animate-in fade-in duration-200">
+          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+          <span className="font-bold">{seedSuccessMsg}</span>
+        </div>
+      )}
 
       {/* Real-time SEO Analytics Top Stat Bar */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
