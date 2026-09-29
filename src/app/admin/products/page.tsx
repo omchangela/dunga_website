@@ -78,12 +78,18 @@ export default function AdminProductsPage() {
   const categories = ['All', 'CRM & ERP', 'AI & Automation', 'Fintech & Payments', 'E-Commerce', 'Mobile Apps', 'DevOps & Cloud'];
 
   const filteredProducts = products.filter((p) => {
+    if (!p) return false;
+    const title = (p.title || '').toLowerCase();
+    const cat = (p.category || '').toLowerCase();
+    const tech = Array.isArray(p.techStack) ? p.techStack : [];
+    const q = searchQuery.toLowerCase().trim();
+
     const matchesSearch =
-      !searchQuery.trim() ||
-      p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.techStack.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (p.seo?.primaryKeyword && p.seo.primaryKeyword.toLowerCase().includes(searchQuery.toLowerCase()));
+      !q ||
+      title.includes(q) ||
+      cat.includes(q) ||
+      tech.some((t) => t.toLowerCase().includes(q)) ||
+      Boolean(p.seo?.primaryKeyword && p.seo.primaryKeyword.toLowerCase().includes(q));
 
     const matchesCategory = selectedCategory === 'All' || p.category === selectedCategory;
 
@@ -269,7 +275,7 @@ export default function AdminProductsPage() {
 
                   {/* Tech Badges */}
                   <div className="flex flex-wrap gap-1">
-                    {prod.techStack.slice(0, 4).map((tech, idx) => (
+                    {(prod.techStack || []).slice(0, 4).map((tech, idx) => (
                       <span
                         key={idx}
                         className="px-2 py-0.5 text-[10px] font-mono rounded bg-slate-100 text-slate-700 border border-slate-200"
