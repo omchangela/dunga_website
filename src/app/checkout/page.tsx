@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { trackBeginCheckout } from '@/lib/gtm';
 import {
   ShieldCheck,
   CreditCard,
@@ -55,6 +56,23 @@ export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState<'RAZORPAY' | 'STRIPE' | 'PAYPAL' | 'UPI'>('RAZORPAY');
   const [isProcessing, setIsProcessing] = useState(false);
   const [promoInput, setPromoInput] = useState('');
+
+  // GA4 & Google Ads Begin Checkout DataLayer Event
+  useEffect(() => {
+    if (items.length > 0) {
+      trackBeginCheckout(
+        items.map((item) => ({
+          productId: item.product.id || item.product.slug,
+          productTitle: item.product.title,
+          category: item.product.category,
+          licenseType: item.licenseType,
+          price: currency === 'INR' ? item.subtotalINR : item.subtotalUSD,
+        })),
+        currency === 'INR' ? totalINR : totalUSD,
+        currency
+      );
+    }
+  }, [items.length, currency]);
 
   if (items.length === 0) {
     return (

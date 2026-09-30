@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { trackViewItem } from '@/lib/gtm';
 import {
   Star,
   Play,
@@ -41,6 +42,23 @@ export function ProductDetailClient({ product }: Props) {
   const [selectedAddons, setSelectedAddons] = useState<SetupAddon[]>([]);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState<'overview' | 'features' | 'requirements' | 'changelog' | 'faqs' | 'reviews'>('overview');
+
+  // GA4 & Google Ads View Item DataLayer Event
+  useEffect(() => {
+    if (product) {
+      trackViewItem(
+        {
+          id: product.id,
+          slug: product.slug,
+          title: product.title,
+          category: product.category,
+          priceINR: product.regularPriceINR,
+          priceUSD: product.regularPriceUSD,
+        },
+        currency
+      );
+    }
+  }, [product, currency]);
 
   // Toggle Add-on in local selector
   const handleToggleAddon = (addon: SetupAddon) => {

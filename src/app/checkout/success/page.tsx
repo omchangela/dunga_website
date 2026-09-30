@@ -15,6 +15,7 @@ import {
   FileText,
 } from 'lucide-react';
 import { useCurrency } from '@/context/CurrencyContext';
+import { trackPurchase } from '@/lib/gtm';
 
 export default function CheckoutSuccessPage() {
   const { formatAmount } = useCurrency();
@@ -36,7 +37,28 @@ export default function CheckoutSuccessPage() {
     try {
       const saved = localStorage.getItem('dunga_latest_order');
       if (saved) {
-        setOrder(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        setOrder(parsed);
+
+        // GA4 & Google Ads Purchase DataLayer Event
+        trackPurchase({
+          orderNumber: parsed.orderNumber || `DNG-${Date.now()}`,
+          customerEmail: parsed.customerEmail,
+          customerPhone: parsed.customerPhone,
+          customerName: parsed.customerName,
+          amount: Number(parsed.totalAmount) || Number(parsed.amountINR) || Number(parsed.amountUSD) || 0,
+          currency: parsed.currency || 'INR',
+          tax: Number(parsed.tax) || 0,
+          items: Array.isArray(parsed.items)
+            ? parsed.items.map((it: any) => ({
+                productId: it.productId || it.productSlug || 'prod',
+                productTitle: it.productTitle || 'Software Source Code',
+                category: it.category || 'Source Code',
+                licenseType: it.licenseType || 'REGULAR',
+                price: Number(it.licensePrice) || Number(it.price) || 0,
+              }))
+            : [],
+        });
       }
     } catch {
       // ignore

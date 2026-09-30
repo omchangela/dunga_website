@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Product, LicenseType, SetupAddon, CartItem } from '@/types';
 import { useCurrency } from './CurrencyContext';
+import { trackAddToCart } from '@/lib/gtm';
 
 interface CartContextType {
   items: CartItem[];
@@ -132,6 +133,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           ...pricing,
         },
       ];
+    });
+
+    // GA4 & Google Ads Add to Cart DataLayer Event
+    trackAddToCart({
+      productId: product.id || product.slug,
+      productTitle: product.title,
+      category: product.category,
+      licenseType,
+      price: pricing.subtotalINR || pricing.licensePriceINR,
+      currency: 'INR',
     });
 
     setIsCartOpen(true);
