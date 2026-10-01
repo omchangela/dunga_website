@@ -37,6 +37,10 @@ import {
   Globe,
   Database,
   RefreshCw,
+  MousePointerClick,
+  Settings2,
+  PartyPopper,
+  ArrowUpRight,
 } from 'lucide-react';
 import { PRODUCTS } from '@/data/products';
 import { Product } from '@/types';
@@ -892,50 +896,99 @@ export default function ProductsPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 5. 3-STEP DEPLOYMENT ROADMAP */}
+      {/* 5. 3-STEP ROADMAP: From pick to live in 3 steps */}
       {/* ============================================================ */}
-      <section className="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center space-y-3 mb-12">
-          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-            How Deployment & Ownership Works
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-600">
-            From checkout to live production in 3 frictionless steps.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
-          <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs relative space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-[#e6f4f7] text-[#246e7f] flex items-center justify-center font-black text-lg">
-              1
-            </div>
-            <h3 className="text-base font-bold text-slate-900">Acquire & Instant Download</h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Complete your checkout with instant UPI, Razorpay, or Stripe. Receive immediate access to the full source code ZIP archive and digital license key.
-            </p>
+      <section className="py-14 sm:py-20 lg:py-28 border-t border-slate-200/80 bg-slate-50/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mb-12">
+            <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#e06527] bg-orange-50 border border-orange-200/80 px-3 py-1 rounded-full mb-3">
+              How it works
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-heading">
+              From pick to live in 3 steps.
+            </h2>
           </div>
 
-          <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs relative space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-[#fff3eb] text-[#e06527] flex items-center justify-center font-black text-lg">
-              2
+          <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Step 1 */}
+            <div className="group relative bg-white border border-slate-200 rounded-2xl p-8 overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:border-transparent">
+              <div
+                className="absolute inset-0 bg-gradient-to-br from-[#e06527] to-amber-500 opacity-[0.04] group-hover:opacity-[0.12] transition-opacity duration-500 pointer-events-none"
+                aria-hidden="true"
+              />
+              <div
+                className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#e06527] to-amber-500 opacity-60 group-hover:opacity-100 transition-opacity duration-500"
+                aria-hidden="true"
+              />
+              <div className="relative">
+                <div className="flex items-center gap-3 mb-5">
+                  <span className="text-xs font-mono font-bold text-slate-400">01</span>
+                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#e06527] to-amber-500 flex items-center justify-center shadow-sm group-hover:scale-110 group-hover:shadow-lg transition-all duration-500 text-white">
+                    <MousePointerClick className="w-5 h-5 text-white" />
+                  </div>
+                </div>
+                <h3 className="text-lg font-bold tracking-tight text-slate-900 mb-2">Choose a product</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Browse our suite, preview demos, and pick the SaaS that fits your launch.
+                </p>
+              </div>
             </div>
-            <h3 className="text-base font-bold text-slate-900">Self-Host or Engineer Setup</h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Deploy yourself using our step-by-step Docker compose and environment configs, or opt for our 24-48h VPS installation add-on managed by Dunga engineers.
-            </p>
-          </div>
 
-          <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs relative space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-black text-lg">
-              3
+            {/* Step 2 */}
+            <div className="group relative bg-white border border-slate-200 rounded-2xl p-8 overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:border-transparent">
+              <div
+                className="absolute inset-0 bg-gradient-to-br from-purple-600 to-indigo-600 opacity-[0.04] group-hover:opacity-[0.12] transition-opacity duration-500 pointer-events-none"
+                aria-hidden="true"
+              />
+              <div
+                className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-purple-600 to-indigo-600 opacity-60 group-hover:opacity-100 transition-opacity duration-500"
+                aria-hidden="true"
+              />
+              <div className="relative">
+                <div className="flex items-center gap-3 mb-5">
+                  <span className="text-xs font-mono font-bold text-slate-400">02</span>
+                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center shadow-sm group-hover:scale-110 group-hover:shadow-lg transition-all duration-500 text-white">
+                    <Settings2 className="w-5 h-5 text-white" />
+                  </div>
+                </div>
+                <h3 className="text-lg font-bold tracking-tight text-slate-900 mb-2">Customize &amp; install</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  We brand it, configure it, and deploy on your server — or DIY with our docs.
+                </p>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-1 mt-4 text-sm font-semibold text-[#246e7f] hover:underline"
+                >
+                  <span>Installation services</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
             </div>
-            <h3 className="text-base font-bold text-slate-900">White-Label & Scale</h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Replace logos, bind custom domain SSL, connect payment webhooks, and start onboarding your paying clients with 100% margin retention.
-            </p>
-          </div>
 
+            {/* Step 3 */}
+            <div className="group relative bg-white border border-slate-200 rounded-2xl p-8 overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:border-transparent">
+              <div
+                className="absolute inset-0 bg-gradient-to-br from-cyan-500 to-blue-600 opacity-[0.04] group-hover:opacity-[0.12] transition-opacity duration-500 pointer-events-none"
+                aria-hidden="true"
+              />
+              <div
+                className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-cyan-500 to-blue-600 opacity-60 group-hover:opacity-100 transition-opacity duration-500"
+                aria-hidden="true"
+              />
+              <div className="relative">
+                <div className="flex items-center gap-3 mb-5">
+                  <span className="text-xs font-mono font-bold text-slate-400">03</span>
+                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-sm group-hover:scale-110 group-hover:shadow-lg transition-all duration-500 text-white">
+                    <PartyPopper className="w-5 h-5 text-white" />
+                  </div>
+                </div>
+                <h3 className="text-lg font-bold tracking-tight text-slate-900 mb-2">Launch &amp; grow</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Go live in days. We support updates, fixes, and feature requests as you scale.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
