@@ -537,17 +537,18 @@ export default function ProductsPage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
         
         {/* Results Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2">
-            <h2 className="text-lg sm:text-xl font-black text-slate-900">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-6">
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <h2 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
               {selectedCategory === 'All Categories' ? 'All Ready-Made Software & SaaS Suites' : selectedCategory}
             </h2>
-            <span className="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full">
+            <span className="bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap shrink-0 shadow-2xs inline-flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               {filteredProducts.length} Available
             </span>
           </div>
 
-          <span className="text-xs text-slate-500 hidden sm:inline-block">
+          <span className="text-xs text-slate-500 hidden md:inline-block">
             All codebases tested for Next.js 15 & Node 20+ LTS
           </span>
         </div>
