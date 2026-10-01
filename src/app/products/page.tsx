@@ -298,12 +298,13 @@ export default function ProductsPage() {
                   {productsList && productsList[0] ? (
                     <div className="space-y-4">
                       <div className="relative aspect-video rounded-2xl overflow-hidden bg-slate-900 group border border-slate-100 shadow-inner">
-                        <Image
+                        <img
                           src={productsList[0].thumbnailUrl || productsList[0].bannerUrl || '/banner_1.png'}
                           alt={productsList[0].title}
-                          fill
-                          sizes="(max-width: 768px) 100vw, 50vw"
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = '/banner_1.png';
+                          }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
                         
@@ -562,9 +563,12 @@ export default function ProductsPage() {
                 {/* Visual Thumbnail & Live Demo Hover Overlay */}
                 <div className="relative aspect-[16/10] overflow-hidden bg-slate-900">
                   <img
-                    src={product.thumbnailUrl}
+                    src={product.thumbnailUrl || product.bannerUrl || '/banner_1.png'}
                     alt={product.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-95 group-hover:opacity-100"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = '/banner_1.png';
+                    }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
 
@@ -738,9 +742,12 @@ export default function ProductsPage() {
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 flex-1">
                   <div className="w-full sm:w-48 h-32 rounded-2xl overflow-hidden relative shrink-0 bg-slate-900">
                     <img
-                      src={product.thumbnailUrl}
+                      src={product.thumbnailUrl || product.bannerUrl || '/banner_1.png'}
                       alt={product.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/banner_1.png';
+                      }}
                     />
                     <div className="absolute top-2 left-2 bg-[#246e7f] text-white text-[10px] font-bold px-2 py-0.5 rounded">
                       {product.category}
