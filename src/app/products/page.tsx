@@ -148,75 +148,271 @@ export default function ProductsPage() {
       {/* ============================================================ */}
       {/* 1. HERO SECTION: Modern SaaS Marketplace Banner (Diploy-inspired) */}
       {/* ============================================================ */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#0a1e24] via-[#0d2a33] to-[#123945] text-white pt-16 pb-20 sm:pt-20 sm:pb-28">
-        {/* Background Glowing Ambient Orbs */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#246e7f]/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#e06527]/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none opacity-40" />
+      <section className="relative overflow-hidden bg-gradient-to-b from-white via-slate-50/70 to-slate-100/90 pt-10 pb-16 sm:pt-14 sm:pb-24 border-b border-slate-200/60">
+        {/* Ambient Subtle Gradients */}
+        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-orange-200/25 rounded-full blur-3xl pointer-events-none -z-10" />
+        <div className="absolute top-1/3 left-10 w-[450px] h-[450px] bg-teal-200/20 rounded-full blur-3xl pointer-events-none -z-10" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f040_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f040_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none opacity-60 -z-10" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-12">
             
-            {/* Top Pill Badge */}
-            <div className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/20 text-teal-200 text-xs font-bold px-4 py-1.5 rounded-full shadow-lg transition-all">
-              <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              <Sparkles className="w-3.5 h-3.5 text-[#e06527]" />
-              <span>100% In-House Proprietary Codebases • Zero Recurring Fees</span>
+            {/* Left Column: Heading, Animated Rotator, CTAs & Social Proof */}
+            <div className="w-full lg:w-6/12 flex flex-col gap-6 max-w-xl">
+              
+              {/* Eyebrow Pill */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs w-fit">
+                <ShieldCheck className="w-4 h-4 text-[#e06527]" />
+                <span className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+                  Helping Businesses Launch Faster
+                </span>
+              </div>
+
+              {/* Dynamic Sliding Headline */}
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-[1.16] font-heading">
+                <span className="block">Production-ready</span>
+                <span className="block">
+                  software,{' '}
+                  <span className="bento-sliding-text-container">
+                    <span className="bento-sliding-text-inner">
+                      <span className="bento-sliding-text bento-accent-text">beautifully shipped.</span>
+                      <span className="bento-sliding-text bento-accent-text">ready to launch.</span>
+                      <span className="bento-sliding-text bento-accent-text">built to scale.</span>
+                      <span className="bento-sliding-text bento-accent-text">beautifully shipped.</span>
+                    </span>
+                  </span>
+                </span>
+              </h1>
+
+              {/* Subheading */}
+              <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
+                Skip months of costly agency development. Launch with our ready-made SaaS applications — fully customizable, unencrypted source code, expertly supported, and built to scale.
+              </p>
+
+              {/* Dual Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3.5 pt-1">
+                <a
+                  href="#marketplace-grid"
+                  className="bg-[#e06527] hover:bg-[#c9561c] text-white px-7 py-3.5 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-2 shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/35 hover:-translate-y-0.5 no-underline"
+                >
+                  Explore products
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+
+                <a
+                  href="/contact"
+                  className="bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 px-6 py-3.5 rounded-xl font-semibold text-base transition-all flex items-center justify-center gap-2 hover:-translate-y-0.5 shadow-xs"
+                >
+                  <MessageCircle className="w-4 h-4 text-[#246e7f]" />
+                  Talk to sales
+                </a>
+              </div>
+
+              {/* Verified Rating & Social Proof Bar */}
+              <div className="flex items-center gap-4 pt-2 border-t border-slate-200/80">
+                <div className="flex -space-x-2 overflow-hidden">
+                  <div className="inline-block h-8 w-8 rounded-full ring-2 ring-white bg-slate-900 text-white text-[10px] font-bold flex items-center justify-center">
+                    AK
+                  </div>
+                  <div className="inline-block h-8 w-8 rounded-full ring-2 ring-white bg-[#246e7f] text-white text-[10px] font-bold flex items-center justify-center">
+                    PS
+                  </div>
+                  <div className="inline-block h-8 w-8 rounded-full ring-2 ring-white bg-[#e06527] text-white text-[10px] font-bold flex items-center justify-center">
+                    VM
+                  </div>
+                  <div className="inline-block h-8 w-8 rounded-full ring-2 ring-white bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center">
+                    RD
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-1 text-amber-500">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-current" />
+                    ))}
+                    <span className="text-slate-900 font-bold text-sm ml-1">4.9 rating</span>
+                  </div>
+                  <div className="text-xs text-slate-500">from 500+ verified founders & CTOs</div>
+                </div>
+              </div>
+
+              {/* 4 Feature Value Pills */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+                <div className="bg-white border border-slate-200/90 rounded-xl px-2.5 py-2 text-center shadow-xs">
+                  <strong className="block text-[11px] font-bold text-slate-900">100% Full Code</strong>
+                  <span className="text-[10px] text-slate-500">Unencrypted</span>
+                </div>
+                <div className="bg-white border border-slate-200/90 rounded-xl px-2.5 py-2 text-center shadow-xs">
+                  <strong className="block text-[11px] font-bold text-slate-900">24-48h Setup</strong>
+                  <span className="text-[10px] text-slate-500">VPS Installation</span>
+                </div>
+                <div className="bg-white border border-slate-200/90 rounded-xl px-2.5 py-2 text-center shadow-xs">
+                  <strong className="block text-[11px] font-bold text-slate-900">White-Label</strong>
+                  <span className="text-[10px] text-slate-500">100% Your IP</span>
+                </div>
+                <div className="bg-white border border-slate-200/90 rounded-xl px-2.5 py-2 text-center shadow-xs">
+                  <strong className="block text-[11px] font-bold text-slate-900">Zero Monthly</strong>
+                  <span className="text-[10px] text-slate-500">One-time Buy</span>
+                </div>
+              </div>
+
             </div>
 
-            {/* Headline */}
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white font-heading leading-[1.15]">
-              Ready-Made <span className="bg-gradient-to-r from-teal-300 via-cyan-200 to-amber-300 bg-clip-text text-transparent">SaaS Apps & Source Code</span> to Launch in Days
-            </h1>
-
-            {/* Subtitle */}
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal max-w-2xl mx-auto">
-              Skip 6+ months of costly agency development. Acquire production-grade, unencrypted Next.js, FastAPI & Flutter codebases with full PostgreSQL schemas, Docker compose, and optional 24-48h VPS server deployment.
-            </p>
-
-            {/* Trust Highlights Grid */}
-            <div className="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-left max-w-2xl mx-auto">
-              <div className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-xl p-3 flex items-center gap-2.5">
-                <Code2 className="w-4 h-4 text-teal-300 shrink-0" />
-                <div className="text-[11px] leading-tight font-medium">
-                  <strong className="block text-white font-bold">100% Full Code</strong>
-                  <span className="text-slate-400">Unencrypted access</span>
+            {/* Right Column: Interactive SaaS Showcase Terminal */}
+            <div className="w-full lg:w-6/12 relative">
+              
+              {/* Floating Top-Right Pill */}
+              <div className="absolute -top-4 -right-2 sm:-right-4 z-20 bg-white/95 backdrop-blur-md border border-amber-200 shadow-xl rounded-2xl px-3.5 py-2 flex items-center gap-2.5 animate-bounce-slow">
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-400 flex items-center justify-center text-white shadow-xs">
+                  <Flame className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-[11px] font-bold text-slate-900">500+ Deployments</div>
+                  <div className="text-[10px] text-slate-500">Production Tested</div>
                 </div>
               </div>
 
-              <div className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-xl p-3 flex items-center gap-2.5">
-                <Server className="w-4 h-4 text-amber-300 shrink-0" />
-                <div className="text-[11px] leading-tight font-medium">
-                  <strong className="block text-white font-bold">24-48h Setup</strong>
-                  <span className="text-slate-400">VPS installation</span>
+              {/* Floating Bottom-Left Pill */}
+              <div className="absolute -bottom-4 -left-2 sm:-left-4 z-20 bg-white/95 backdrop-blur-md border border-teal-200 shadow-xl rounded-2xl px-3.5 py-2 flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#246e7f] to-teal-400 flex items-center justify-center text-white shadow-xs">
+                  <Code2 className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-[11px] font-bold text-slate-900">Next.js 15 & FastAPI</div>
+                  <div className="text-[10px] text-teal-700 font-semibold">PostgreSQL + Docker Ready</div>
                 </div>
               </div>
 
-              <div className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-xl p-3 flex items-center gap-2.5">
-                <ShieldCheck className="w-4 h-4 text-emerald-300 shrink-0" />
-                <div className="text-[11px] leading-tight font-medium">
-                  <strong className="block text-white font-bold">White-Label</strong>
-                  <span className="text-slate-400">Rebrand & resell</span>
+              {/* Main Showcase Browser Card */}
+              <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-300">
+                {/* Browser Mockup Top Bar */}
+                <div className="bg-slate-900 px-4 py-3 flex items-center justify-between border-b border-slate-800">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-rose-500" />
+                    <div className="w-3 h-3 rounded-full bg-amber-500" />
+                    <div className="w-3 h-3 rounded-full bg-emerald-500" />
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1 rounded-full text-[11px] text-slate-300 font-mono">
+                    <Lock className="w-3 h-3 text-emerald-400" />
+                    <span>marketplace.dungatech.com/preview</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-[11px] text-emerald-400 font-medium bg-emerald-950/60 px-2 py-0.5 rounded-md border border-emerald-800/50">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    Live Demo
+                  </div>
+                </div>
+
+                {/* Showcase Content */}
+                <div className="p-5 sm:p-6 space-y-4">
+                  {/* Active Featured Product Banner Preview */}
+                  {productsList && productsList[0] ? (
+                    <div className="space-y-4">
+                      <div className="relative aspect-video rounded-2xl overflow-hidden bg-slate-900 group border border-slate-100 shadow-inner">
+                        <Image
+                          src={productsList[0].image || '/banner_1.png'}
+                          alt={productsList[0].title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
+                        
+                        {/* Overlay Tags */}
+                        <div className="absolute top-3 left-3 flex items-center gap-2">
+                          <span className="bg-[#e06527] text-white text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-lg shadow-sm">
+                            ⭐ Top Rated Codebase
+                          </span>
+                          <span className="bg-black/60 backdrop-blur-md text-white text-[10px] font-semibold px-2 py-1 rounded-lg">
+                            {productsList[0].category}
+                          </span>
+                        </div>
+
+                        {/* Overlay Actions */}
+                        <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+                          <div>
+                            <h3 className="text-white text-sm sm:text-base font-bold line-clamp-1 drop-shadow-sm">
+                              {productsList[0].title}
+                            </h3>
+                            <p className="text-slate-300 text-xs line-clamp-1">
+                              {productsList[0].shortDescription}
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => openLiveDemo(productsList[0])}
+                            className="shrink-0 bg-white/95 hover:bg-white text-slate-900 text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-1.5 shadow-lg transition-all hover:scale-105"
+                          >
+                            <Play className="w-3.5 h-3.5 fill-[#e06527] text-[#e06527]" />
+                            Test Live
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Tech Stack Chips & Price Summary */}
+                      <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+                        <div className="flex flex-wrap gap-1.5">
+                          {productsList[0].techStack?.slice(0, 4).map((tech) => (
+                            <span
+                              key={tech}
+                              className="text-[11px] font-semibold bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg border border-slate-200"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <div className="text-right">
+                            <div className="text-xs text-slate-400 line-through">
+                              {formatPrice(productsList[0].originalPriceINR)}
+                            </div>
+                            <div className="text-base sm:text-lg font-black text-slate-900">
+                              {formatPrice(productsList[0].regularPriceINR)}
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => addItem(productsList[0], false)}
+                            className="bg-[#246e7f] hover:bg-[#1a515e] text-white text-xs font-bold px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-sm"
+                          >
+                            <ShoppingBag className="w-3.5 h-3.5" />
+                            Get Code
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Quick Switcher of other top items */}
+                      <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
+                        <span className="text-slate-500 font-medium">Explore popular turnkeys:</span>
+                        <div className="flex items-center gap-2 font-semibold">
+                          {productsList.slice(1, 4).map((p) => (
+                            <Link
+                              key={p.id}
+                              href={`/products/${p.slug}`}
+                              className="text-slate-700 hover:text-[#e06527] transition-colors truncate max-w-[90px]"
+                            >
+                              • {p.title.split(' ')[0]}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+
+                    </div>
+                  ) : null}
                 </div>
               </div>
 
-              <div className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-xl p-3 flex items-center gap-2.5">
-                <Zap className="w-4 h-4 text-cyan-300 shrink-0" />
-                <div className="text-[11px] leading-tight font-medium">
-                  <strong className="block text-white font-bold">Lifetime Minor</strong>
-                  <span className="text-slate-400">Free updates</span>
-                </div>
-              </div>
             </div>
 
           </div>
         </div>
       </section>
 
+
       {/* ============================================================ */}
       {/* 2. DYNAMIC FILTER & CONTROLS BAR (Sticky & Responsive) */}
       {/* ============================================================ */}
-      <section className="relative -mt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-20">
+      <section id="marketplace-grid" className="relative -mt-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-20 scroll-mt-24">
         <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-xl space-y-4">
           
           {/* Top Row: Search Input + Sorting + View Switcher */}
