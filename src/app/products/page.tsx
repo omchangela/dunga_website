@@ -261,28 +261,6 @@ export default function ProductsPage() {
             {/* Right Column: Interactive SaaS Showcase Terminal */}
             <div className="w-full lg:w-6/12 relative">
               
-              {/* Floating Top-Right Pill */}
-              <div className="absolute -top-4 -right-2 sm:-right-4 z-20 bg-white/95 backdrop-blur-md border border-amber-200 shadow-xl rounded-2xl px-3.5 py-2 flex items-center gap-2.5 animate-bounce-slow">
-                <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-400 flex items-center justify-center text-white shadow-xs">
-                  <Flame className="w-4 h-4" />
-                </div>
-                <div>
-                  <div className="text-[11px] font-bold text-slate-900">500+ Deployments</div>
-                  <div className="text-[10px] text-slate-500">Production Tested</div>
-                </div>
-              </div>
-
-              {/* Floating Bottom-Left Pill */}
-              <div className="absolute -bottom-4 -left-2 sm:-left-4 z-20 bg-white/95 backdrop-blur-md border border-teal-200 shadow-xl rounded-2xl px-3.5 py-2 flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#246e7f] to-teal-400 flex items-center justify-center text-white shadow-xs">
-                  <Code2 className="w-4 h-4" />
-                </div>
-                <div>
-                  <div className="text-[11px] font-bold text-slate-900">Next.js 15 & FastAPI</div>
-                  <div className="text-[10px] text-teal-700 font-semibold">PostgreSQL + Docker Ready</div>
-                </div>
-              </div>
-
               {/* Main Showcase Browser Card */}
               <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-300">
                 {/* Browser Mockup Top Bar */}
@@ -413,7 +391,7 @@ export default function ProductsPage() {
       {/* 2. DYNAMIC FILTER & CONTROLS BAR (Sticky & Responsive) */}
       {/* ============================================================ */}
       <section id="marketplace-grid" className="relative -mt-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-20 scroll-mt-24">
-        <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-xl space-y-4">
+        <div className="bg-white rounded-3xl p-4 sm:p-6 border border-slate-200/80 shadow-xl space-y-3.5">
           
           {/* Top Row: Search Input + Sorting + View Switcher */}
           <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
@@ -423,7 +401,7 @@ export default function ProductsPage() {
               <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
               <input
                 type="text"
-                placeholder="Search by keywords, SaaS type, or tech stack (e.g. Next.js, CRM, AI, Flutter)..."
+                placeholder="Search SaaS products, CRM, AI, tech stack..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-2xl pl-10 pr-10 py-2.5 text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#246e7f] focus:bg-white transition-all shadow-inner"
@@ -440,14 +418,14 @@ export default function ProductsPage() {
             </div>
 
             {/* Right Controls: Sort & Grid/List View */}
-            <div className="flex items-center gap-2.5 shrink-0">
+            <div className="flex items-center justify-between md:justify-end gap-2.5 w-full md:w-auto">
               {/* Sort By Dropdown */}
-              <div className="relative flex items-center">
+              <div className="relative flex-1 md:flex-none flex items-center">
                 <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400 absolute left-3 pointer-events-none" />
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
-                  className="bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-xl pl-8 pr-8 py-2 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#246e7f] cursor-pointer appearance-none"
+                  className="w-full md:w-auto bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-xl pl-8 pr-8 py-2 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#246e7f] cursor-pointer appearance-none"
                 >
                   <option value="popular">Most Popular & Best Sellers</option>
                   <option value="rating">Highest Customer Rating</option>
@@ -458,7 +436,7 @@ export default function ProductsPage() {
               </div>
 
               {/* View Mode Toggle */}
-              <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
+              <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 shrink-0">
                 <button
                   type="button"
                   onClick={() => setViewMode('grid')}
@@ -489,7 +467,7 @@ export default function ProductsPage() {
           </div>
 
           {/* Category Tabs Pill Carousel */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none border-t border-slate-100 pt-3">
+          <div className="flex items-center gap-2 overflow-x-auto pb-1.5 scrollbar-none border-t border-slate-100 pt-3 -mx-1 px-1 sm:mx-0 sm:px-0">
             {CATEGORIES.map((cat) => {
               const isSelected = selectedCategory === cat;
               const count = categoryCounts[cat] || 0;
@@ -498,7 +476,7 @@ export default function ProductsPage() {
                   key={cat}
                   type="button"
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-2 ${
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-2 shrink-0 ${
                     isSelected
                       ? 'bg-[#246e7f] text-white shadow-sm ring-1 ring-[#246e7f]'
                       : 'bg-slate-100/80 hover:bg-slate-200/80 text-slate-600 hover:text-slate-900 border border-slate-200/60'
@@ -518,14 +496,14 @@ export default function ProductsPage() {
           </div>
 
           {/* Quick Tech Stack Filter Pills */}
-          <div className="flex items-center gap-1.5 flex-wrap text-xs text-slate-500 pt-1">
-            <span className="font-semibold text-slate-400 text-[11px] mr-1">Filter Stack:</span>
+          <div className="flex items-center gap-1.5 overflow-x-auto sm:flex-wrap text-xs text-slate-500 pt-1 pb-1 scrollbar-none -mx-1 px-1 sm:mx-0 sm:px-0">
+            <span className="font-semibold text-slate-400 text-[11px] mr-1 shrink-0">Filter Stack:</span>
             {POPULAR_TECH_STACKS.map((tech) => (
               <button
                 key={tech}
                 type="button"
                 onClick={() => setSelectedTech(tech)}
-                className={`px-2.5 py-1 rounded-lg text-[11px] font-mono transition-all ${
+                className={`px-2.5 py-1 rounded-lg text-[11px] font-mono transition-all shrink-0 ${
                   selectedTech === tech
                     ? 'bg-slate-900 text-white font-bold'
                     : 'bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200'
@@ -543,7 +521,7 @@ export default function ProductsPage() {
                   setSelectedTech('All Stacks');
                   setSearchQuery('');
                 }}
-                className="text-[11px] font-bold text-rose-600 hover:underline ml-auto flex items-center gap-1"
+                className="text-[11px] font-bold text-rose-600 hover:underline ml-auto flex items-center gap-1 shrink-0"
               >
                 Reset Filters
               </button>
@@ -728,25 +706,28 @@ export default function ProductsPage() {
                       </strong>
                     </div>
 
-                    <div className="flex items-end justify-between gap-2">
-                      <div>
-                        <span className="text-[10px] uppercase font-bold text-slate-400 block">
-                          One-Time License
-                        </span>
-                        <div className="flex items-baseline gap-1.5">
-                          <span className="text-xl font-black text-slate-900 tracking-tight">
+                    {/* Price and Actions */}
+                    <div className="pt-3 border-t border-slate-100 space-y-2.5">
+                      {/* Price header row */}
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                             {formatPrice(product.regularPriceINR, product.regularPriceUSD)}
                           </span>
-                          <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-1.5 py-0.5 rounded">
+                          <span className="inline-flex items-center text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2 py-0.5 rounded-full whitespace-nowrap">
                             Zero Monthly Fees
                           </span>
                         </div>
+                        <span className="text-[10px] uppercase font-bold text-slate-400 whitespace-nowrap">
+                          One-Time License
+                        </span>
                       </div>
 
-                      <div className="flex items-center gap-2">
+                      {/* Action buttons row */}
+                      <div className="grid grid-cols-2 gap-2 pt-1">
                         <Link
                           href={`/products/${product.slug}`}
-                          className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs px-3.5 py-2.5 rounded-xl transition-colors"
+                          className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs py-2.5 rounded-xl transition-colors text-center flex items-center justify-center gap-1"
                         >
                           Details
                         </Link>
@@ -754,9 +735,9 @@ export default function ProductsPage() {
                         <button
                           type="button"
                           onClick={() => addItem(product, 'REGULAR', [])}
-                          className="bg-[#246e7f] hover:bg-[#1a515e] text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all shadow-md shadow-[#246e7f]/20 flex items-center gap-1.5 active:scale-95"
+                          className="bg-[#246e7f] hover:bg-[#1a515e] text-white font-bold text-xs py-2.5 rounded-xl transition-all shadow-md shadow-[#246e7f]/20 flex items-center justify-center gap-1.5 active:scale-95 whitespace-nowrap"
                         >
-                          <ShoppingBag className="w-3.5 h-3.5" />
+                          <ShoppingBag className="w-3.5 h-3.5 shrink-0" />
                           <span>Buy Code</span>
                         </button>
                       </div>
