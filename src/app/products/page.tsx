@@ -299,7 +299,7 @@ export default function ProductsPage() {
                     <div className="space-y-4">
                       <div className="relative aspect-video rounded-2xl overflow-hidden bg-slate-900 group border border-slate-100 shadow-inner">
                         <Image
-                          src={productsList[0].image || '/banner_1.png'}
+                          src={productsList[0].thumbnailUrl || productsList[0].bannerUrl || '/banner_1.png'}
                           alt={productsList[0].title}
                           fill
                           sizes="(max-width: 768px) 100vw, 50vw"
@@ -354,15 +354,15 @@ export default function ProductsPage() {
                         <div className="flex items-center gap-2">
                           <div className="text-right">
                             <div className="text-xs text-slate-400 line-through">
-                              {formatPrice(productsList[0].originalPriceINR)}
+                              {formatPrice((productsList[0].regularPriceINR || 5499) * 1.5, (productsList[0].regularPriceUSD || 79) * 1.5)}
                             </div>
                             <div className="text-base sm:text-lg font-black text-slate-900">
-                              {formatPrice(productsList[0].regularPriceINR)}
+                              {formatPrice(productsList[0].regularPriceINR, productsList[0].regularPriceUSD)}
                             </div>
                           </div>
                           <button
                             type="button"
-                            onClick={() => addItem(productsList[0], false)}
+                            onClick={() => addItem(productsList[0], 'REGULAR', [])}
                             className="bg-[#246e7f] hover:bg-[#1a515e] text-white text-xs font-bold px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-sm"
                           >
                             <ShoppingBag className="w-3.5 h-3.5" />
