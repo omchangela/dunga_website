@@ -210,19 +210,27 @@ export default function ProductsPage() {
 
               {/* Verified Rating & Social Proof Bar */}
               <div className="flex items-center gap-4 pt-2 border-t border-slate-200/80">
-                <div className="flex -space-x-2 overflow-hidden">
-                  <div className="inline-block h-8 w-8 rounded-full ring-2 ring-white bg-slate-900 text-white text-[10px] font-bold flex items-center justify-center">
-                    AK
-                  </div>
-                  <div className="inline-block h-8 w-8 rounded-full ring-2 ring-white bg-[#246e7f] text-white text-[10px] font-bold flex items-center justify-center">
-                    PS
-                  </div>
-                  <div className="inline-block h-8 w-8 rounded-full ring-2 ring-white bg-[#e06527] text-white text-[10px] font-bold flex items-center justify-center">
-                    VM
-                  </div>
-                  <div className="inline-block h-8 w-8 rounded-full ring-2 ring-white bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center">
-                    RD
-                  </div>
+                <div className="flex -space-x-2.5 overflow-hidden shrink-0">
+                  <img
+                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=120&auto=format&fit=crop"
+                    alt="Verified Founder"
+                    className="inline-block h-8 w-8 rounded-full ring-2 ring-white object-cover shadow-xs"
+                  />
+                  <img
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=120&auto=format&fit=crop"
+                    alt="Verified Founder"
+                    className="inline-block h-8 w-8 rounded-full ring-2 ring-white object-cover shadow-xs"
+                  />
+                  <img
+                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=120&auto=format&fit=crop"
+                    alt="Verified Founder"
+                    className="inline-block h-8 w-8 rounded-full ring-2 ring-white object-cover shadow-xs"
+                  />
+                  <img
+                    src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=120&auto=format&fit=crop"
+                    alt="Verified Founder"
+                    className="inline-block h-8 w-8 rounded-full ring-2 ring-white object-cover shadow-xs"
+                  />
                 </div>
 
                 <div>
