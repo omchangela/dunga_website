@@ -554,58 +554,62 @@ export function ProductDetailClient({ product }: Props) {
               </div>
 
               {/* Add-ons Checkbox List */}
-              <div className="pt-4 border-t border-slate-200">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                    2. Optional Setup Add-ons
-                  </span>
-                  <span className="text-[10px] text-emerald-600 font-bold">24-48h Delivery</span>
-                </div>
+              {(product.availableAddons && product.availableAddons.length > 0) && (
+                <div className="pt-4 border-t border-slate-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                      <span>2. Optional Code Add-ons & Setup</span>
+                    </span>
+                    <span className="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
+                      Expert Assisted
+                    </span>
+                  </div>
 
-                <div className="space-y-2">
-                  {product.availableAddons.map((addon) => {
-                    const isChecked = selectedAddons.some((a) => a.id === addon.id);
-                    return (
-                      <label
-                        key={addon.id}
-                        className={`flex items-start justify-between gap-3 p-2.5 rounded-xl border cursor-pointer transition-all text-xs ${
-                          isChecked
-                            ? 'bg-[#e6f4f7]/80 border-[#246e7f]/50 text-[#1a515e]'
-                            : 'bg-slate-50/70 border-slate-200 hover:bg-slate-100 text-slate-700'
-                        }`}
-                      >
-                        <div className="flex items-start gap-2 min-w-0">
-                          <input
-                            type="checkbox"
-                            checked={isChecked}
-                            onChange={() => handleToggleAddon(addon)}
-                            className="mt-0.5 rounded border-slate-300 text-[#246e7f] focus:ring-[#246e7f]"
-                          />
-                          <div>
-                            <div className="font-bold text-slate-900 flex items-center gap-1">
-                              {addon.name}
-                              {addon.recommended && (
-                                <span className="bg-emerald-100 text-emerald-800 text-[9px] px-1 rounded">
-                                  Popular
-                                </span>
-                              )}
+                  <div className="space-y-2">
+                    {product.availableAddons.map((addon) => {
+                      const isChecked = selectedAddons.some((a) => a.id === addon.id);
+                      return (
+                        <label
+                          key={addon.id}
+                          className={`flex items-start justify-between gap-3 p-2.5 rounded-xl border cursor-pointer transition-all text-xs ${
+                            isChecked
+                              ? 'bg-[#e6f4f7]/80 border-[#246e7f]/50 text-[#1a515e] ring-1 ring-[#246e7f]/30'
+                              : 'bg-slate-50/70 border-slate-200 hover:bg-slate-100 text-slate-700'
+                          }`}
+                        >
+                          <div className="flex items-start gap-2 min-w-0">
+                            <input
+                              type="checkbox"
+                              checked={isChecked}
+                              onChange={() => handleToggleAddon(addon)}
+                              className="mt-0.5 rounded border-slate-300 text-[#246e7f] focus:ring-[#246e7f]"
+                            />
+                            <div>
+                              <div className="font-bold text-slate-900 flex items-center gap-1">
+                                <span>{addon.name}</span>
+                                {addon.recommended && (
+                                  <span className="bg-emerald-100 text-emerald-800 text-[9px] font-bold px-1.5 py-0.2 rounded-full">
+                                    Popular
+                                  </span>
+                                )}
+                              </div>
+                              <span className="text-[10px] text-slate-500 block leading-tight mt-0.5">
+                                {addon.description}
+                              </span>
+                              <span className="text-[10px] text-emerald-700 font-semibold block mt-0.5">
+                                Turnaround: {addon.estimatedTurnaround}
+                              </span>
                             </div>
-                            <span className="text-[10px] text-slate-500 block leading-tight mt-0.5">
-                              {addon.description}
-                            </span>
-                            <span className="text-[10px] text-emerald-700 font-semibold block mt-0.5">
-                              Turnaround: {addon.estimatedTurnaround}
-                            </span>
                           </div>
-                        </div>
-                        <span className="font-black text-slate-900 flex-shrink-0">
-                          +{formatPrice(addon.priceINR, addon.priceUSD)}
-                        </span>
-                      </label>
-                    );
-                  })}
+                          <span className="font-black text-slate-900 flex-shrink-0">
+                            +{formatPrice(addon.priceINR, addon.priceUSD)}
+                          </span>
+                        </label>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Dynamic Price Summary Box */}
               <div className="pt-4 border-t border-slate-200 space-y-2 text-xs">

@@ -28,6 +28,7 @@ import {
   AlertCircle,
   RotateCcw,
   DownloadCloud,
+  Wrench,
 } from 'lucide-react';
 
 export default function AdminProductsPage() {
@@ -320,6 +321,29 @@ export default function AdminProductsPage() {
                         {tech}
                       </span>
                     ))}
+                  </div>
+
+                  {/* Add-on Services Summary */}
+                  <div className="bg-orange-50/80 border border-orange-200/70 rounded-xl p-2.5 text-[11px] space-y-1">
+                    <div className="flex items-center justify-between font-bold text-[#e06527]">
+                      <span className="flex items-center gap-1">
+                        <Wrench className="w-3 h-3" />
+                        <span>Add-on Services ({prod.availableAddons?.length || 0})</span>
+                      </span>
+                      <span className="text-[10px] text-slate-500 font-semibold">Dual Pricing</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1 text-[10px]">
+                      {(prod.availableAddons && prod.availableAddons.length > 0 ? prod.availableAddons : []).slice(0, 3).map((a, i) => (
+                        <span key={i} className="bg-white border border-orange-200/80 px-1.5 py-0.5 rounded font-semibold text-slate-700">
+                          {a.name.split(' ')[0]}: ₹{a.priceINR}
+                        </span>
+                      ))}
+                      {(prod.availableAddons?.length || 0) > 3 && (
+                        <span className="text-orange-700 font-bold px-1 py-0.5">
+                          +{prod.availableAddons.length - 3} more
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   {/* Pricing Breakdown */}

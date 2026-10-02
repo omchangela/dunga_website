@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
-import { Product, ProductSeo, ProductFaq } from '@/types';
+import { Product, ProductSeo, ProductFaq, SetupAddon } from '@/types';
+import { GLOBAL_SETUP_ADDONS } from '@/data/products';
 import { productStore, generateAutoSeo, performSeoAudit, SeoAuditResult } from '@/lib/productStore';
 import {
   X,
@@ -33,6 +34,16 @@ import {
   Loader2,
   Paperclip,
   Image as ImageIcon,
+  Wrench,
+  Palette,
+  Server,
+  Lock,
+  Clock,
+  ArrowUp,
+  ArrowDown,
+  RefreshCw,
+  Sliders,
+  Settings2,
 } from 'lucide-react';
 
 interface ProductFormModalProps {
@@ -59,8 +70,8 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 }) => {
   const isEditing = Boolean(product?.id);
 
-  // Tab State: 'general' | 'pricing' | 'seo' | 'audit'
-  const [activeTab, setActiveTab] = useState<'general' | 'pricing' | 'seo' | 'audit'>('general');
+  // Tab State: 'general' | 'pricing' | 'addons' | 'seo' | 'audit'
+  const [activeTab, setActiveTab] = useState<'general' | 'pricing' | 'addons' | 'seo' | 'audit'>('general');
 
   // Form Fields
   const [title, setTitle] = useState(product?.title || '');
@@ -84,8 +95,18 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   const [extendedPriceUSD, setExtendedPriceUSD] = useState<number>(product?.extendedPriceUSD || 199);
   const [monthlySaasPriceINR, setMonthlySaasPriceINR] = useState<number>(product?.monthlySaasPriceINR || 999);
   const [monthlySaasPriceUSD, setMonthlySaasPriceUSD] = useState<number>(product?.monthlySaasPriceUSD || 15);
-  const [defaultSetupPriceINR, setDefaultSetupPriceINR] = useState<number>(product?.defaultSetupPriceINR || 999);
+  const [defaultSetupPriceINR, setDefaultSetupPriceINR] = useState<number>(product?.defaultSetupPriceINR || 1000);
   const [defaultSetupPriceUSD, setDefaultSetupPriceUSD] = useState<number>(product?.defaultSetupPriceUSD || 15);
+
+  // Add-on Services State (App upload, customization, etc.)
+  const [addons, setAddons] = useState<SetupAddon[]>([]);
+  const [newAddonName, setNewAddonName] = useState('');
+  const [newAddonDesc, setNewAddonDesc] = useState('');
+  const [newAddonPriceINR, setNewAddonPriceINR] = useState<number | ''>(3000);
+  const [newAddonPriceUSD, setNewAddonPriceUSD] = useState<number | ''>(40);
+  const [newAddonTurnaround, setNewAddonTurnaround] = useState('2 - 3 Days');
+  const [newAddonRecommended, setNewAddonRecommended] = useState(false);
+  const [addonFormError, setAddonFormError] = useState('');
 
   // SEO Fields
   const [seoTitle, setSeoTitle] = useState(product?.seo?.seoTitle || '');
@@ -179,6 +200,68 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     }
   };
 
+  // Add-on Handlers
+  const handleAddCustomAddon = () => {
+    setAddonFormError('');
+    if (!newAddonName.trim()) {
+      setAddonFormError('Please enter an Add-on Name (e.g. App Upload, Customization, Server Setup).');
+      return;
+    }
+    const priceINR = Number(newAddonPriceINR) >= 0 ? Number(newAddonPriceINR) : 0;
+    const priceUSD = Number(newAddonPriceUSD) >= 0 ? Number(newAddonPriceUSD) : 0;
+
+    const newAddon: SetupAddon = {
+      id: `addon-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      name: newAddonName.trim(),
+      description: newAddonDesc.trim() || 'Custom requirements and deployment services provided by Dunga senior engineering team.',
+      priceINR,
+      priceUSD,
+      estimatedTurnaround: newAddonTurnaround.trim() || '2 - 3 Days',
+      recommended: newAddonRecommended,
+    };
+
+    setAddons([...addons, newAddon]);
+    setNewAddonName('');
+    setNewAddonDesc('');
+    setNewAddonPriceINR(2000);
+    setNewAddonPriceUSD(25);
+    setNewAddonTurnaround('2 - 3 Days');
+    setNewAddonRecommended(false);
+  };
+
+  const handleQuickAddPreset = (preset: SetupAddon) => {
+    const newAddon: SetupAddon = {
+      ...preset,
+      id: `addon-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+    };
+    setAddons([...addons, newAddon]);
+  };
+
+  const handleUpdateAddon = (index: number, field: keyof SetupAddon, value: any) => {
+    const updated = [...addons];
+    updated[index] = { ...updated[index], [field]: value };
+    setAddons(updated);
+  };
+
+  const handleRemoveAddon = (index: number) => {
+    setAddons(addons.filter((_, i) => i !== index));
+  };
+
+  const handleMoveAddon = (index: number, direction: 'up' | 'down') => {
+    if ((direction === 'up' && index === 0) || (direction === 'down' && index === addons.length - 1)) return;
+    const updated = [...addons];
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    const [moved] = updated.splice(index, 1);
+    updated.splice(targetIndex, 0, moved);
+    setAddons(updated);
+  };
+
+  const handleResetToDefaultAddons = () => {
+    if (confirm('Reset to standard recommended add-ons list (App Upload ₹3,000, Customization ₹2,000, Server Setup ₹1,000, White-Labeling ₹2,000, etc.)?')) {
+      setAddons(GLOBAL_SETUP_ADDONS);
+    }
+  };
+
   // Auto generate SEO when title or short description changes and user hasn't overridden
   const handleAutoGenerateSeo = () => {
     const auto = generateAutoSeo({
@@ -223,8 +306,9 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       setExtendedPriceUSD(product.extendedPriceUSD || 199);
       setMonthlySaasPriceINR(product.monthlySaasPriceINR || 999);
       setMonthlySaasPriceUSD(product.monthlySaasPriceUSD || 15);
-      setDefaultSetupPriceINR(product.defaultSetupPriceINR || 999);
+      setDefaultSetupPriceINR(product.defaultSetupPriceINR || 1000);
       setDefaultSetupPriceUSD(product.defaultSetupPriceUSD || 15);
+      setAddons(product.availableAddons && product.availableAddons.length > 0 ? product.availableAddons : GLOBAL_SETUP_ADDONS);
 
       if (product.seo) {
         setSeoTitle(product.seo.seoTitle || '');
@@ -265,8 +349,9 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       setExtendedPriceUSD(199);
       setMonthlySaasPriceINR(999);
       setMonthlySaasPriceUSD(15);
-      setDefaultSetupPriceINR(999);
+      setDefaultSetupPriceINR(1000);
       setDefaultSetupPriceUSD(15);
+      setAddons(GLOBAL_SETUP_ADDONS);
       setSeoTitle('');
       setMetaDescription('');
       setPrimaryKeyword('');
@@ -292,6 +377,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       techStack: techStackInput.split(',').map((s) => s.trim()).filter(Boolean),
       regularPriceINR,
       regularPriceUSD,
+      availableAddons: addons,
       faqs,
       seo: {
         seoTitle: seoTitle || `${title} — Full Source Code & Server Setup | Dunga Technologies`,
@@ -305,7 +391,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         imageAlt: imageAlt || `${title} — Full Source Code`,
       },
     };
-  }, [title, slug, category, shortDescription, fullDescription, version, techStackInput, regularPriceINR, regularPriceUSD, faqs, seoTitle, metaDescription, primaryKeyword, secondaryKeywordsInput, canonicalUrl, indexFollow, imageAlt]);
+  }, [title, slug, category, shortDescription, fullDescription, version, techStackInput, regularPriceINR, regularPriceUSD, addons, faqs, seoTitle, metaDescription, primaryKeyword, secondaryKeywordsInput, canonicalUrl, indexFollow, imageAlt]);
 
   // Real-Time SEO Audit Result
   const auditResult: SeoAuditResult = useMemo(() => {
@@ -371,6 +457,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         monthlySaasPriceUSD: Number(monthlySaasPriceUSD),
         defaultSetupPriceINR: Number(defaultSetupPriceINR),
         defaultSetupPriceUSD: Number(defaultSetupPriceUSD),
+        availableAddons: addons,
         faqs,
         seo: {
           seoTitle: seoTitle.trim() || `${title} — Full Source Code & Server Setup | Dunga Technologies`,
@@ -412,7 +499,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                 {isEditing ? `Edit Product: ${product?.title}` : 'Add New Source Code Product'}
               </h3>
               <p className="text-teal-100 text-xs">
-                Includes automated SEO generation, Google Snippet live preview & 100% dynamic website publishing.
+                Configure codebase, pricing, manual add-ons (App upload, customization), and automated SEO.
               </p>
             </div>
           </div>
@@ -462,7 +549,23 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             }`}
           >
             <DollarSign className="w-3.5 h-3.5" />
-            <span>2. Pricing & Licenses</span>
+            <span>2. Core Pricing</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab('addons')}
+            className={`px-4 py-2 text-xs font-bold rounded-t-xl transition-all flex items-center gap-1.5 ${
+              activeTab === 'addons'
+                ? 'bg-white text-[#246e7f] border-t-2 border-[#246e7f] shadow-xs'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <Wrench className="w-3.5 h-3.5 text-[#e06527]" />
+            <span>3. Add-on Services</span>
+            <span className="bg-[#e06527] text-white text-[10px] font-black px-1.5 py-0.2 rounded-full ml-1">
+              {addons.length}
+            </span>
           </button>
 
           <button
@@ -475,7 +578,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             }`}
           >
             <Globe className="w-3.5 h-3.5" />
-            <span>3. SEO & Structured Data</span>
+            <span>4. SEO & Structured Data</span>
             <span className="bg-[#246e7f] text-white text-[10px] px-1.5 py-0.2 rounded-full ml-1">
               Auto
             </span>
@@ -491,7 +594,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             }`}
           >
             <Zap className="w-3.5 h-3.5 text-amber-500" />
-            <span>4. Real-Time SEO Audit ({auditResult.totalScore}%)</span>
+            <span>5. Real-Time SEO Audit ({auditResult.totalScore}%)</span>
           </button>
         </div>
 
@@ -804,7 +907,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               
               <div className="bg-[#e6f4f7] border border-[#246e7f]/20 rounded-2xl p-4 flex items-center justify-between text-xs text-[#246e7f]">
                 <div>
-                  <span className="font-bold block">Dual-Currency Pricing Engine</span>
+                  <span className="font-bold block">Dual-Currency Base Pricing Engine</span>
                   <span>Set both INR (for Indian UPI/Razorpay) and USD (for Stripe global clients).</span>
                 </div>
                 <DollarSign className="w-6 h-6 text-[#246e7f]" />
@@ -901,39 +1004,429 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                 </div>
               </div>
 
-              {/* Setup Add-on */}
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3">
-                <span className="text-xs font-bold text-slate-900 block">
-                  4. Default Server Installation Add-on
-                </span>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs text-slate-600 mb-1 font-semibold">Setup Addon INR (₹)</label>
-                    <input
-                      type="number"
-                      min={0}
-                      value={defaultSetupPriceINR}
-                      onChange={(e) => setDefaultSetupPriceINR(Number(e.target.value))}
-                      className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#246E7F]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs text-slate-600 mb-1 font-semibold">Setup Addon USD ($)</label>
-                    <input
-                      type="number"
-                      min={0}
-                      value={defaultSetupPriceUSD}
-                      onChange={(e) => setDefaultSetupPriceUSD(Number(e.target.value))}
-                      className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#246E7F]"
-                    />
-                  </div>
+              {/* Quick Info Box to Add-ons Tab */}
+              <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-center justify-between text-xs text-amber-900">
+                <div className="space-y-0.5">
+                  <span className="font-bold flex items-center gap-1.5 text-amber-950">
+                    <Wrench className="w-4 h-4 text-[#e06527]" />
+                    <span>Selling Add-on Services (App Upload ₹3,000, Customization ₹2,000, etc.)?</span>
+                  </span>
+                  <p className="text-amber-800">
+                    You can configure unlimited custom add-ons with pricing & turnaround times in the <strong>&quot;3. Add-on Services&quot;</strong> tab above.
+                  </p>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('addons')}
+                  className="px-3 py-1.5 bg-[#e06527] hover:bg-[#c9531b] text-white font-bold rounded-xl shrink-0 transition-colors text-xs"
+                >
+                  Manage Add-ons ({addons.length})
+                </button>
               </div>
+
             </div>
           )}
 
           {/* ============================================================ */}
-          {/* TAB 3: COMPLETE AUTOMATED SEO SUITE */}
+          {/* TAB 3: ADD-ON SERVICES & REQUIREMENTS MANAGER */}
+          {/* ============================================================ */}
+          {activeTab === 'addons' && (
+            <div className="space-y-6 animate-in fade-in duration-150">
+              
+              {/* Header Card */}
+              <div className="bg-gradient-to-r from-orange-50 via-amber-50 to-teal-50 border border-orange-200/80 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 bg-[#e06527]/10 text-[#e06527] text-[11px] font-bold px-2.5 py-0.5 rounded-full mb-1">
+                    <Wrench className="w-3.5 h-3.5" />
+                    <span>MANUAL CODE ADD-ONS & SERVICE REQUIREMENTS</span>
+                  </div>
+                  <h4 className="text-sm sm:text-base font-black text-slate-900">
+                    Code Add-on Services & Custom Requirements Manager
+                  </h4>
+                  <p className="text-xs text-slate-600 mt-0.5 max-w-xl">
+                    Add optional manual services customers can select during checkout (e.g. <strong>App Store / Play Store Upload ₹3,000</strong>, <strong>Customization ₹2,000</strong>, Server Setup, White-labeling).
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleResetToDefaultAddons}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs border border-slate-200 rounded-xl transition-colors shadow-2xs shrink-0"
+                  title="Restore default standard preset list"
+                >
+                  <RefreshCw className="w-3.5 h-3.5 text-[#246e7f]" />
+                  <span>Restore Standard Presets</span>
+                </button>
+              </div>
+
+              {/* 1-Click Quick Add Presets Bar */}
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2.5">
+                <span className="text-xs font-bold text-slate-800 block flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[#e06527]" />
+                  <span>1-Click Quick Add Popular Industry Presets:</span>
+                </span>
+
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleQuickAddPreset({
+                      id: `addon-app-upload-${Date.now()}`,
+                      name: 'App Store & Google Play Upload & Publishing',
+                      description: 'We handle production APK/AAB & IPA compilation, Google Play Console & Apple Developer upload, store assets, policies setup, and review submission support.',
+                      priceINR: 3000,
+                      priceUSD: 40,
+                      estimatedTurnaround: '2 - 3 Days',
+                      recommended: true,
+                    })}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-orange-50 border border-orange-200 text-orange-950 text-xs font-bold rounded-xl transition-all shadow-2xs hover:border-orange-400 hover:scale-[1.02]"
+                  >
+                    <Smartphone className="w-3.5 h-3.5 text-[#e06527]" />
+                    <span>+ App Upload (₹3,000 / $40)</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleQuickAddPreset({
+                      id: `addon-customization-${Date.now()}`,
+                      name: 'Custom Feature Modification & UI Tweaks',
+                      description: 'Custom UI color schemes, logo & company branding replacement, custom field additions, tailored workflow tweaks, and specific business logic adjustments by senior developers.',
+                      priceINR: 2000,
+                      priceUSD: 25,
+                      estimatedTurnaround: '2 - 3 Days',
+                      recommended: true,
+                    })}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-teal-50 border border-teal-200 text-teal-950 text-xs font-bold rounded-xl transition-all shadow-2xs hover:border-teal-400 hover:scale-[1.02]"
+                  >
+                    <Palette className="w-3.5 h-3.5 text-[#246e7f]" />
+                    <span>+ Customization (₹2,000 / $25)</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleQuickAddPreset({
+                      id: `addon-server-setup-${Date.now()}`,
+                      name: 'Standard Server Setup & Configuration',
+                      description: 'Deploy full source code on your VPS (Ubuntu/Debian) or cPanel, configure Node/PHP/Python environment, setup database migrations, environment variables, and install SSL certificate.',
+                      priceINR: 1000,
+                      priceUSD: 15,
+                      estimatedTurnaround: '24 - 48 Hours',
+                      recommended: true,
+                    })}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold rounded-xl transition-all shadow-2xs hover:border-slate-300"
+                  >
+                    <Server className="w-3.5 h-3.5 text-[#246e7f]" />
+                    <span>+ Server Setup (₹1,000 / $15)</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleQuickAddPreset({
+                      id: `addon-white-label-${Date.now()}`,
+                      name: 'Complete White-Labeling & Branding',
+                      description: 'Replace all logos, colors, brand names, splash screens, PDF invoice templates, and copyright footers with your company identity.',
+                      priceINR: 2000,
+                      priceUSD: 28,
+                      estimatedTurnaround: '2 - 3 Days',
+                    })}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold rounded-xl transition-all shadow-2xs hover:border-slate-300"
+                  >
+                    <Tag className="w-3.5 h-3.5 text-purple-600" />
+                    <span>+ White-Labeling (₹2,000 / $28)</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleQuickAddPreset({
+                      id: `addon-payment-gateway-${Date.now()}`,
+                      name: 'Payment Gateway Integration (Razorpay / Stripe)',
+                      description: 'Integration of your live payment gateway keys, webhook endpoints verification, test mode validation, and automated order invoice dispatch.',
+                      priceINR: 1500,
+                      priceUSD: 20,
+                      estimatedTurnaround: '24 - 48 Hours',
+                    })}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold rounded-xl transition-all shadow-2xs hover:border-slate-300"
+                  >
+                    <DollarSign className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>+ Payment Gateway (₹1,500 / $20)</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleQuickAddPreset({
+                      id: `addon-domain-ssl-${Date.now()}`,
+                      name: 'Custom Domain & Cloudflare SSL Integration',
+                      description: 'DNS record binding, Cloudflare proxy setup, custom email SMTP configuration, and enterprise firewall setup.',
+                      priceINR: 500,
+                      priceUSD: 8,
+                      estimatedTurnaround: '12 - 24 Hours',
+                    })}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold rounded-xl transition-all shadow-2xs hover:border-slate-300"
+                  >
+                    <Lock className="w-3.5 h-3.5 text-blue-600" />
+                    <span>+ Domain SSL (₹500 / $8)</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Form to Add Custom Add-on Manually */}
+              <div className="bg-white border-2 border-dashed border-[#246e7f]/30 rounded-2xl p-4 sm:p-5 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h5 className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-2">
+                    <Plus className="w-4 h-4 text-[#246e7f]" />
+                    <span>Add New Custom Add-on Service Manually</span>
+                  </h5>
+                  <span className="text-[11px] text-slate-500 font-medium">
+                    Configure custom requirements & dual pricing
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-12 gap-3.5">
+                  <div className="sm:col-span-6">
+                    <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                      Add-on Service Name *
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. App Upload (Play Store & App Store)"
+                      value={newAddonName}
+                      onChange={(e) => setNewAddonName(e.target.value)}
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-[#246E7F] focus:bg-white"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-3">
+                    <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                      Price in INR (₹) *
+                    </label>
+                    <input
+                      type="number"
+                      min={0}
+                      placeholder="3000"
+                      value={newAddonPriceINR}
+                      onChange={(e) => setNewAddonPriceINR(e.target.value === '' ? '' : Number(e.target.value))}
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#246E7F] focus:bg-white"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-3">
+                    <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                      Price in USD ($) *
+                    </label>
+                    <input
+                      type="number"
+                      min={0}
+                      placeholder="40"
+                      value={newAddonPriceUSD}
+                      onChange={(e) => setNewAddonPriceUSD(e.target.value === '' ? '' : Number(e.target.value))}
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#246E7F] focus:bg-white"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-8">
+                    <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                      Service Description / Deliverable Information
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Asset creation, keystore signing, Google Play Store submission & approval support."
+                      value={newAddonDesc}
+                      onChange={(e) => setNewAddonDesc(e.target.value)}
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#246E7F] focus:bg-white"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-4">
+                    <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                      Turnaround Timeline
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 2 - 3 Days or 24 Hours"
+                      value={newAddonTurnaround}
+                      onChange={(e) => setNewAddonTurnaround(e.target.value)}
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#246E7F] focus:bg-white"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-8 flex items-center gap-2 pt-1">
+                    <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
+                      <input
+                        type="checkbox"
+                        checked={newAddonRecommended}
+                        onChange={(e) => setNewAddonRecommended(e.target.checked)}
+                        className="rounded text-[#e06527] focus:ring-[#e06527]"
+                      />
+                      <span>Mark as &quot;Popular / Recommended&quot; Badge on Public Page</span>
+                    </label>
+                  </div>
+
+                  <div className="sm:col-span-4 flex justify-end pt-1">
+                    <button
+                      type="button"
+                      onClick={handleAddCustomAddon}
+                      className="px-4 py-2 bg-[#246E7F] hover:bg-[#1a515e] text-white font-bold text-xs rounded-xl shadow-xs transition-all active:scale-95 flex items-center gap-1.5"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Add This Add-on</span>
+                    </button>
+                  </div>
+                </div>
+
+                {addonFormError && (
+                  <div className="p-2.5 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-700 font-medium">
+                    {addonFormError}
+                  </div>
+                )}
+              </div>
+
+              {/* Configured Add-ons List */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <h5 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                    <span>Active Configured Add-ons ({addons.length})</span>
+                  </h5>
+                  <span className="text-[11px] text-slate-500">
+                    These options show directly on product pages and in the customer order cart.
+                  </span>
+                </div>
+
+                {addons.length === 0 ? (
+                  <div className="text-center py-8 bg-slate-50 rounded-2xl border border-slate-200 text-xs text-slate-500 space-y-2">
+                    <p className="font-semibold text-slate-700">No Add-on Services Configured</p>
+                    <p>Click &quot;Restore Standard Presets&quot; or use the quick buttons above to add services.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {addons.map((addon, idx) => (
+                      <div
+                        key={addon.id || idx}
+                        className="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs space-y-3 hover:border-slate-300 transition-all"
+                      >
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
+                          <div className="flex items-center gap-2">
+                            <span className="w-6 h-6 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center text-xs font-mono font-bold">
+                              {idx + 1}
+                            </span>
+                            <span className="text-xs font-black text-slate-900">
+                              {addon.name}
+                            </span>
+                            {addon.recommended && (
+                              <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                                Popular
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            {/* Reorder Buttons */}
+                            <button
+                              type="button"
+                              onClick={() => handleMoveAddon(idx, 'up')}
+                              disabled={idx === 0}
+                              className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 disabled:opacity-30"
+                              title="Move Up"
+                            >
+                              <ArrowUp className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleMoveAddon(idx, 'down')}
+                              disabled={idx === addons.length - 1}
+                              className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 disabled:opacity-30"
+                              title="Move Down"
+                            >
+                              <ArrowDown className="w-3.5 h-3.5" />
+                            </button>
+
+                            {/* Delete Button */}
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveAddon(idx)}
+                              className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
+                              title="Remove Add-on"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Inline Editable Inputs */}
+                        <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 text-xs">
+                          <div className="sm:col-span-5">
+                            <label className="block text-[10px] font-bold text-slate-500 mb-0.5">Title</label>
+                            <input
+                              type="text"
+                              value={addon.name}
+                              onChange={(e) => handleUpdateAddon(idx, 'name', e.target.value)}
+                              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-900 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#246E7F]"
+                            />
+                          </div>
+
+                          <div className="sm:col-span-2">
+                            <label className="block text-[10px] font-bold text-slate-500 mb-0.5">INR (₹)</label>
+                            <input
+                              type="number"
+                              min={0}
+                              value={addon.priceINR}
+                              onChange={(e) => handleUpdateAddon(idx, 'priceINR', Number(e.target.value))}
+                              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-900 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#246E7F]"
+                            />
+                          </div>
+
+                          <div className="sm:col-span-2">
+                            <label className="block text-[10px] font-bold text-slate-500 mb-0.5">USD ($)</label>
+                            <input
+                              type="number"
+                              min={0}
+                              value={addon.priceUSD}
+                              onChange={(e) => handleUpdateAddon(idx, 'priceUSD', Number(e.target.value))}
+                              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-900 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#246E7F]"
+                            />
+                          </div>
+
+                          <div className="sm:col-span-3">
+                            <label className="block text-[10px] font-bold text-slate-500 mb-0.5">Turnaround</label>
+                            <input
+                              type="text"
+                              value={addon.estimatedTurnaround}
+                              onChange={(e) => handleUpdateAddon(idx, 'estimatedTurnaround', e.target.value)}
+                              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#246E7F]"
+                            />
+                          </div>
+
+                          <div className="sm:col-span-10">
+                            <label className="block text-[10px] font-bold text-slate-500 mb-0.5">Description</label>
+                            <input
+                              type="text"
+                              value={addon.description}
+                              onChange={(e) => handleUpdateAddon(idx, 'description', e.target.value)}
+                              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-700 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#246E7F]"
+                            />
+                          </div>
+
+                          <div className="sm:col-span-2 flex items-end pb-1">
+                            <label className="flex items-center gap-1.5 cursor-pointer text-[11px] font-semibold text-slate-700">
+                              <input
+                                type="checkbox"
+                                checked={Boolean(addon.recommended)}
+                                onChange={(e) => handleUpdateAddon(idx, 'recommended', e.target.checked)}
+                                className="rounded text-[#e06527] focus:ring-[#e06527]"
+                              />
+                              <span>Popular</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+            </div>
+          )}
+
+          {/* ============================================================ */}
+          {/* TAB 4: COMPLETE AUTOMATED SEO SUITE */}
           {/* ============================================================ */}
           {activeTab === 'seo' && (
             <div className="space-y-6 animate-in fade-in duration-150">
@@ -1207,7 +1700,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           )}
 
           {/* ============================================================ */}
-          {/* TAB 4: REAL-TIME SEO AUDIT & SCORE METER */}
+          {/* TAB 5: REAL-TIME SEO AUDIT & SCORE METER */}
           {/* ============================================================ */}
           {activeTab === 'audit' && (
             <div className="space-y-6 animate-in fade-in duration-150">
@@ -1309,7 +1802,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           {/* Modal Bottom Actions */}
           <div className="flex items-center justify-between pt-4 border-t border-slate-200 shrink-0">
             <div className="text-xs text-slate-500">
-              <span className="font-bold text-slate-800">Dunga SEO Engine:</span> Changes reflect dynamically across website store & sitemap.
+              <span className="font-bold text-slate-800">Dunga Marketplace Engine:</span> Code add-ons & pricing update instantly on live product store.
             </div>
 
             <div className="flex items-center gap-2.5">
@@ -1329,12 +1822,12 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                 {isSaving ? (
                   <>
                     <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Saving & Indexing...</span>
+                    <span>Saving & Publishing...</span>
                   </>
                 ) : (
                   <>
                     <Check className="w-4 h-4" />
-                    <span>{isEditing ? 'Update & Re-Index Product' : 'Publish Product to Store'}</span>
+                    <span>{isEditing ? 'Update & Save Product' : 'Publish Product to Store'}</span>
                   </>
                 )}
               </button>
